@@ -1,13 +1,11 @@
 require 'ruboto/widget'
 require 'ruboto/util/toast'
 
-require "app/models/user.rb"
+require "app/boot"
+require "app/models/user"
 
 java_import 'com.pixate.freestyle.PixateFreestyle'
 java_import 'android.support.v4.widget.DrawerLayout'
-
-
-ruboto_import_widgets :Button, :LinearLayout, :TextView
 
 
 class MainActivity
@@ -32,37 +30,10 @@ class MainActivity
     @drawer_layout.open_drawer(@abuse_selection_list)
 
     # Initialize user
-    User.new("Mayank Jain", "maku@makuchaku.in", "foo_token").save
+    User.new("Mayank Jain", "maku@makuchaku.in", "foo_token").save do |user_object|
+      Logger.d(user_object["email"])
+    end
   end
 
 end
 
-
-
-# class MainActivity
-#   def onCreate(bundle)
-#     super
-#     set_title 'Domo arigato, Mr Ruboto!'
-
-#     self.content_view =
-#         linear_layout :orientation => :vertical do
-#           @text_view = text_view :text => 'What hath Matz wrought?', :id => 42, 
-#                                  :layout => {:width => :match_parent},
-#                                  :gravity => :center, :text_size => 48.0
-#           button :text => 'M-x butterfly', 
-#                  :layout => {:width => :match_parent},
-#                  :id => 43, :on_click_listener => proc { butterfly }
-#         end
-#   rescue Exception
-#     puts "Exception creating activity: #{$!}"
-#     puts $!.backtrace.join("\n")
-#   end
-
-#   private
-
-#   def butterfly
-#     @text_view.text = 'What hath Matz wrought!'
-#     toast 'Flipped a bit via butterfly'
-#   end
-
-# end
