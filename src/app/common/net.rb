@@ -1,50 +1,30 @@
 require 'net/http'
-require "app/config"
-
-import org.ruboto.Log
-
-# java_import 'android.net.http.AndroidHttpClient'
-# java_import 'android.util.Log'
-# java_import 'org.apache.http.client.entity.UrlEncodedFormEntity'
-# java_import 'org.apache.http.client.methods.HttpPost'
-# java_import 'org.apache.http.message.BasicNameValuePair'
-# java_import 'org.apache.http.util.EntityUtils'
+require "app/boot"
 
 module Net
 
-  def get(domain, path, params_hash={}, &success_callback)
+  # block receives a JSON object which is just a string2json convert from the response. 
+  # Make this intelligent
+  def get(domain, path, &block)
     t = Thread.start do
       begin 
         response = Net::HTTP.get(domain, path)
-        success_callback.call(response)
+        # Build error handling mechanism
+        json_obj = JSON.parse(response)
+        block.call(json_obj)
       rescue Exception
-        Log.d "Exception in Net.get!"
+        log_exception(:net_get, $!)
+        Logger.d "Exception in Net.get!"
+        Logger.d "Exception :"
       end
     end
     t.join
   end
 
 
-  # def post(&success_callback)
-  #   t = Thread.start do
-  #     begin
-  #       client = AndroidHttpClient.newInstance('yobitch')
-  #       method = HttpPost.new("http://10.90.21.14/user_post.json")
-  #       method.setHeader("Content-Type", "application/json");
-  #       list   = [BasicNameValuePair.new('order[amount]', '42'), BasicNameValuePair.new('order[product_id]', '37')]
-  #       entity = UrlEncodedFormEntity.new(list)
-  #       method.setEntity(entity)
-  #       response = EntityUtils.toString(client.execute(method).entity)
-
-  #       success_callback.call(response)
-  #     rescue Exception
-  #       Log.d "Exception in Net.get!"
-  #       Log.i "Exception in task:\n#$!\n#{$!.backtrace.join("\n")}"
-  #     ensure
-  #       client.close if client
-  #     end
-  #   end
-  #   t.join    
-  # end
+  def log_exception(tag, exception_object)
+    Logger.d "Exception in #{tag.to_s} : :\n#$!\n#{exception_object.backtrace.join("\n")}"
+    Logger.d "Exception "    
+  end
 
 end

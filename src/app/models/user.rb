@@ -1,7 +1,4 @@
-require "app/config"
-require "app/common/net"
-
-import org.ruboto.Log
+require "app/boot"
 
 class User
   include Net
@@ -11,19 +8,15 @@ class User
     @name = name
     @email = email
     @gcm_token = gcm_token
-    Log.d(@gcm_token)
   end
 
 
   def save
-    Log.d "Stuff!"
-    get("10.90.21.14", "/user_post.json", {}, &method(:save_success))
-    #post(&method(:save_success))
-  end
-
-  def save_success(response)
-    Log.d response
-  end
-    
+    Logger.d "Stuff!"
+    # TODO - change to post in actual network call
+    get(BASE_SERVER, USER_GET) do |json_response|
+      Logger.d json_response["messages"].first["abuse"]
+    end
+  end    
 
 end
