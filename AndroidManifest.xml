@@ -13,4 +13,5 @@
         <service android:exported='false' android:name='org.ruboto.RubotoService'/>
     </application>
     <uses-sdk android:minSdkVersion='8' android:targetSdkVersion='20'/>
+    <uses-permission android:name="android.permission.INTERNET" />
 </manifest>

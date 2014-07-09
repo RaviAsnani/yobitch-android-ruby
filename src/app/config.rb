@@ -1,2 +1,2 @@
-base_server = "http://localhost"
-user_get = "user_post.json"
+BASE_SERVER = "http://localhost"
+USER_GET = "/user_post.json"
