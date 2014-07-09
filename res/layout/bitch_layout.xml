@@ -7,7 +7,7 @@
     <!-- Layout for every bitch's row in right panel-->
     
     <TextView
-        android:id="@+id/abuse"
+        android:id="@+id/bitch"
         android:layout_width="match_parent"
         android:layout_gravity="center"
         android:padding="15dp"
