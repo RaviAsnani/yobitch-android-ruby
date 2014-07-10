@@ -23,6 +23,8 @@ class MainActivity
     $global_main_activity = self
     set_title "Yo! B*tch!"
     init_activity()
+
+    Logger.d DeviceAccount.new(self).get_user_details.to_s
   end
 
 
