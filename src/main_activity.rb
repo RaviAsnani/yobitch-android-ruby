@@ -24,6 +24,7 @@ class MainActivity
   end
 
 
+  # UI building starts here
   def init_activity
     PixateFreestyle.init(self)
     setContentView($package.R.layout.main)
@@ -43,6 +44,7 @@ class MainActivity
   end
 
 
+  # Render major components of the UI
   def render_ui(user_object)
     #render_bitch_list(user_object["messages"])
     render_friend_grid(user_object["friends"])
