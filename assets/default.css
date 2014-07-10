@@ -3,7 +3,7 @@
   border : 7px solid #356AA0;
   color : #ffffff;
   padding : 10px;
-  margin : 10px;
+  margin : 10;
   font-size : 20px;
   border-radius : 3px;
 }
@@ -18,4 +18,8 @@
   padding : 10px;
   margin : 10px;
   column-count : 1;
+}
+
+#id_main_screen_layout {
+  background-color: #c0c0c0;
 }

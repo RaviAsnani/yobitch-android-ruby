@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical" 
+    android:id="@+id/id_main_screen_layout">
     
     <!-- Layout for the main screen -->
 
@@ -13,7 +14,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:text="Invite"
+        android:text="Invite a friend by WhatsApp"
         android:layout_margin="10dp"/>
 
     <Button
@@ -23,7 +24,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/invite_button"
-        android:text="Add By Email"
+        android:text="Add a friend by Email"
         android:layout_margin="10dp"/>
 
     <GridView
@@ -35,7 +36,9 @@
         android:numColumns="2" 
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_margin="10dp">
+        android:layout_margin="10dp"
+        android:verticalSpacing="10dp"
+        android:horizontalSpacing="10dp">     
     </GridView>
 
 </RelativeLayout>
