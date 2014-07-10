@@ -14,8 +14,6 @@ module Net
         block.call(json_obj)
       rescue Exception
         log_exception(:net_get, $!)
-        Logger.d "Exception in Net.get!"
-        Logger.d "Exception :"
       end
     end
     t.join

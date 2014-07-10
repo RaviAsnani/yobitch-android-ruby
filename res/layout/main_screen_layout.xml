@@ -26,8 +26,8 @@
         android:text="Add By Email"
         android:layout_margin="10dp"/>
 
-    <!-- <GridView
-        android:id="@+id/friends_grid"
+    <GridView
+        android:id="@+id/friend_grid"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/add_by_email_button"
@@ -36,6 +36,6 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_margin="10dp">
-    </GridView> -->
+    </GridView>
 
 </RelativeLayout>

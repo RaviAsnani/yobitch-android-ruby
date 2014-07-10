@@ -3,13 +3,13 @@ require "app/boot"
 ruboto_import_widgets :TextView, :ArrayAdapter
 
 
-class BitchListAdapter < ArrayAdapter
-  attr_accessor :message_list, :context, :view
+class FriendGridAdapter < ArrayAdapter
+  attr_accessor :friend_list, :context, :view
 
-  def initialize(context, view_id, message_list)
-    super(context, view_id, message_list)
+  def initialize(context, view_id, friend_list)
+    super(context, view_id, friend_list)
     @context = context
-    @message_list = message_list
+    @friend_list = friend_list
   end
 
 
@@ -19,12 +19,12 @@ class BitchListAdapter < ArrayAdapter
     # Inflate the layout if it's null. If not, just use it as it is.
     if(layout == nil)
       inflater = @context.get_system_service(Context::LAYOUT_INFLATER_SERVICE)
-      layout = inflater.inflate($package.R::layout::bitch_layout, parent_view_group, false)
+      layout = inflater.inflate($package.R::layout::friend_layout, parent_view_group, false)
     end
 
     # Find the layout's inner elements & populate them
-    text_view = layout.find_view_by_id($package.R::id::bitch)
-    text_view.set_text(@message_list[position]["abuse"])
+    text_view = layout.find_view_by_id($package.R::id::friend)
+    text_view.set_text(@friend_list[position]["name"])
 
     return layout
   end
