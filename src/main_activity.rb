@@ -39,11 +39,8 @@ class MainActivity
       Logger.d(user_object["email"])
 
       #TODO - Refactor out to its own method
-      Logger.d("Before bitch list adapter")
       adapter = BitchListAdapter.new(self, $package.R::id::bitch, user_object["messages"])
-      Logger.d("Middle bitch list adapter")
       @bitch_list.set_adapter(adapter)
-      Logger.d("After bitch list adapter")
     end
   end
 
