@@ -23,8 +23,6 @@ class MainActivity
     $global_main_activity = self
     set_title "Yo! B*tch!"
     init_activity()
-
-    Logger.d DeviceAccount.new(self).get_user_details.to_s
   end
 
 
@@ -34,6 +32,7 @@ class MainActivity
     setContentView($package.R.layout.main)
 
     @progress_dialog = ProgressDialogUi.new(self)
+    @progress_dialog.show()
 
     @drawer_layout = find_view_by_id($package.R::id::drawer_layout)
     @abuse_selection_list = find_view_by_id($package.R::id::abuse_selection_list)
@@ -41,11 +40,13 @@ class MainActivity
     @friend_grid = find_view_by_id($package.R::id::friend_grid)
 
     # Initialize user
-    @user = User.new("Mayank Jain", "maku@makuchaku.in", "foo_token")
+    user_details = DeviceAccount.new(self).get_user_details()
+    @user = User.new(user_details[:name], user_details[:email], "zoo_token")
     @user.save do |user_object|
-      #@user = user_object
       Logger.d(@user.get("email"))
+      Logger.d(@user.get("name"))
       render_ui(@user)
+      @progress_dialog.hide()
     end
   end
 
