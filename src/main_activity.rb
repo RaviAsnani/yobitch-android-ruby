@@ -55,6 +55,11 @@ class MainActivity
   def render_bitch_list(messages, friend_name = nil)
     bitch_list_adapter = BitchListAdapter.new(self, $package.R::id::bitch, messages, friend_name)
     @bitch_list.set_adapter(bitch_list_adapter)
+
+    @bitch_list.on_item_click_listener = proc { |parent_view, view, position, row_id| 
+      Logger.d("On item click listener : #{position}, #{row_id}, #{@user["messages"][position]["abuse"]}")
+      close_right_drawer
+    }
   end
   
 
@@ -76,6 +81,11 @@ class MainActivity
     @drawer_layout.open_drawer(@abuse_selection_list)
   end
 
+
+  # Closes the drawer
+  def close_right_drawer
+    @drawer_layout.close_drawer(@abuse_selection_list)
+  end
 
 end
 
