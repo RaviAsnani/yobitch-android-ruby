@@ -1,13 +1,4 @@
-DEBUG = true
-SCHEME = "http://"
-#BASE_SERVER = "192.168.43.186"
-BASE_SERVER = "yobitch.me"
-USER_GET = "/user_post.json"
-USER_SAVE = "/api/v1/users"
-#USER_SAVE = "/user_post.json"
-USER_POST = "/api/v1/users/send_message"
-
-ENV = :production
+ENV = :production   # This variable governs all config
 
 class Config
 
@@ -18,17 +9,17 @@ class Config
 
     @keys = {
       :production => {
-          :debug => false,
-          :scheme => "http",
-          :base => "yobitch.me",
+          :debug => true,
+          :scheme => "http://",
+          :domain => "yobitch.me",
           :user_get => "/user_post.json",
           :user_save => "/api/v1/users",
           :user_post => "/api/v1/users/send_message"
         },
         :development => {
           :debug => true,
-          :scheme => "http",
-          :base => "192.168.43.186",
+          :scheme => "http://",
+          :domain => "192.168.43.186",
           :user_get => "/user_post.json",
           :user_save => "/user_post.json",
           :user_post => "/api/v1/users/send_message"
@@ -36,8 +27,18 @@ class Config
     }
   end
 
-  def self.get(key)
-    return @keys[@env][key]
+
+  # General purpose getter
+  def get(key)
+    return @env if key == :env
+
+    value = @keys[@env][key]
+    raise("Invalid config requested") if value.nil?
+
+    return value
   end
 
 end
+
+# Global object to be used everywhere
+CONFIG = Config.new(ENV)

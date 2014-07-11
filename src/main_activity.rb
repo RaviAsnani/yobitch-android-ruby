@@ -17,12 +17,11 @@ class MainActivity
   include Ui
 
   attr_accessor :drawer_layout, :abuse_selection_list, :bitch_list, :friend_grid, :user, :progress_dialog
-  attr_accessor :invite_by_whatsapp, :config
+  attr_accessor :invite_by_whatsapp
 
   # Entry point into the app
   def onCreate(bundle)
     super
-    @config = Config.new(:production)
 
     set_title "Yo! B*tch!"
     init_activity()

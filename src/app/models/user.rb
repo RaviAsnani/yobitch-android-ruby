@@ -29,7 +29,7 @@ class User
       }
     }.to_json
 
-    network_post(BASE_SERVER, USER_SAVE, nil, json) do |user_object|
+    network_post(CONFIG.get(:domain), CONFIG.get(:user_save), nil, json) do |user_object|
       @data = user_object
       Logger.d(user_object.to_s)
       block.call(@data)
@@ -47,7 +47,7 @@ class User
     id = get("id")
     messages = get("messages")
     bitch_message = messages[(rand(messages.length-1))]["abuse"]
-    return "#{name} says... #{bitch_message}!!\nIs that cool with you? B*tch him back!\nInstall Yo! B*tch app from http://#{BASE_SERVER}/#{id}/#{name}"
+    return "#{name} says... #{bitch_message}!!\nIs that cool with you? B*tch him back!\nInstall Yo! B*tch app from http://#{CONFIG.get(:domain)}/#{id}/#{name}"
   end
 
 end

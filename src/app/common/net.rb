@@ -29,7 +29,7 @@ module Net
     t = Thread.start do
       Logger.d("Starting post")
       begin
-        uri = URI.parse(SCHEME + domain + path)
+        uri = URI.parse(CONFIG.get(:scheme) + domain + path)
         http = Net::HTTP.new(uri.host, uri.port)
         request = Net::HTTP::Post.new(uri.request_uri)
         request.set_form_data(params) if params != nil
