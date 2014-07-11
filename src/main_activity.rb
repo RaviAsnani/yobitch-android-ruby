@@ -11,19 +11,19 @@ java_import 'com.pixate.freestyle.PixateFreestyle'
 java_import 'android.support.v4.widget.DrawerLayout'
 java_import 'android.view.Gravity'
 
-$global_main_activity = nil
 
 class MainActivity
   include ShareManager
   include Ui
 
   attr_accessor :drawer_layout, :abuse_selection_list, :bitch_list, :friend_grid, :user, :progress_dialog
-  attr_accessor :invite_by_whatsapp
+  attr_accessor :invite_by_whatsapp, :config
 
   # Entry point into the app
   def onCreate(bundle)
     super
-    $global_main_activity = self
+    @config = Config.new(:production)
+
     set_title "Yo! B*tch!"
     init_activity()
   end
