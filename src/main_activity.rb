@@ -25,6 +25,7 @@ class MainActivity
 
     set_title "Yo! B*tch!"
     init_activity()
+    Gcm.new(self, CONFIG.get(:gcm_sender_id)).register
   end
 
 

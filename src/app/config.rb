@@ -14,7 +14,8 @@ class Config
           :domain => "yobitch.me",
           :user_get => "/user_post.json",
           :user_save => "/api/v1/users",
-          :user_post => "/api/v1/users/send_message"
+          :user_post => "/api/v1/users/send_message",
+          :gcm_sender_id => "77573904884"
         },
         :development => {
           :debug => true,
@@ -22,7 +23,8 @@ class Config
           :domain => "192.168.43.186",
           :user_get => "/user_post.json",
           :user_save => "/user_post.json",
-          :user_post => "/api/v1/users/send_message"
+          :user_post => "/api/v1/users/send_message",
+          :gcm_sender_id => "77573904884"
         }
     }
   end

@@ -16,7 +16,7 @@ module Net
         json_obj = JSON.parse(response)
         block.call(json_obj)  
       rescue Exception
-        log_exception(:net_get, $!)
+        Logger.exception(:net_get, $!)
       end
     end
     t.join
@@ -42,19 +42,11 @@ module Net
         Logger.d(response.body)
         block.call(json_obj)  
       rescue Exception
-        log_exception(:net_post, $!)
+        Logger.exception(:net_post, $!)
       end
     end
     t.join
   end
 
-
-  private
-
-
-  def log_exception(tag, exception_object)
-    Logger.d "Exception in #{tag.to_s} : :\n#$!\n#{exception_object.backtrace.join("\n")}"
-    Logger.d "Exception "    
-  end
 
 end
