@@ -15,6 +15,7 @@ $global_main_activity = nil
 
 class MainActivity
   include ShareManager
+  include Ui
 
   attr_accessor :drawer_layout, :abuse_selection_list, :bitch_list, :friend_grid, :user, :progress_dialog
   attr_accessor :invite_by_whatsapp
@@ -33,7 +34,7 @@ class MainActivity
     PixateFreestyle.init(self)
     setContentView($package.R.layout.main)
 
-    @progress_dialog = ProgressDialogUi.new(self)
+    @progress_dialog = UiProgressDialog.new(self)
     @progress_dialog.show()
 
     @drawer_layout = find_view_by_id($package.R::id::drawer_layout)
