@@ -14,8 +14,10 @@ java_import 'android.view.Gravity'
 $global_main_activity = nil
 
 class MainActivity
+  include ShareManager
 
   attr_accessor :drawer_layout, :abuse_selection_list, :bitch_list, :friend_grid, :user, :progress_dialog
+  attr_accessor :invite_by_whatsapp
 
   # Entry point into the app
   def onCreate(bundle)
@@ -38,6 +40,7 @@ class MainActivity
     @abuse_selection_list = find_view_by_id($package.R::id::abuse_selection_list)
     @bitch_list = find_view_by_id($package.R::id::bitch_list)
     @friend_grid = find_view_by_id($package.R::id::friend_grid)
+    @invite_by_whatsapp = find_view_by_id($package.R::id::invite_button)
 
     # Initialize user
     user_details = DeviceAccount.new(self).get_user_details()
@@ -58,6 +61,9 @@ class MainActivity
 
     # Render firends on main screen
     render_friend_grid(@user.get("friends"))
+
+    # Handle taps on invite buttons
+    setup_button_handlers
   end
   
 
@@ -107,6 +113,14 @@ class MainActivity
       .send do
         @progress_dialog.hide
       end
+  end
+
+
+  # Handle tap events on invite by whatsapp and email
+  def setup_button_handlers
+    @invite_by_whatsapp.on_click_listener = proc { |view| 
+      share_via_whatsapp(@user.get_invite_message)
+    }
   end
 
 end

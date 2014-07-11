@@ -40,4 +40,22 @@ class User
   def send_message(to_user_id, message)
   end 
 
+
+  # Returns the whatsapp invite message - will pick a random bitch message
+  def get_invite_message
+    name = get("name").split(" ").first # Get the first name
+    id = get("id")
+    messages = get("messages")
+    bitch_message = messages[(rand(messages.length-1))]["abuse"]
+    return "#{name} says... #{bitch_message}!!\nIs that cool with you? B*tch him back!\nInstall Yo! B*tch app from http://#{BASE_SERVER}/#{id}/#{name}"
+  end
+
 end
+
+
+
+
+
+
+
+
