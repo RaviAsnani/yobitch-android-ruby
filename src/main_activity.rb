@@ -13,13 +13,14 @@ java_import 'android.view.Gravity'
 
 # Keep a global instance of the user for just in case uses (like for GCM registration update)
 $user = nil
+$gcm = nil
 
 class MainActivity
   include ShareManager
   include Ui
 
   attr_accessor :drawer_layout, :abuse_selection_list, :bitch_list, :friend_grid, :user, :progress_dialog
-  attr_accessor :invite_by_whatsapp
+  attr_accessor :invite_by_whatsapp, :gcm
 
   # Entry point into the app
   def onCreate(bundle)
@@ -42,12 +43,12 @@ class MainActivity
 
     # Initialize user
     user_details = DeviceAccount.new(self).get_user_details()
-    @user = User.new(user_details[:name], user_details[:email], "zoo_token")
-    $user = @user
+    $user = @user = User.new(user_details[:name], user_details[:email]) # Start with an invalid token
+    $gcm = @gcm = Gcm.new(self, CONFIG.get(:gcm_sender_id), @user)  # Start with empty user object
     @user.save do |user_object|
       Logger.d(@user.get("email"))
       Logger.d(@user.get("name"))
-      Gcm.new(self, CONFIG.get(:gcm_sender_id), @user).register  # Initialize user
+      @gcm.register  # Initialize GCM
       render_ui(@user)
       @progress_dialog.hide()
     end
@@ -103,7 +104,6 @@ class MainActivity
     @bitch_list.set_adapter(bitch_list_adapter)
 
     @bitch_list.on_item_click_listener = proc { |parent_view, view, position, row_id| 
-      @progress_dialog.show
       Logger.d("On item click listener : #{position}, #{row_id}, #{@user.get("messages")[position]["abuse"]}")
       close_right_drawer
       # Send the bitch!
@@ -119,6 +119,7 @@ class MainActivity
 
 
   def send_message_to_friend(friend_object, bitch_object)
+    @progress_dialog.show
     Message.new(@user, friend_object, bitch_object)
       .send do
         @progress_dialog.hide

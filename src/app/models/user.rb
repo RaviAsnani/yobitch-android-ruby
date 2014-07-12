@@ -4,12 +4,16 @@ class User
   include Net
   attr_accessor :name, :email, :gcm_token, :data
 
-  def initialize(name, email, gcm_token)
+  def initialize(name, email, gcm_token="invalid")
     @name = name
     @email = email
     @gcm_token = gcm_token
   end
 
+
+  # def experiment(intent)
+  #   Logger.d("@@@@@@@@@@@@@@@@@" + intent.get_extras.get_string("data").to_s)
+  # end
 
   # Get user's any attribute
   # key can be a string or a symbol which is converted to string before being used
@@ -69,16 +73,29 @@ class User
 
 
   # To be called when GCM token is received while gcm registration
-  def on_gcm_registration_received(gcm_token)
+  def on_gcm_token_received(gcm_token)
     Logger.d("In User, got GCM token : gcm_token : #{gcm_token}")
-    set(:gcm_token, gcm_token)
+    
+    if get(:gcm_token) != gcm_token
+      Logger.d("Received GCM token is different than what was present. Will update")
+      set(:gcm_token, gcm_token)
 
-    # save the GCM token on server now
-    update { |user_object|
-      Logger.d("User's gcm_token is now saved on server.")
-      Logger.d(user_object.to_s)
-    }
+      # save the GCM token on server now
+      update { |user_object|
+        Logger.d("User's gcm_token is now saved on server.")
+        Logger.d(user_object.to_s)
+      }
+    else
+      Logger.d("Received GCM token is same as what was present. Will NOT update")
+    end
   end
+
+
+
+  # To be called when GCM message is received from the server
+  def on_gcm_message_received(gcm_message)
+    Logger.d("In User, got GCM message : gcm_message : #{gcm_message.to_s}")
+  end  
 
 
   def send_message(to_user_id, message)
