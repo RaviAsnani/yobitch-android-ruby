@@ -10,7 +10,7 @@ module Ui
     def initialize(context)
       @context = context
       @progress_dialog = ProgressDialog.new(context)
-      @progress_dialog.set_message("Please wait...")
+      @progress_dialog.set_message("Yo! Please wait...")
       @progress_dialog.set_cancelable(false)
       @progress_dialog.set_indeterminate(true)    
     end

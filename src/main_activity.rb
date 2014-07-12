@@ -11,6 +11,8 @@ java_import 'com.pixate.freestyle.PixateFreestyle'
 java_import 'android.support.v4.widget.DrawerLayout'
 java_import 'android.view.Gravity'
 
+# Keep a global instance of the user for just in case uses (like for GCM registration update)
+$user = nil
 
 class MainActivity
   include ShareManager
@@ -25,7 +27,6 @@ class MainActivity
 
     set_title "Yo! B*tch!"
     init_activity()
-    Gcm.new(self, CONFIG.get(:gcm_sender_id)).register
   end
 
 
@@ -37,21 +38,29 @@ class MainActivity
     @progress_dialog = UiProgressDialog.new(self)
     @progress_dialog.show()
 
-    @drawer_layout = find_view_by_id($package.R::id::drawer_layout)
-    @abuse_selection_list = find_view_by_id($package.R::id::abuse_selection_list)
-    @bitch_list = find_view_by_id($package.R::id::bitch_list)
-    @friend_grid = find_view_by_id($package.R::id::friend_grid)
-    @invite_by_whatsapp = find_view_by_id($package.R::id::invite_button)
+    setup_view_references()
 
     # Initialize user
     user_details = DeviceAccount.new(self).get_user_details()
     @user = User.new(user_details[:name], user_details[:email], "zoo_token")
+    $user = @user
     @user.save do |user_object|
       Logger.d(@user.get("email"))
       Logger.d(@user.get("name"))
+      Gcm.new(self, CONFIG.get(:gcm_sender_id), @user).register  # Initialize user
       render_ui(@user)
       @progress_dialog.hide()
     end
+  end
+
+
+
+  def setup_view_references
+    @drawer_layout = find_view_by_id($package.R::id::drawer_layout)
+    @abuse_selection_list = find_view_by_id($package.R::id::abuse_selection_list)
+    @bitch_list = find_view_by_id($package.R::id::bitch_list)
+    @friend_grid = find_view_by_id($package.R::id::friend_grid)
+    @invite_by_whatsapp = find_view_by_id($package.R::id::invite_button)    
   end
 
 

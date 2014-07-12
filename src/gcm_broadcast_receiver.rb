@@ -1,19 +1,22 @@
-import android.util.Log
-import android.support.v4.content.WakefulBroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.ComponentName
-import android.app.Activity
+require "app/boot"
+
+java_import 'android.content.Context'
+java_import 'android.content.Intent'
+java_import 'android.app.Activity'
 
 class GcmBroadcastReceiver
+
   # Will get called whenever the BroadcastReceiver receives an intent.
   def onReceive(context, intent)
-    Log.v 'GcmBroadcastReceiver', 'Broadcast received!'
-    Log.v 'GcmBroadcastReceiver', intent.get_extras.get_string("registration_id")
-  rescue Exception
-    Log.e 'GcmBroadcastReceiver', "Exception processing broadcast: #{$!.message}\n#{$!.backtrace.join("\n")}"
+    registration_id = intent.get_extras.get_string("registration_id")
+    $user.on_gcm_registration_received(registration_id)
   end
+
 end
+
+
+
+
 
 
 
