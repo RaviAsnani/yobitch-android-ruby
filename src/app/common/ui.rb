@@ -1,6 +1,13 @@
 java_import 'android.app.ProgressDialog'
 java_import 'android.widget.Toast'
 
+java_import 'android.app.PendingIntent'
+java_import 'android.content.Intent'
+java_import 'android.support.v4.app.NotificationCompat'
+#java_import 'android.support.v4.app.NotificationCompat.Builder'
+
+
+
 module Ui
 
   # Progress dialog
@@ -30,6 +37,21 @@ module Ui
   class UiToast
     def self.show(activity, text)
       Toast.make_text(activity, text, Toast::LENGTH_SHORT).show
+    end
+  end
+
+
+
+  # Push notification
+  class Notification
+    def self.build(context, bitch_message)
+      builder = NotificationCompat::Builder.new(context)
+                  .set_small_icon($package.R::drawable::shout)
+                  .set_content_title(bitch_message["message"])
+                  .set_content_text(bitch_message["title"]);
+
+      notification_manager = context.get_system_service(Context::NOTIFICATION_SERVICE)
+      notification_manager.notify(1, builder.build())
     end
   end
 

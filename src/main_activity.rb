@@ -43,7 +43,7 @@ class MainActivity
 
     # Initialize user
     user_details = DeviceAccount.new(self).get_user_details()
-    $user = @user = User.new(user_details[:name], user_details[:email]) # Start with an invalid token
+    $user = @user = User.new(self, user_details[:name], user_details[:email]) # Start with an invalid token
     $gcm = @gcm = Gcm.new(self, CONFIG.get(:gcm_sender_id), @user)  # Start with empty user object
     @user.save do |user_object|
       Logger.d(@user.get("email"))

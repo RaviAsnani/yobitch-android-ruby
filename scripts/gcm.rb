@@ -10,11 +10,27 @@ config = {
 }
 
 registration_ids = [
-  "APA91bGLQmyAYTbROYHyKWqv6XVdRY4dNbDAsIRY4ulmDO_tOEbGoJcqsYGq8S1d7-vWcNjKTzC-Wiat3M-Jxt0l8NQSPnldDz0M1o-lZVwMnpmB_mB1V1MrZ93PiTjE3mjJ6s9lJYpCVwdlv4v7iH7FVTEpRdR_mA"
+  "APA91bGLQmyAYTbROYHyKWqv6XVdRY4dNbDAsIRY4ulmDO_tOEbGoJcqsYGq8S1d7-vWcNjKTzC-Wiat3M-Jxt0l8NQSPnldDz0M1o-lZVwMnpmB_mB1V1MrZ93PiTjE3mjJ6s9lJYpCVwdlv4v7iH7FVTEpRdR_mA",
+  "APA91bHIWEpiMZ4XD3oLL8Xn6P7FtqRqC7JkuXdCVG5x9ZMPKyGiwks016SCKWvC9Oay0iXDV6i2481sLTsfu3eGpexOKvsIaL47nubpF-v27TdwdSxOdgX2MWUsSURQZh4-N780j6-YTkavDubXwdAEqP5lMLlopA"
 ]
 
 messages = [
-  {:data => {:foo => "foo1", :zoo => "zoo1"}}
+  {
+   "data" => {
+      "sender" => {
+        "id" => "1",
+        "name" => "Ravi Asnani",
+        "email" => "asnafam@gmail.com"
+      },
+    "receiver" => {
+      "id" => "3",
+      "name" => "makuchaku",
+      "email" => "maku@makuchaku.in"
+    },
+    "message" => "You are a B*tch",
+    "title" => "Ravi Asnani b*tched you!"
+   }
+  }
 ]
 
 

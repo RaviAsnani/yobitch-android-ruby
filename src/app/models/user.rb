@@ -2,9 +2,11 @@ require "app/boot"
 
 class User
   include Net
-  attr_accessor :name, :email, :gcm_token, :data
+  include Ui
+  attr_accessor :name, :email, :gcm_token, :data, :context
 
-  def initialize(name, email, gcm_token="invalid")
+  def initialize(context, name, email, gcm_token="invalid")
+    @context = context
     @name = name
     @email = email
     @gcm_token = gcm_token
@@ -95,9 +97,12 @@ class User
   # To be called when GCM message is received from the server
   def on_gcm_message_received(gcm_message)
     Logger.d("In User, got GCM message : gcm_message : #{gcm_message.to_s}")
+    message = JSON.parse(gcm_message)
+    Notification.build(@context, message)
   end  
 
 
+  # TODO
   def send_message(to_user_id, message)
   end 
 
