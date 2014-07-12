@@ -15,7 +15,8 @@ class Config
           :user_get => "/user_post.json",
           :user_save => "/api/v1/users",
           :user_post => "/api/v1/users/send_message",
-          :gcm_sender_id => "77573904884"
+          :gcm_sender_id => "77573904884",
+          :package_name => "com.rum.yobitch"
         },
         :development => {
           :debug => true,
@@ -24,7 +25,8 @@ class Config
           :user_get => "/user_post.json",
           :user_save => "/user_post.json",
           :user_post => "/api/v1/users/send_message",
-          :gcm_sender_id => "77573904884"
+          :gcm_sender_id => "77573904884",
+          :package_name => "com.rum.yobitch"
         }
     }
   end

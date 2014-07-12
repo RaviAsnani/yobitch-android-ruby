@@ -45,13 +45,23 @@ module Ui
   # Push notification
   class Notification
     def self.build(context, bitch_message)
+      intent = Intent.new
+      intent.setClassName($package_name, 'com.rum.yobitch.MainActivity')
+
+      pending_intent = PendingIntent::getActivity(context, 0, intent, 0);
+
       builder = NotificationCompat::Builder.new(context)
                   .set_small_icon($package.R::drawable::shout)
                   .set_content_title(bitch_message["message"])
-                  .set_content_text(bitch_message["title"]);
+                  .set_content_text(bitch_message["title"])
+                  .set_content_intent(pending_intent)
+                  .add_action($package.R::drawable::reply, "Reply with a random B*tch!", pending_intent)
+                  .build()
+
+      builder.flags |= android.app.Notification::FLAG_AUTO_CANCEL;
 
       notification_manager = context.get_system_service(Context::NOTIFICATION_SERVICE)
-      notification_manager.notify(1, builder.build())
+      notification_manager.notify(1, builder)
     end
   end
 
