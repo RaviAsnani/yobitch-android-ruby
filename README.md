@@ -2,6 +2,7 @@ yobitch-android-ruby
 ====================
 
 Open Todo's
+
 # Handle case when there are no users
 # Setup Toast to display user’s name when he logs in - refactor into common/ui
 # Setup toast when user sends a bitch
@@ -12,6 +13,7 @@ Open Todo's
 # Handle errors in network calls
 
 Closed Todo's
+
 # Better config management - dev/production
 # GCM registration
 # Loader is not working/showing
