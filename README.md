@@ -5,6 +5,8 @@ Open Todo's
 * Write a boot service which loads the jruby instance
 * Push notification UI is invoked from User model - that sucks. Can we somehow route it back to MainActivity?
 * Handle errors in network calls
+* Handle install referer
+* Beautify UI
 
 
 Closed Todo's
