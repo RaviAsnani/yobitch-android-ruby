@@ -1,12 +1,13 @@
 Open Todo's
-* Handle case when there are no users
+* Handle case when there are no friends of a user
+* Send back a random bitch when the related action is tapped from notification
 * Invite by email
 * Contacts sync
 * Write a boot service which loads the jruby instance
-* Push notification UI is invoked from User model - that sucks. Can we somehow route it back to MainActivity?
 * Handle errors in network calls
 * Handle install referer
-* Beautify UI
+* Beautify UI - make it look like actual Yo!
+
 
 
 Closed Todo's
@@ -18,3 +19,4 @@ Closed Todo's
 * Whatsapp share
 * Logcat complains too much is happening on main thread. Either explore AsyncTask or understand the usage of Thread.join
 * Tapping on push notification - nothing happens
+* Push notification UI is invoked from User model - that sucks. Can we somehow route it back to MainActivity?
