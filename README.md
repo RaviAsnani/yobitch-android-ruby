@@ -5,7 +5,6 @@ Open Todo's
 * Contacts sync
 * Write a boot service which loads the jruby instance
 * Handle errors in network calls
-* Handle install referer
 * Beautify UI - make it look like actual Yo!
 
 
@@ -20,3 +19,4 @@ Closed Todo's
 * Logcat complains too much is happening on main thread. Either explore AsyncTask or understand the usage of Thread.join
 * Tapping on push notification - nothing happens
 * Push notification UI is invoked from User model - that sucks. Can we somehow route it back to MainActivity?
+* Handle install referer
