@@ -14,12 +14,12 @@ module Net
 
         # Build error handling mechanism
         json_obj = JSON.parse(response)
-        block.call(json_obj)  
+        block.call(json_obj)
       rescue Exception
         Logger.exception(:net_get, $!)
       end
     end
-    t.join
+    #t.join
   end
 
 
@@ -40,12 +40,13 @@ module Net
         # Build error handling mechanism
         json_obj = JSON.parse(response.body)
         Logger.d(response.body)
+        Logger.d("THREAD should now end ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")        
         block.call(json_obj)  
       rescue Exception
         Logger.exception(:net_post, $!)
       end
     end
-    t.join
+    #t.join
   end
 
 
@@ -70,7 +71,7 @@ module Net
         Logger.exception(:net_post, $!)
       end
     end
-    t.join
+    #t.join
   end  
 
 

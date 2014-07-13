@@ -10,6 +10,12 @@ class User
     @name = name
     @email = email
     @gcm_token = gcm_token
+
+    @data = {
+      "name" => @name,
+      "email" => @email,
+      "gcm_token" => @gcm_token
+    }
   end
 
 
@@ -102,8 +108,10 @@ class User
   end  
 
 
-  # TODO
-  def send_message(to_user_id, message)
+  # Sends message to a friend
+  # friend_object, bitch_object => parts of the @user object which represent the mentioned friend & bitch
+  def send_message(friend_object, bitch_object, &block)
+    Message.new(self, friend_object, bitch_object).send(&block)
   end 
 
 

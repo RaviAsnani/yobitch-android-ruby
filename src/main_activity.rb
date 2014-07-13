@@ -15,6 +15,7 @@ java_import 'android.view.Gravity'
 $user = nil
 $gcm = nil
 
+
 class MainActivity
   include ShareManager
   include Ui
@@ -48,9 +49,11 @@ class MainActivity
     @user.save do |user_object|
       Logger.d(@user.get("email"))
       Logger.d(@user.get("name"))
-      @gcm.register  # Initialize GCM
-      render_ui(@user)
-      @progress_dialog.hide()
+      run_on_ui_thread {
+        render_ui(@user)
+        @progress_dialog.hide()
+      }
+      @gcm.register  # Initialize GCM outside of the main thread      
     end
   end
 
@@ -118,12 +121,14 @@ class MainActivity
   end
 
 
+  # Sends message to a friend
   def send_message_to_friend(friend_object, bitch_object)
     @progress_dialog.show
-    Message.new(@user, friend_object, bitch_object)
-      .send do
+    @user.send_message(friend_object, bitch_object) {
+      run_on_ui_thread {
         @progress_dialog.hide
-      end
+      }
+    }
   end
 
 

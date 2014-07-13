@@ -17,9 +17,6 @@ class Gcm
     @sender_id = sender_id
     @gcm_token = nil
     @user_object = user_object
-
-    check_google_services
-    register
   end
 
 
@@ -39,6 +36,7 @@ class Gcm
   # This is a possible bug in google play services - I don't know.
   # gcm.register cannot be removed - this is what initiated the process. NEVER remove it!
   def register
+    check_google_services
     gcm = GoogleCloudMessaging.get_instance(@context)
 
     t = Thread.start do
