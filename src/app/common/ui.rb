@@ -43,7 +43,7 @@ module Ui
 
 
   # Push notification
-  class Notification
+  class UiNotification
     def self.build(context, bitch_message)
       intent = Intent.new
       intent.setClassName($package_name, 'com.rum.yobitch.MainActivity')
