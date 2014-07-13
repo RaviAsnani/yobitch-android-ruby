@@ -52,6 +52,7 @@ class MainActivity
       run_on_ui_thread {
         render_ui(@user)
         @progress_dialog.hide()
+        UiToast.show(self, "Welcome, #{@user.get("name")}")
       }
       @gcm.register  # Initialize GCM outside of the main thread      
     end
@@ -127,6 +128,7 @@ class MainActivity
     @user.send_message(friend_object, bitch_object) {
       run_on_ui_thread {
         @progress_dialog.hide
+        UiToast.show(self, "You b*tched #{friend_object["name"]}!")
       }
     }
   end

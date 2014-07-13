@@ -20,7 +20,7 @@ class Message
       :message_id => message["id"]
     }.to_json
     
-    network_post("yobitch.me", "/api/v1/users/send_message", nil, body) do |response|
+    network_post(CONFIG.get(:domain), CONFIG.get(:message_send), nil, body) do |response|
       Logger.d(response.to_s)
       block.call(@data)
     end

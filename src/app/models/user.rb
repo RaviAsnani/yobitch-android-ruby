@@ -104,7 +104,7 @@ class User
   def on_gcm_message_received(gcm_message)
     Logger.d("In User, got GCM message : gcm_message : #{gcm_message.to_s}")
     message = JSON.parse(gcm_message)
-    Notification.build(@context, message)
+    UiNotification.build(@context, message)
   end  
 
 
