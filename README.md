@@ -1,7 +1,5 @@
 Open Todo's
 * Handle case when there are no users
-* Setup Toast to display user’s name when he logs in - refactor into common/ui
-* Setup toast when user sends a bitch
 * Invite by email
 * Contacts sync
 * Write a boot service which loads the jruby instance
@@ -10,6 +8,8 @@ Open Todo's
 
 
 Closed Todo's
+* Setup Toast to display user’s name when he logs in - refactor into common/ui
+* Setup toast when user sends a bitch
 * Better config management - dev/production
 * GCM registration
 * Loader is not working/showing
