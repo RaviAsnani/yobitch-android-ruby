@@ -54,7 +54,10 @@ class MainActivity
         @progress_dialog.hide()
         UiToast.show(self, "Welcome, #{@user.get("name")}")
       }
-      @gcm.register  # Initialize GCM outside of the main thread      
+      @gcm.register  # Initialize GCM outside of the main thread
+      @user.listen_for_notification_received { |message|  # Setup what should happen when a notification is received
+        user_notification_received(message)
+      }
     end
   end
 
@@ -141,5 +144,10 @@ class MainActivity
     }
   end
 
+
+  # UI interation when a notification is received by use model
+  def user_notification_received(message)
+    UiNotification.build(self, message)
+  end
 end
 

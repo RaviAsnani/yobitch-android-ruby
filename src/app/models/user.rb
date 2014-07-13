@@ -104,8 +104,14 @@ class User
   def on_gcm_message_received(gcm_message)
     Logger.d("In User, got GCM message : gcm_message : #{gcm_message.to_s}")
     message = JSON.parse(gcm_message)
-    UiNotification.build(@context, message)
+    @notification_received_executor.call(message)
   end  
+
+
+  # Sets up a reference of a block which should execute on main UI when a notification is received
+  def listen_for_notification_received(&block)
+    @notification_received_executor = block
+  end
 
 
   # Sends message to a friend
