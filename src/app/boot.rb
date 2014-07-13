@@ -5,6 +5,7 @@ require "app/common/ui"
 require "app/common/device_account"
 require "app/common/share_manager"
 require "app/common/gcm"
+require "app/common/install_tracker"
 require "json"
 
 

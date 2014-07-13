@@ -12,6 +12,12 @@
             <ImageView android:id="@+id/reply" android:src="@drawable/reply"></ImageView>
         </activity>
 
+        <receiver android:name="com.rum.yobitch.InstallReferrerBroadcastReceiver" android:exported="true">
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER" />
+            </intent-filter>
+        </receiver>        
+
         <activity android:exported='false' android:name='org.ruboto.RubotoActivity'/>
         <activity android:configChanges='orientation|screenSize' android:exported='false' android:name='org.ruboto.SplashActivity' android:noHistory='true'/>
         <activity android:exported='false' android:name='org.ruboto.RubotoDialog' android:theme='@android:style/Theme.Dialog'/>

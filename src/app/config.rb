@@ -16,6 +16,7 @@ class Config
           :user_save => "/api/v1/users",
           :user_post => "/api/v1/users/send_message",
           :message_send => "/api/v1/users/send_message",
+          :add_friend => "/api/v1/users/add_friend",
           :gcm_sender_id => "77573904884",
           :package_name => "com.rum.yobitch"
         },
@@ -27,6 +28,7 @@ class Config
           :user_save => "/user_post.json",
           :user_post => "/api/v1/users/send_message",
           :message_send => "/api/v1/users/send_message",
+          :add_friend => "/api/v1/users/add_friend",
           :gcm_sender_id => "77573904884",
           :package_name => "com.rum.yobitch"
         }

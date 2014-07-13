@@ -34,6 +34,7 @@ class MainActivity
 
   # UI building starts here
   def init_activity
+    #InstallTracker.track_install_referrer_broadcast(self) # Start tracking app install referrer immediately
     PixateFreestyle.init(self)
     setContentView($package.R.layout.main)
 
@@ -54,9 +55,20 @@ class MainActivity
         @progress_dialog.hide()
         UiToast.show(self, "Welcome, #{@user.get("name")}")
       }
+      
       @gcm.register  # Initialize GCM outside of the main thread
-      @user.listen_for_notification_received { |message|  # Setup what should happen when a notification is received
+
+      # Setup what should happen when a notification is received      
+      @user.listen_for_notification_received { |message|  
         user_notification_received(message)
+      }
+
+      # Know when to refresh the UI
+      @user.listen_for_ui_refresh {
+        Logger.d("Refreshing UI")
+        run_on_ui_thread {
+          render_friend_grid(@user.get("friends"))
+        }
       }
     end
   end

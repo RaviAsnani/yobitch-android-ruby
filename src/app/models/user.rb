@@ -3,9 +3,11 @@ require "app/boot"
 class User
   include Net
   include Ui
-  attr_accessor :name, :email, :gcm_token, :data, :context
+  attr_accessor :name, :email, :gcm_token, :data, :context, :ui_refresh_executor, :notification_received_executor
 
-  def initialize(context, name, email, gcm_token="invalid")
+  INVALID_TOKEN = "invalid_token"
+
+  def initialize(context, name, email, gcm_token=INVALID_TOKEN)
     @context = context
     @name = name
     @email = email
@@ -41,7 +43,6 @@ class User
   def save(&block)
     Logger.d "Saving user"
 
-    # TODO - change to post in actual network call
     json = {
       :user => {
         :name => @name,
@@ -51,9 +52,11 @@ class User
     }.to_json
 
     network_post(CONFIG.get(:domain), CONFIG.get(:user_save), nil, json) do |user_object|
-      @data = user_object
-      Logger.d(user_object.to_s)
-      block.call(@data)
+      if is_valid_user_object?(user_object)
+        @data = user_object
+        Logger.d(user_object.to_s)
+        block.call(@data) 
+      end
     end
   end
 
@@ -73,9 +76,11 @@ class User
     }.to_json
 
     network_put(CONFIG.get(:domain), CONFIG.get(:user_save), nil, json) do |user_object|
-      @data = user_object
-      Logger.d(user_object.to_s)
-      block.call(@data)
+      if is_valid_user_object?(user_object)
+        @data = user_object
+        Logger.d(user_object.to_s)
+        block.call(@data)
+      end
     end
   end
 
@@ -114,6 +119,19 @@ class User
   end
 
 
+  # A method that can setup a block of code which can be requested for execution when user model updates
+  # This request for execution needs to be routed via request_ui_refresh
+  def listen_for_ui_refresh(&block)
+    @ui_refresh_executor = block
+  end
+
+
+  # Should be called when the user model updates & the UI needs refreshing
+  def request_ui_refresh
+    @ui_refresh_executor.call
+  end
+
+
   # Sends message to a friend
   # friend_object, bitch_object => parts of the @user object which represent the mentioned friend & bitch
   def send_message(friend_object, bitch_object, &block)
@@ -128,6 +146,54 @@ class User
     messages = get("messages")
     bitch_message = messages[(rand(messages.length-1))]["abuse"]
     return "#{name} says... #{bitch_message}!!\nIs that cool with you? B*tch him back!\nInstall Yo! B*tch app from http://#{CONFIG.get(:domain)}/#{id}/#{name}"
+  end
+
+
+
+  # Waits to see if @data is populated in the global $user object. Then, executes a block
+  # To be used by external intent broadcast receivers
+  def self.wait_till_user_is_inflated(&block)
+    Logger.d("Initiating wait_till_user_is_inflated")
+    sleep_seconds = 3
+
+    # In a separate thread, recursively loop till $user is not usable. Once it is, add the received friend
+    t = Thread.start do
+      if $user == nil or $user.get(:gcm_token) == INVALID_TOKEN
+        Logger.d("Either $user is nil or gcm_token is INVALID_TOKEN. Sleeping, will check in #{sleep_seconds} seconds")
+        sleep sleep_seconds
+        User.wait_till_user_is_inflated(&block)
+      else
+        block.call
+      end
+    end
+
+  end
+
+
+
+  def add_friend(sender_id)
+    Logger.d("Got install referrer : sender_id:#{sender_id}")
+    
+    return if sender_id.nil? or sender_id.length == 0
+
+    json = {
+      :id => sender_id,
+      :auth_token => get(:auth_token)
+    }.to_json
+
+    network_post(CONFIG.get(:domain), CONFIG.get(:add_friend), nil, json) do |user_object|
+      if is_valid_user_object?(user_object)
+        @data = user_object
+        Logger.d(user_object.to_s)
+        request_ui_refresh 
+      end
+    end    
+  end
+
+
+  def is_valid_user_object?(user_object)
+    return true if user_object["error"] == nil
+    return false
   end
 
 end
