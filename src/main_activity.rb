@@ -28,12 +28,15 @@ class MainActivity
     super
 
     set_title "Yo! B*tch!"
-    init_activity()
+    init_activity {
+      Logger.d("UI init complete, now processing pending intent")
+      process_pending_intent(get_intent()) # If we were opened by a notification, process any required actions
+    }
   end
 
 
   # UI building starts here
-  def init_activity
+  def init_activity(&on_init_complete_block)
     #InstallTracker.track_install_referrer_broadcast(self) # Start tracking app install referrer immediately
     PixateFreestyle.init(self)
     setContentView($package.R.layout.main)
@@ -54,6 +57,9 @@ class MainActivity
         render_ui(@user)
         @progress_dialog.hide()
         UiToast.show(self, "Welcome, #{@user.get("name")}")
+
+        # Should always execute at the end of ui initialization
+        on_init_complete_block.call
       }
       
       @gcm.register  # Initialize GCM outside of the main thread
@@ -161,5 +167,39 @@ class MainActivity
   def user_notification_received(message)
     UiNotification.build(self, message)
   end
+
+
+  # If we were opened by a notification, process any required actions
+  # Executes at end of the UI initialization
+  def process_pending_intent(intent)
+    Logger.d("Processing pending intents from MainActivity")
+    # Process any pending intent (like when a notification button is tapped)
+    klass = intent.get_string_extra("klass")
+
+    if(klass == "notification_random_bitch")  # We need to send back a random bitch
+      Logger.d("Found Pending intent with Klass=notification_random_bitch")
+      begin
+        bitch_message = JSON.parse(intent.get_string_extra("bitch_message"))
+        friend_object = bitch_object["sender"]
+        possible_messages = @user.get("messages")
+        bitch_object = possible_messages[rand(possible_messages.length-1)]
+        if not friend_object["id"].nil? and not bitch_object["id"].nil?
+          Logger.d("Sending random bitch to #{friend_object["name"]} : #{bitch_object["abuse"]}")
+          send_message_to_friend(friend_object, bitch_object)
+        end
+      rescue Exception
+        Logger.exception(:main_activity_process_pending_intent, $!)
+      end
+    end
+  end
+
+
 end
+
+
+
+
+
+
+
 
