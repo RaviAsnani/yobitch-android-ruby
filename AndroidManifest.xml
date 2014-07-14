@@ -1,65 +1,63 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <manifest package='com.rum.yobitch' android:versionCode='1' android:versionName='1.0' xmlns:android='http://schemas.android.com/apk/res/android'>
-    
     <application android:hardwareAccelerated='true' android:icon='@drawable/shout' android:label='@string/app_name' android:largeHeap='true'>
-        
         <activity android:label='@string/app_name' android:name='MainActivity'>
             <intent-filter>
                 <action android:name='android.intent.action.MAIN'/>
                 <category android:name='android.intent.category.LAUNCHER'/>
             </intent-filter>
-            <ImageView android:id="@+id/shout" android:src="@drawable/shout"></ImageView>
-            <ImageView android:id="@+id/reply" android:src="@drawable/reply"></ImageView>
+            <ImageView android:id='@+id/shout' android:src='@drawable/shout'/>
+            <ImageView android:id='@+id/reply' android:src='@drawable/reply'/>
         </activity>
-
-        <receiver android:name="com.rum.yobitch.InstallReferrerBroadcastReceiver" android:exported="true">
+        <!-- Install referrer related -->
+        <receiver android:exported='true' android:name='com.rum.yobitch.InstallReferrerBroadcastReceiver'>
             <intent-filter>
-                <action android:name="com.android.vending.INSTALL_REFERRER" />
+                <action android:name='com.android.vending.INSTALL_REFERRER'/>
             </intent-filter>
-        </receiver>        
+        </receiver>
+        <!-- Install referrer related -->
+
+
+        <!-- Boot service related -->
+        <service android:name="OnBootLoadService" android:icon="@drawable/shout" android:label="YoBitch OnBootLoadService"></service> 
+        <uses-permission android:name='android.permission.RECEIVE_BOOT_COMPLETED'/>
+        <receiver android:enabled='true' android:exported='true' android:label='BootReceiver' android:name='.OnBootLoadBroadcastReceiver'>
+            <intent-filter>
+                <action android:name='android.intent.action.BOOT_COMPLETED'/>
+            </intent-filter>
+        </receiver>
+        <!-- Boot service related -->
+        
 
         <activity android:exported='false' android:name='org.ruboto.RubotoActivity'/>
         <activity android:configChanges='orientation|screenSize' android:exported='false' android:name='org.ruboto.SplashActivity' android:noHistory='true'/>
         <activity android:exported='false' android:name='org.ruboto.RubotoDialog' android:theme='@android:style/Theme.Dialog'/>
         <service android:exported='false' android:name='org.ruboto.RubotoService'/>
-
         <!-- GCM Related start -->
-        <receiver
-            android:name=".GcmBroadcastReceiver"
-            android:permission="com.google.android.c2dm.permission.SEND" >
+        <receiver android:name='.GcmBroadcastReceiver' android:permission='com.google.android.c2dm.permission.SEND'>
             <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-                
+                <action android:name='com.google.android.c2dm.intent.RECEIVE'/>
                 <!-- http://stackoverflow.com/questions/17618982/gcm-service-not-available-on-android-2-2/17721385#17721385 -->
-                <action android:name="com.google.android.c2dm.intent.REGISTRATION" /> 
-                
-                <category android:name="com.rum.yobitch.gcm" />
+                <action android:name='com.google.android.c2dm.intent.REGISTRATION'/>
+                <category android:name='com.rum.yobitch.gcm'/>
             </intent-filter>
         </receiver>
-        <service android:name=".GcmIntentService" /> 
-        <meta-data
-            android:name="com.google.android.gms.version"
-            android:value="5077000" />       
+        <service android:name='.GcmIntentService'/>
+        <meta-data android:name='com.google.android.gms.version' android:value='5077000'/>
         <!-- GCM Related end -->
+        <service android:name='com.rum.yobitch.OnBootLoadService'/>
     </application>
-
-
     <uses-sdk android:minSdkVersion='8' android:targetSdkVersion='20'/>
-
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="android.permission.READ_PROFILE"/>
-    <uses-permission android:name="android.permission.READ_CONTACTS"/>    
-    <uses-permission android:name="android.permission.INTERNET" />
-    
+    <uses-permission android:name='android.permission.INTERNET'/>
+    <uses-permission android:name='android.permission.GET_ACCOUNTS'/>
+    <uses-permission android:name='android.permission.READ_PROFILE'/>
+    <uses-permission android:name='android.permission.READ_CONTACTS'/>
+    <uses-permission android:name='android.permission.INTERNET'/>
     <!-- GCM Related start -->
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
-
-    <permission android:name="com.rum.yobitch.gcm.permission.C2D_MESSAGE"
-        android:protectionLevel="signature" />
-    <uses-permission android:name="com.rum.yobitch.gcm.permission.C2D_MESSAGE" /> 
-    <!-- GCM Related end -->   
-
+    <uses-permission android:name='android.permission.GET_ACCOUNTS'/>
+    <uses-permission android:name='android.permission.WAKE_LOCK'/>
+    <uses-permission android:name='com.google.android.c2dm.permission.RECEIVE'/>
+    <permission android:name='com.rum.yobitch.gcm.permission.C2D_MESSAGE' android:protectionLevel='signature'/>
+    <uses-permission android:name='com.rum.yobitch.gcm.permission.C2D_MESSAGE'/>
+    <!-- GCM Related end -->
 </manifest>

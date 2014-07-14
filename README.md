@@ -3,7 +3,7 @@ Open Todo's
 * Send back a random bitch when the related action is tapped from notification
 * Invite by email
 * Contacts sync
-* Write a boot service which loads the jruby instance
+* Write a boot service which loads the jruby instance (Incomplete work in boot_completed branch. Crash when notification is received)
 * Handle errors in network calls
 * Beautify UI - make it look like actual Yo!
 * Add a splash screen while jruby loads
