@@ -6,6 +6,8 @@ Open Todo's
 * Write a boot service which loads the jruby instance
 * Handle errors in network calls
 * Beautify UI - make it look like actual Yo!
+* Add a splash screen while jruby loads
+* Add an actionbar with a possible refresh button (which just re-inits the ui)
 
 
 
