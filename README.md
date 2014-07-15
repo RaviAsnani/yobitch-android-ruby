@@ -1,6 +1,5 @@
 Open Todo's
-* Handle case when there are no friends of a user
-* Invite by email
+* Handle case when there are no friends of a user => Is it even valid anymore with the Bot in place?
 * Contacts sync
 * Write a boot service which loads the jruby instance
 * Handle errors in network calls
@@ -29,3 +28,11 @@ Best if's
 * Usage of friend should be moved to a separate Friend model (which does not exists yet)
 * MessageList and FriendList models should be introduced
 * Data exchange from notification received to activity opened via intent is very hacky as of now. Explore better options via either a Bundle or Intent.put_extra mechanism
+
+
+
+Delayed till next versions
+* Invite by email
+
+
+
