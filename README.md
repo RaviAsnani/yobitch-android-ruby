@@ -5,6 +5,7 @@ Open Todo's
 * Beautify UI - make it look like actual Yo!
 * Add a splash screen while jruby loads
 * Add an actionbar with a possible refresh button (which just re-inits the ui)
+* Package JRuby core with the apk
 
 
 
