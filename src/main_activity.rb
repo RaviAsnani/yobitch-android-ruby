@@ -179,8 +179,8 @@ class MainActivity
 
     return if data.nil? # We don't want to process further if the intent has no related data
 
-    klass = data[:klass]
-    notification_data = data[:notification_data]
+    klass = data["klass"]
+    notification_data = data["notification_data"]
 
     if(klass == "notification_random_bitch")  # We need to send back a random bitch
       Logger.d("Found Pending intent with Klass => notification_random_bitch")
@@ -196,6 +196,7 @@ class MainActivity
         Logger.exception(:main_activity_process_pending_intent, $!)
       end
     end
+
   end
 
 

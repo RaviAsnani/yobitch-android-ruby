@@ -4,7 +4,7 @@ java_import 'android.widget.Toast'
 java_import 'android.app.PendingIntent'
 java_import 'android.content.Intent'
 java_import 'android.support.v4.app.NotificationCompat'
-
+java_import 'android.os.Bundle'
 
 
 module Ui
@@ -44,20 +44,20 @@ module Ui
   # Push notification
   class UiNotification
     def self.build(context, notification_data)
-      # Intent & Pending intent to open app
+      # Data, Intent & Pending intent to open app
       open_intent = Intent.new
       open_intent.setClassName($package_name, 'com.rum.yobitch.MainActivity')
       open_intent.set_action("notification_open")
       data_open = {:klass => "notification_open", :notification_data => notification_data}.to_json
-      open_intent.put_extra("data", data_open)      
+      open_intent.put_extra("n_data", data_open)      
       pending_open_intent = PendingIntent::getActivity(context, 0, open_intent, 0);
 
-      # Intent & Pending intent to send back a random bitch
+      # Data, Intent & Pending intent to send back a random bitch
       random_intent = Intent.new
       random_intent.setClassName($package_name, 'com.rum.yobitch.MainActivity')
       random_intent.set_action("notification_random_bitch")
       data_random = {:klass => "notification_random_bitch", :notification_data => notification_data}.to_json
-      random_intent.put_extra("data", data_random)
+      random_intent.put_extra("n_data", data_random)  
       pending_random_intent = PendingIntent::getActivity(context, 0, random_intent, 0)
 
       builder = NotificationCompat::Builder.new(context)
