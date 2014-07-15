@@ -1,6 +1,5 @@
 Open Todo's
 * Handle case when there are no friends of a user
-* Send back a random bitch when the related action is tapped from notification
 * Invite by email
 * Contacts sync
 * Write a boot service which loads the jruby instance
@@ -22,3 +21,11 @@ Closed Todo's
 * Tapping on push notification - nothing happens
 * Push notification UI is invoked from User model - that sucks. Can we somehow route it back to MainActivity?
 * Handle install referer
+* Send back a random bitch when the related action is tapped from notification
+
+
+
+Best if's
+* Usage of friend should be moved to a separate Friend model (which does not exists yet)
+* MessageList and FriendList models should be introduced
+* Data exchange from notification received to activity opened via intent is very hacky as of now. Explore better options via either a Bundle or Intent.put_extra mechanism
