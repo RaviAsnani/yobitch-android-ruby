@@ -6,6 +6,7 @@ Open Todo's
 * Add a splash screen while jruby loads
 * Add an actionbar with a possible refresh button (which just re-inits the ui)
 * Package JRuby core with the apk
+* Save user locally on device
 
 
 
