@@ -1,6 +1,6 @@
 Open Todo's
 * Handle case when there are no friends of a user => Is it even valid anymore with the Bot in place?
-* Write a boot service which loads the jruby instance
+* Write a boot service which loads the jruby instance  (Incomplete work in boot_completed branch. Crash when notification is received)
 * Handle errors in network calls
 * Beautify UI - make it look like actual Yo!
 * Add a splash screen while jruby loads
