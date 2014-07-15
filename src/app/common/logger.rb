@@ -2,7 +2,7 @@ require "app/boot.rb"
 
 class Logger
   def self.d(message)
-    message = message + "============================================"
+    message = message.to_s + "============================================"
     Log.d(message) if CONFIG.get(:debug) == true
   end
 

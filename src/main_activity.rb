@@ -174,13 +174,18 @@ class MainActivity
   def process_pending_intent(intent)
     Logger.d("Processing pending intents from MainActivity")
     # Process any pending intent (like when a notification button is tapped)
-    klass = intent.get_string_extra("klass")
+    data = intent.get_string_extra("data")
+    Logger.d(data)
+
+    return if data.nil? # We don't want to process further if the intent has no related data
+
+    klass = data[:klass]
+    notification_data = data[:notification_data]
 
     if(klass == "notification_random_bitch")  # We need to send back a random bitch
-      Logger.d("Found Pending intent with Klass=notification_random_bitch")
+      Logger.d("Found Pending intent with Klass => notification_random_bitch")
       begin
-        bitch_message = JSON.parse(intent.get_string_extra("bitch_message"))
-        friend_object = bitch_object["sender"]
+        friend_object = notification_data["sender"]
         possible_messages = @user.get("messages")
         bitch_object = possible_messages[rand(possible_messages.length-1)]
         if not friend_object["id"].nil? and not bitch_object["id"].nil?
