@@ -1,6 +1,5 @@
 Open Todo's
 * Handle case when there are no friends of a user => Is it even valid anymore with the Bot in place?
-* Contacts sync
 * Write a boot service which loads the jruby instance
 * Handle errors in network calls
 * Beautify UI - make it look like actual Yo!
@@ -33,6 +32,6 @@ Best if's
 
 Delayed till next versions
 * Invite by email
-
+* Contacts sync
 
 
