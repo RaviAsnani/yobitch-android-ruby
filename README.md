@@ -5,7 +5,6 @@ Open Todo's
 * Beautify UI - make it look like actual Yo!
 * Add a splash screen while jruby loads
 * Add an actionbar with a possible refresh button (which just re-inits the ui)
-* Package JRuby core with the apk
 * Save user locally on device
 
 
@@ -22,6 +21,7 @@ Closed Todo's
 * Push notification UI is invoked from User model - that sucks. Can we somehow route it back to MainActivity?
 * Handle install referer
 * Send back a random bitch when the related action is tapped from notification
+* Package JRuby core with the apk
 
 
 
