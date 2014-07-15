@@ -191,6 +191,17 @@ class User
   end
 
 
+
+  # Get the friend object by his ID
+  def get_friend_by_id(friend_id)
+    friends = get(:friends)
+    friends.each {|f|
+       return f if f["id"] == friend_id
+    }
+    return nil
+  end
+
+
   def is_valid_user_object?(user_object)
     return true if user_object["error"] == nil
     return false

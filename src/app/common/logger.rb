@@ -1,8 +1,10 @@
 require "app/boot.rb"
 
 class Logger
-  def self.d(message)
-    message = message.to_s + "============================================"
+  def self.d(message, keyword="=")
+    tail = "============================================"
+    tail.gsub!("=", keyword) if keyword != "="
+    message = message.to_s + tail
     Log.d(message) if CONFIG.get(:debug) == true
   end
 

@@ -27,6 +27,8 @@ class MainActivity
   def onCreate(bundle)
     super
 
+    Logger.d(get_intent.get_action, "*")
+
     set_title "Yo! B*tch!"
     init_activity {
       Logger.d("UI init complete, now processing pending intent")
@@ -174,23 +176,27 @@ class MainActivity
   def process_pending_intent(intent)
     Logger.d("Processing pending intents from MainActivity")
     # Process any pending intent (like when a notification button is tapped)
-    data = intent.get_string_extra("data")
-    Logger.d(data)
+    # Data currently comes via the set_action on intent. Key is to look for action:<sender_id>
+    data = intent.get_action
+    return if data.index(":").nil? # We don't want to process further if the intent has no related data
 
-    return if data.nil? # We don't want to process further if the intent has no related data
-
-    klass = data["klass"]
-    notification_data = data["notification_data"]
+    klass = data.split(":").first
+    sender_id = data.split(":").last
 
     if(klass == "notification_random_bitch")  # We need to send back a random bitch
-      Logger.d("Found Pending intent with Klass => notification_random_bitch")
+      Logger.d("Found Pending intent with Klass => #{klass}")
       begin
-        friend_object = notification_data["sender"]
+        friend_object = @user.get_friend_by_id(sender_id.to_i)
+        Logger.d(friend_object)
         possible_messages = @user.get("messages")
         bitch_object = possible_messages[rand(possible_messages.length-1)]
+        Logger.d(bitch_object) 
+
         if not friend_object["id"].nil? and not bitch_object["id"].nil?
           Logger.d("Sending random bitch to #{friend_object["name"]} : #{bitch_object["abuse"]}")
           send_message_to_friend(friend_object, bitch_object)
+        else
+          Logger.d("Error in finding a friend or a bitch in process_pending_intent : F:#{friend_object["id"]}, B:#{bitch_object["id"]}")
         end
       rescue Exception
         Logger.exception(:main_activity_process_pending_intent, $!)
