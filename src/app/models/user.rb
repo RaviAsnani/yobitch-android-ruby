@@ -3,7 +3,8 @@ require "app/boot"
 class User
   include Net
   include Ui
-  attr_accessor :name, :email, :gcm_token, :data, :context, :ui_refresh_executor, :notification_received_executor
+  attr_accessor :name, :email, :gcm_token, :data, :context, :ui_refresh_executor
+  attr_accessor :notification_received_executor, :on_api_call_failed
 
   INVALID_TOKEN = "invalid_token"
 
@@ -18,12 +19,13 @@ class User
       "email" => @email,
       "gcm_token" => @gcm_token
     }
+
+    @on_api_call_failed = Proc.new { |json_obj|
+      
+    }
   end
 
 
-  # def experiment(intent)
-  #   Logger.d("@@@@@@@@@@@@@@@@@" + intent.get_extras.get_string("data").to_s)
-  # end
 
   # Get user's any attribute
   # key can be a string or a symbol which is converted to string before being used
@@ -51,7 +53,7 @@ class User
       }
     }.to_json
 
-    network_post(CONFIG.get(:domain), CONFIG.get(:user_save), nil, json) do |user_object|
+    network_post(CONFIG.get(:user_save), nil, json) do |user_object|
       if is_valid_user_object?(user_object)
         @data = user_object
         Logger.d(user_object.to_s)
@@ -75,7 +77,7 @@ class User
       :auth_token => get(:auth_token)
     }.to_json
 
-    network_put(CONFIG.get(:domain), CONFIG.get(:user_save), nil, json) do |user_object|
+    network_put(CONFIG.get(:user_save), nil, json) do |user_object|
       if is_valid_user_object?(user_object)
         @data = user_object
         Logger.d(user_object.to_s)
@@ -171,6 +173,7 @@ class User
 
 
 
+  # Add a friend, given his ID
   def add_friend(sender_id)
     Logger.d("Got install referrer : sender_id:#{sender_id}")
     
@@ -181,7 +184,7 @@ class User
       :auth_token => get(:auth_token)
     }.to_json
 
-    network_post(CONFIG.get(:domain), CONFIG.get(:add_friend), nil, json) do |user_object|
+    network_post(CONFIG.get(:add_friend), nil, json) do |user_object|
       if is_valid_user_object?(user_object)
         @data = user_object
         Logger.d(user_object.to_s)
@@ -202,6 +205,7 @@ class User
   end
 
 
+  # Checks if the received user object is valid or not
   def is_valid_user_object?(user_object)
     return true if user_object["error"] == nil
     return false

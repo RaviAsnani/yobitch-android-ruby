@@ -27,8 +27,6 @@ class MainActivity
   def onCreate(bundle)
     super
 
-    Logger.d(get_intent.get_action, "*")
-
     set_title "Yo! B*tch!"
     init_activity {
       Logger.d("UI init complete, now processing pending intent")
@@ -204,6 +202,7 @@ class MainActivity
     end
 
   end
+
 
 
 end

@@ -5,16 +5,19 @@ require "app/boot"
 
 module Net
 
+  NETWORK_SUCCESS = "200"
+
   # block receives a JSON object which is just a string2json convert from the response. 
   # Make this intelligent
-  def network_get(domain, path, &block)
+  def network_get(path, &success_block)
+    domain = CONFIG.get(:domain)
     t = Thread.start do
       begin 
         response = Net::HTTP.get(domain, path)
 
         # Build error handling mechanism
         json_obj = JSON.parse(response)
-        block.call(json_obj)
+        success_block.call(json_obj)
       rescue Exception
         Logger.exception(:net_get, $!)
       end
@@ -25,7 +28,8 @@ module Net
 
 
   # params, json_body can be optionally nil
-  def network_post(domain, path, params, json_body, &block)
+  def network_post(path, params, json_body, &success_block)
+    domain = CONFIG.get(:domain)
     t = Thread.start do
       Logger.d("Starting post")
       begin
@@ -40,8 +44,8 @@ module Net
         # Build error handling mechanism
         json_obj = JSON.parse(response.body)
         Logger.d(response.body)
-        Logger.d("THREAD should now end ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")        
-        block.call(json_obj)  
+        Logger.d("THREAD should now end", "~")        
+        success_block.call(json_obj)  
       rescue Exception
         Logger.exception(:net_post, $!)
       end
@@ -51,7 +55,8 @@ module Net
 
 
   # params, json_body can be optionally nil
-  def network_put(domain, path, params, json_body, &block)
+  def network_put(path, params, json_body, &success_block)
+    domain = CONFIG.get(:domain)
     t = Thread.start do
       Logger.d("Starting put")
       begin
@@ -66,13 +71,50 @@ module Net
         # Build error handling mechanism
         json_obj = JSON.parse(response.body)
         Logger.d(response.body)
-        block.call(json_obj)  
+        success_block.call(json_obj)  
       rescue Exception
         Logger.exception(:net_post, $!)
       end
     end
     #t.join
   end  
+
+
+
+
+  private
+
+
+  # Checks to see if the network response was a success - then execute the success block, else the error block
+  # On exception in response parsing - still calls the error block
+  # error_block is optional
+  def check_network_response(response, &success_block, &error_block=nil)
+    
+    if error_block == nil
+      error_block = Proc.new { |json_obj|
+        Logger.d("Invoked default error block from check_network_response")
+      }
+    end
+
+    begin
+      json_obj = JSON.parse(response.body)
+
+      if response.code.to_s != NETWORK_SUCCESS
+        Logger.d("Network call failed with HTTP_CODE=#{response.code} - invoking error block")
+        Logger.d(json_obj.to_s)
+        error_block.call(json_obj)
+      else
+        Logger.d("Network call was a success - invoking success block")
+        Logger.d(json_obj.to_s)
+        success_block.call(json_obj)
+      end
+    rescue Exception
+      Logger.d("Exception in parsing output from the network. Invoking error block")
+      Logger.exception(:check_network_response, $!)
+      &error_block.call
+    end
+
+  end
 
 
 end
@@ -98,7 +140,6 @@ end
 
 # http = Net::HTTP.new(uri.host, uri.port)
 # request = Net::HTTP::Post.new(uri.request_uri)
-# #request.set_form_data(params) if params != nil
 # request.body = json_body if json_body != nil
 # request["Content-Type"] = "application/json"
 # response = http.request(request)
