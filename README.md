@@ -4,6 +4,7 @@ Open Todo's
 * Add a splash screen while jruby loads
 * Add an actionbar with a possible refresh button (which just re-inits the ui)
 * Save user locally on device
+* Explore using https://github.com/nathankleyn/ruby_events for events
 
 
 
