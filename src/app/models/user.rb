@@ -6,24 +6,25 @@ class User
   include Ui
   include Persistence
 
-  attr_accessor :name, :email, :gcm_token, :data, :context, :ui_refresh_executor
+  attr_accessor :data, :context, :ui_refresh_executor
   attr_accessor :notification_received_executor, :on_api_call_failed, :updated_at
 
   INVALID_TOKEN = "invalid_token"
-  NAME = "user"
 
-  def initialize(context, name, email, gcm_token=INVALID_TOKEN)
+  def initialize(context)
     @context = context
-    @name = name
-    @email = email
-    @gcm_token = gcm_token
-    @updated_at = Time.now.to_i   # numerical seconds since epoch
+    #@updated_at = Time.now.to_i   # numerical seconds since epoch
 
+    user_details = DeviceAccount.new(@context).get_user_details()
     @data = {
-      "name" => @name,
-      "email" => @email,
-      "gcm_token" => @gcm_token
+      "name" => user_details[:name],
+      "email" => user_details[:email],
+      "gcm_token" => INVALID_TOKEN,
+      "auth_token" => INVALID_TOKEN
     }
+
+    # Try to read and setup the object from cache
+    de_serialiaze()
 
     @on_api_call_failed = Proc.new { |json_obj|
       Logger.d("API CALL FAILED in User", ">")
@@ -53,14 +54,14 @@ class User
 
     json = {
       :user => {
-        :name => @name,
-        :email => @email,
-        :gcm_token => @gcm_token
+        :name => get(:name),
+        :email => get(:email),
+        :gcm_token => get(:gcm_token)
       }
     }.to_json
 
     network_post(CONFIG.get(:user_save), nil, json, @on_api_call_failed) do |user_object|
-      if is_valid_user_object?(user_object)
+      if is_valid_network_user_object?(user_object)
         @data = user_object
         Logger.d(user_object.to_s)
         serialiaze()  # Write the object to persistent storage
@@ -85,7 +86,7 @@ class User
     }.to_json
 
     network_put(CONFIG.get(:user_save), nil, json, @on_api_call_failed) do |user_object|
-      if is_valid_user_object?(user_object)
+      if is_valid_network_user_object?(user_object)
         @data = user_object
         Logger.d(user_object.to_s)
         block.call(@data)
@@ -167,7 +168,7 @@ class User
 
     # In a separate thread, recursively loop till $user is not usable. Once it is, add the received friend
     t = Thread.start do
-      if $user == nil or $user.get(:gcm_token) == INVALID_TOKEN
+      if $user == nil or $user.get(:gcm_token) == INVALID_TOKEN or $user.get(:auth_token) == INVALID_TOKEN
         Logger.d("Either $user is nil or gcm_token is INVALID_TOKEN. Sleeping, will check in #{sleep_seconds} seconds")
         sleep sleep_seconds
         User.wait_till_user_is_inflated(&block)
@@ -192,7 +193,7 @@ class User
     }.to_json
 
     network_post(CONFIG.get(:add_friend), nil, json, @on_api_call_failed) do |user_object|
-      if is_valid_user_object?(user_object)
+      if is_valid_network_user_object?(user_object)
         @data = user_object
         Logger.d(user_object.to_s)
         request_ui_refresh 
@@ -213,10 +214,21 @@ class User
 
 
   # Checks if the received user object is valid or not
-  def is_valid_user_object?(user_object)
+  def is_valid_network_user_object?(user_object)
     return true if user_object["error"] == nil
     return false
   end
+
+
+  # Returns true when the object is valid enough to be used
+  def is_valid_user?
+    if get(:gcm_token) != INVALID_TOKEN and get(:auth_token) != INVALID_TOKEN and get(:messages) != nil
+      return true
+    end
+    return false
+  end
+
+
 
 
   # Serializable form of this object
@@ -234,7 +246,12 @@ class User
   # Get back from serialized form
   def de_serialiaze
     data_json = get_from_shared_prefs(@context, self.class)
-    @data = JSON.parse(data_json)
+    
+    begin
+      @data = JSON.parse(data_json) if not data_json.nil? and data_json.length > 0
+    rescue Exception => e
+      Logger.exception(:de_serialiaze, $!)
+    end
   end
 
 end

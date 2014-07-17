@@ -45,41 +45,55 @@ class MainActivity
     setContentView($package.R.layout.main)
 
     @progress_dialog = UiProgressDialog.new(self)
-    @progress_dialog.show()
 
     setup_view_references()
 
-    # Initialize user
-    user_details = DeviceAccount.new(self).get_user_details()
-    $user = @user = User.new(self, user_details[:name], user_details[:email]) # Start with an invalid token
+    $user = @user = User.new(self) # Start with an invalid gcm token
     $gcm = @gcm = Gcm.new(self, CONFIG.get(:gcm_sender_id), @user)  # Start with empty user object
-    @user.save do |user_object|
-      Logger.d(@user.get("email"))
-      Logger.d(@user.get("name"))
-      run_on_ui_thread {
-        render_ui(@user)
-        @progress_dialog.hide()
-        UiToast.show(self, "Welcome, #{@user.get("name")}")
 
-        # Should always execute at the end of ui initialization
-        on_init_complete_block.call
-      }
-      
-      @gcm.register  # Initialize GCM outside of the main thread
-
-      # Setup what should happen when a notification is received      
-      @user.listen_for_notification_received { |message|  
-        user_notification_received(message)
-      }
-
-      # Know when to refresh the UI
-      @user.listen_for_ui_refresh {
-        Logger.d("Refreshing UI")
-        run_on_ui_thread {
-          render_friend_grid(@user.get("friends"))
-        }
-      }
+    # Render the user if data is available from cache
+    if @user.is_valid_user?
+      all_that_happens_when_user_is_available(&on_init_complete_block)
+    else
+      # If not, ask the user to wait while we fetch from network
+      @progress_dialog.show()
     end
+    
+    # Update the user anyways!
+    @user.save do |user_object|
+      all_that_happens_when_user_is_available(&on_init_complete_block)
+    end
+
+  end
+
+
+  # All initializations when the user object is available
+  def all_that_happens_when_user_is_available(&on_init_complete_block)
+    Logger.d(@user.get("email"))
+    Logger.d(@user.get("name"))
+    run_on_ui_thread {
+      @progress_dialog.hide()
+      render_ui(@user)
+      UiToast.show(self, "Welcome, #{@user.get("name")}")
+
+      # Should always execute at the end of ui initialization
+      on_init_complete_block.call
+    }
+    
+    @gcm.register()  # Initialize GCM outside of the main thread
+
+    # Setup what should happen when a notification is received      
+    @user.listen_for_notification_received { |message|  
+      user_notification_received(message)
+    }
+
+    # Know when to refresh the UI
+    @user.listen_for_ui_refresh {
+      Logger.d("Refreshing UI")
+      run_on_ui_thread {
+        render_friend_grid(@user.get("friends"))
+      }
+    }    
   end
 
 
