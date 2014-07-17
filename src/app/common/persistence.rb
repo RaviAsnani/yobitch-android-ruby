@@ -1,9 +1,17 @@
-# Implements the storage options SharedPreferences
+# Implements the storage options  - right now, primarily via SharedPreferences
+
+require "digest"
 
 java_import 'android.preference.PreferenceManager'
 
 
 module Persistence
+
+  # Calculate md5 checksum of the object. It will be calculated on the object.to_s value
+  def checksum
+    return Digest::MD5.hexdigest(self.to_s)
+  end
+
 
   # Save a key with string value
   def save_to_shared_prefs(context, key, value)
@@ -13,7 +21,7 @@ module Persistence
       editor.put_string(key.to_s, value.to_s)
       editor.commit()
       return true
-    rescue Exception
+    rescue Exception => e
       Logger.exception(:save_to_shared_prefs, $!)
       return false
     end

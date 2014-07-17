@@ -63,6 +63,7 @@ class User
       if is_valid_user_object?(user_object)
         @data = user_object
         Logger.d(user_object.to_s)
+        serialiaze()  # Write the object to persistent storage
         block.call(@data) 
       end
     end
