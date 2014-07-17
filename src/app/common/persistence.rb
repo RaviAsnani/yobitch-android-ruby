@@ -25,7 +25,7 @@ module Persistence
   def get_from_shared_prefs(context, key)
     begin
       pref = PreferenceManager.get_default_shared_preferences(context)
-      return pref.getString(key, nil)
+      return pref.getString(key.to_s, nil)
     rescue Exception => e
       Logger.exception(:get_from_shared_prefs, $!)
       return nil

@@ -7,16 +7,17 @@ class User
   include Persistence
 
   attr_accessor :name, :email, :gcm_token, :data, :context, :ui_refresh_executor
-  attr_accessor :notification_received_executor, :on_api_call_failed#, :updated_at
+  attr_accessor :notification_received_executor, :on_api_call_failed, :updated_at
 
   INVALID_TOKEN = "invalid_token"
+  NAME = "user"
 
   def initialize(context, name, email, gcm_token=INVALID_TOKEN)
     @context = context
     @name = name
     @email = email
     @gcm_token = gcm_token
-    #@updated_at = Time.now.to_i   # numerical seconds since epoch
+    @updated_at = Time.now.to_i   # numerical seconds since epoch
 
     @data = {
       "name" => @name,
@@ -214,6 +215,25 @@ class User
   def is_valid_user_object?(user_object)
     return true if user_object["error"] == nil
     return false
+  end
+
+
+  # Serializable form of this object
+  def to_s
+    return @data.to_json
+  end
+
+
+  # Persist the object to cache
+  def serialiaze
+    save_to_shared_prefs(@context, self.class, self)
+  end
+
+
+  # Get back from serialized form
+  def de_serialiaze
+    data_json = get_from_shared_prefs(@context, self.class)
+    @data = JSON.parse(data_json)
   end
 
 end
