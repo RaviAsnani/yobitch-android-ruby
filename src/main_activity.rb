@@ -14,6 +14,7 @@ java_import 'android.view.Gravity'
 # Keep a global instance of the user for just in case uses (like for GCM registration update)
 $user = nil
 $gcm = nil
+$main_activity = nil
 
 
 class MainActivity
@@ -26,6 +27,8 @@ class MainActivity
   # Entry point into the app
   def onCreate(bundle)
     super
+
+    $main_activity = self
 
     set_title "Yo! B*tch!"
     init_activity {
@@ -201,6 +204,16 @@ class MainActivity
       end
     end
 
+  end
+
+
+
+  # Generic way of showing an error message in the activity
+  def display_error_message(message)
+    run_on_ui_thread {
+      UiToast.show(self, message)
+      @progress_dialog.hide
+    }
   end
 
 

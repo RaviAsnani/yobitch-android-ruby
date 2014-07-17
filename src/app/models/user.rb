@@ -21,7 +21,8 @@ class User
     }
 
     @on_api_call_failed = Proc.new { |json_obj|
-      
+      Logger.d("API CALL FAILED in User", ">")
+      $main_activity.display_error_message("Unable to complete the task. Please retry!")      
     }
   end
 
@@ -53,7 +54,7 @@ class User
       }
     }.to_json
 
-    network_post(CONFIG.get(:user_save), nil, json) do |user_object|
+    network_post(CONFIG.get(:user_save), nil, json, @on_api_call_failed) do |user_object|
       if is_valid_user_object?(user_object)
         @data = user_object
         Logger.d(user_object.to_s)
@@ -77,7 +78,7 @@ class User
       :auth_token => get(:auth_token)
     }.to_json
 
-    network_put(CONFIG.get(:user_save), nil, json) do |user_object|
+    network_put(CONFIG.get(:user_save), nil, json, @on_api_call_failed) do |user_object|
       if is_valid_user_object?(user_object)
         @data = user_object
         Logger.d(user_object.to_s)
@@ -184,7 +185,7 @@ class User
       :auth_token => get(:auth_token)
     }.to_json
 
-    network_post(CONFIG.get(:add_friend), nil, json) do |user_object|
+    network_post(CONFIG.get(:add_friend), nil, json, @on_api_call_failed) do |user_object|
       if is_valid_user_object?(user_object)
         @data = user_object
         Logger.d(user_object.to_s)
