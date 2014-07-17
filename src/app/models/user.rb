@@ -1,10 +1,13 @@
 require "app/boot"
+require "time"
 
 class User
   include Net
   include Ui
+  include Persistence
+
   attr_accessor :name, :email, :gcm_token, :data, :context, :ui_refresh_executor
-  attr_accessor :notification_received_executor, :on_api_call_failed
+  attr_accessor :notification_received_executor, :on_api_call_failed#, :updated_at
 
   INVALID_TOKEN = "invalid_token"
 
@@ -13,6 +16,7 @@ class User
     @name = name
     @email = email
     @gcm_token = gcm_token
+    #@updated_at = Time.now.to_i   # numerical seconds since epoch
 
     @data = {
       "name" => @name,
