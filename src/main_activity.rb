@@ -53,28 +53,31 @@ class MainActivity
 
     # Render the user if data is available from cache
     if @user.is_valid_user?
-      all_that_happens_when_user_is_available(&on_init_complete_block)
+      Logger.d("Serialized user object found, picking up from cache")
+      all_that_happens_when_user_is_available(false, &on_init_complete_block)
     else
+      Logger.d("Serialized user object NOT found, hitting the network")
       # If not, ask the user to wait while we fetch from network
       @progress_dialog.show()
     end
     
     # Update the user anyways!
     @user.save do |user_object|
-      all_that_happens_when_user_is_available(&on_init_complete_block)
+      Logger.d("Going to do a POST on the user anyways!")
+      all_that_happens_when_user_is_available(true, &on_init_complete_block)
     end
 
   end
 
 
   # All initializations when the user object is available
-  def all_that_happens_when_user_is_available(&on_init_complete_block)
+  def all_that_happens_when_user_is_available(is_silent, &on_init_complete_block)
     Logger.d(@user.get("email"))
     Logger.d(@user.get("name"))
     run_on_ui_thread {
       @progress_dialog.hide()
       render_ui(@user)
-      UiToast.show(self, "Welcome, #{@user.get("name")}")
+      UiToast.show(self, "Welcome, #{@user.get("name")}") if is_silent == false
 
       # Should always execute at the end of ui initialization
       on_init_complete_block.call

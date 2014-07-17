@@ -53,7 +53,7 @@ class Gcm
         Logger.exception(:gcm_register, $!)
       end
     end
-    t.join
+    #t.join
   end
 
 

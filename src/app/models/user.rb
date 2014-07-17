@@ -239,12 +239,14 @@ class User
 
   # Persist the object to cache
   def serialiaze
+    Logger.d("Serializing the User object")
     save_to_shared_prefs(@context, self.class, self)
   end
 
 
   # Get back from serialized form
   def de_serialiaze
+    Logger.d("de_serialiazing the user object")
     data_json = get_from_shared_prefs(@context, self.class)
     
     begin
