@@ -1,7 +1,5 @@
 Open Todo's
-* Handle case when there are no friends of a user => Is it even valid anymore with the Bot in place?
 * Write a boot service which loads the jruby instance  (Incomplete work in boot_completed branch. Crash when notification is received)
-* Handle errors in network calls
 * Beautify UI - make it look like actual Yo!
 * Add a splash screen while jruby loads
 * Add an actionbar with a possible refresh button (which just re-inits the ui)
@@ -22,6 +20,8 @@ Closed Todo's
 * Handle install referer
 * Send back a random bitch when the related action is tapped from notification
 * Package JRuby core with the apk
+* Handle errors in network calls
+* Handle case when there are no friends of a user => Is it even valid anymore with the Bot in place?
 
 
 
