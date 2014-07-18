@@ -17,7 +17,7 @@
         android:text="Invite a friend by WhatsApp"
         android:layout_margin="10dp"/>
 
-    <Button
+<!--     <Button
         android:id="@+id/add_by_email_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -25,13 +25,13 @@
         android:layout_alignParentRight="true"
         android:layout_below="@+id/invite_button"
         android:text="Add a friend by Email"
-        android:layout_margin="10dp"/>
+        android:layout_margin="10dp"/> -->
 
     <GridView
         android:id="@+id/friend_grid"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/add_by_email_button"
+        android:layout_below="@+id/invite_button"
         android:layout_centerHorizontal="true"
         android:numColumns="2" 
         android:layout_alignParentLeft="true"

@@ -19,12 +19,15 @@ class Message
 
 
   def send(&block)
+    Logger.d("Sending message...")
     body = {
       :auth_token => @from.get("auth_token"),
       :receiver_id => @to["id"],
       :message_id => message["id"]
     }.to_json
-    
+
+    Logger.d("Message => #{body.to_s}")
+
     network_post(CONFIG.get(:message_send), nil, body, @on_api_call_failed) do |response|
       Logger.d(response.to_s)
       block.call(@data)
