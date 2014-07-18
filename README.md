@@ -3,7 +3,6 @@ Open Todo's
 * Beautify UI - make it look like actual Yo!
 * Add a splash screen while jruby loads
 * Add an actionbar with a possible refresh button (which just re-inits the ui)
-* Save user locally on device
 * Explore using https://github.com/nathankleyn/ruby_events for events
 
 
@@ -23,6 +22,7 @@ Closed Todo's
 * Package JRuby core with the apk
 * Handle errors in network calls
 * Handle case when there are no friends of a user => Is it even valid anymore with the Bot in place?
+* Save user locally on device
 
 
 

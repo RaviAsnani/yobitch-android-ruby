@@ -5,12 +5,6 @@ java_import 'android.preference.PreferenceManager'
 
 module Persistence
 
-  # # Calculate md5 checksum of the object. It will be calculated on the object.to_s value
-  # def checksum
-  #   return Digest::MD5.hexdigest(self.to_s)
-  # end
-
-
   # Save a key with string value
   def save_to_shared_prefs(context, key, value)
     begin

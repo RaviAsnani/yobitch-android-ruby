@@ -7,13 +7,11 @@ class User
   include Persistence
 
   attr_accessor :data, :context, :ui_refresh_executor
-  attr_accessor :notification_received_executor, :on_api_call_failed, :updated_at
-
+  attr_accessor :notification_received_executor, :on_api_call_failed
   INVALID_TOKEN = "invalid_token"
 
   def initialize(context)
     @context = context
-    #@updated_at = Time.now.to_i   # numerical seconds since epoch
 
     user_details = DeviceAccount.new(@context).get_user_details()
     @data = {
