@@ -51,10 +51,12 @@ class MainActivity
     $user = @user = User.new(self) # Start with an invalid gcm token
     $gcm = @gcm = Gcm.new(self, CONFIG.get(:gcm_sender_id), @user)  # Start with empty user object
 
+    ui_setup_complete = false
     # Render the user if data is available from cache
     if @user.is_valid_user?
       Logger.d("Serialized user object found, picking up from cache")
-      all_that_happens_when_user_is_available(false, &on_init_complete_block)
+      all_that_happens_when_user_is_available(:verbose, &on_init_complete_block)
+      ui_setup_complete = true
     else
       Logger.d("Serialized user object NOT found, hitting the network")
       # If not, ask the user to wait while we fetch from network
@@ -62,23 +64,30 @@ class MainActivity
     end
     
     # Update the user anyways!
+    # Re-render & setup UI all over again if this is the first time we are opening the app for a user
+    # Else, just update the ui
     @user.save do |user_object|
       Logger.d("Going to do a POST on the user anyways!")
-      all_that_happens_when_user_is_available(true, &on_init_complete_block)
+      if ui_setup_complete == false
+        Logger.d("Going to run all_that_happens_when_user_is_available")
+        all_that_happens_when_user_is_available(:verbose, &on_init_complete_block)
+      else
+        Logger.d("Just going to render_ui")
+        run_on_ui_thread {
+          render_ui(@user, :silent)  # Just re-render the UI
+        }
+      end
     end
 
   end
 
 
   # All initializations when the user object is available
-  def all_that_happens_when_user_is_available(is_silent, &on_init_complete_block)
+  def all_that_happens_when_user_is_available(mode, &on_init_complete_block)
     Logger.d(@user.get("email"))
     Logger.d(@user.get("name"))
     run_on_ui_thread {
-      @progress_dialog.hide()
-      render_ui(@user)
-      UiToast.show(self, "Welcome, #{@user.get("name")}") if is_silent == false
-
+      render_ui(@user, mode)
       # Should always execute at the end of ui initialization
       on_init_complete_block.call
     }
@@ -100,7 +109,7 @@ class MainActivity
   end
 
 
-
+  # Just stuff some important variables
   def setup_view_references
     @drawer_layout = find_view_by_id($package.R::id::drawer_layout)
     @abuse_selection_list = find_view_by_id($package.R::id::abuse_selection_list)
@@ -111,7 +120,10 @@ class MainActivity
 
 
   # Render major components of the UI
-  def render_ui(user_object)
+  def render_ui(user_object, mode)
+    @progress_dialog.hide()
+    UiToast.show(self, "Welcome, #{@user.get("name")}") if mode == :verbose
+
     # Prevent the drawer from responding to user swipes
     @drawer_layout.set_drawer_lock_mode(DrawerLayout::LOCK_MODE_LOCKED_CLOSED, Gravity::END)
 
@@ -165,7 +177,7 @@ class MainActivity
 
   # Sends message to a friend
   def send_message_to_friend(friend_object, bitch_object)
-    @progress_dialog.show
+    @progress_dialog.show("Yo! B*tching #{friend_object["name"]}...")
     @user.send_message(friend_object, bitch_object) {
       run_on_ui_thread {
         @progress_dialog.hide

@@ -12,16 +12,19 @@ module Ui
   # Progress dialog
   class UiProgressDialog
     attr_accessor :progress_dialog, :context
+    DEFAULT_WAIT_MESSAGE = "Yo! Please wait..."
 
     def initialize(context)
       @context = context
       @progress_dialog = ProgressDialog.new(context)
-      @progress_dialog.set_message("Yo! Please wait...")
+      @progress_dialog.set_message(DEFAULT_WAIT_MESSAGE)
       @progress_dialog.set_cancelable(false)
       @progress_dialog.set_indeterminate(true)    
     end
 
-    def show
+    def show(message = nil)
+      message = message.nil? ? DEFAULT_WAIT_MESSAGE : message
+      @progress_dialog.set_message(message)
       @progress_dialog.show
     end
 
