@@ -10,6 +10,7 @@
             </intent-filter>
             <ImageView android:id="@+id/shout" android:src="@drawable/shout"></ImageView>
             <ImageView android:id="@+id/reply" android:src="@drawable/reply"></ImageView>
+            <ImageView android:id="@+id/splash" android:src="@drawable/splash"></ImageView>
         </activity>
 
         <receiver android:name="com.rum.yobitch.InstallReferrerBroadcastReceiver" android:exported="true">

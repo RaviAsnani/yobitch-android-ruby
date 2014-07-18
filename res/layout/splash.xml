@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal|center_vertical"
+    android:background="#30587c">
+
+    <!--Specify your splash image here-->
+    <ImageView
+        android:layout_width="fill_parent" 
+        android:layout_height="fill_parent"
+        android:src="@drawable/splash"  
+        android:scaleType="fitCenter"
+        android:layout_weight="1"/>
+
+    <TextView android:id="@+id/text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Please wait..."
+        android:color="#000000"/>
+
+</LinearLayout>

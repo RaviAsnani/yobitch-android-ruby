@@ -2,9 +2,8 @@ Open Todo's
 * Write a boot service which loads the jruby instance  (Incomplete work in boot_completed branch. Crash when notification is received)
 * Beautify UI - make it look like actual Yo!
 * Add a splash screen while jruby loads
-* Add an actionbar with a possible refresh button (which just re-inits the ui)
 * Explore using https://github.com/nathankleyn/ruby_events for events
-
+* Logcat STILL complains too much is happening on main thread.
 
 
 Closed Todo's
