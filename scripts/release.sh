@@ -7,7 +7,7 @@ echo "Tagging the repository & pushing the tag to Production"
 tag_name=$(date +"%S-%M-%H-%d-%m-%Y")
 now=$(date)
 git tag `echo $tag_name` -m "Production candidate created at $now"
-git push origin tag
+git push origin $tag_name
 
 echo "Copying jRuby runtime into project scope : /libs"
 cp ./tmp/*.jar ./libs
