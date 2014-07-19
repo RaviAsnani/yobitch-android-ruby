@@ -2,6 +2,7 @@
 .DS_Store
 .idea
 adb_logcat.log
+local.properties
 bin
 gen
 tmp
