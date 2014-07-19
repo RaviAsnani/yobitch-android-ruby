@@ -153,7 +153,7 @@ class User
     id = get("id")
     messages = get("messages")
     bitch_message = messages[(rand(messages.length-1))]["abuse"]
-    return "#{name} says... #{bitch_message}!!\nIs that cool with you? B*tch him back!\nInstall Yo! B*tch app from http://#{CONFIG.get(:domain)}/#{id}/#{name}"
+    return "#{name} says... #{bitch_message}!!\nIs that cool with you? B*tch back!\nInstall Yo! B*tch app from http://#{CONFIG.get(:domain)}/#{id}/#{name}"
   end
 
 

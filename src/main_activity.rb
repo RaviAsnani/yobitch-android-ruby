@@ -263,6 +263,8 @@ class MainActivity
   # If we were opened by a notification, process any required actions
   # Executes at end of the UI initialization
   def process_pending_intent(intent)
+    UiNotification.cancel_all(self) # cancel all open notifications
+
     Logger.d("Processing pending intents from MainActivity")
     # Process any pending intent (like when a notification button is tapped)
     # Data currently comes via the set_action on intent. Key is to look for action:<sender_id>

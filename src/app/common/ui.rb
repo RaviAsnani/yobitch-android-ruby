@@ -49,6 +49,14 @@ module Ui
   # TODO - notification info right now is part of set_action call to intent. It should ideally be part of
   # put_extra method on the intent (which is not working somehow... sob sob)
   class UiNotification
+
+    # Clears all notifications
+    def self.cancel_all(context)
+      notification_manager = context.get_system_service(Context::NOTIFICATION_SERVICE)
+      notification_manager.cancel_all
+    end
+
+
     def self.build(context, notification_data)
       sound_uri = RingtoneManager::get_default_uri(RingtoneManager::TYPE_NOTIFICATION)
 
