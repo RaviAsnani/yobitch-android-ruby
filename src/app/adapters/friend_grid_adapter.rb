@@ -25,7 +25,6 @@ class FriendGridAdapter < ArrayAdapter
     # Find the layout's inner elements & populate them
     text_view = layout.find_view_by_id($package.R::id::friend)
     text_view.set_text(@friend_list[position]["name"])
-
     return layout
   end
 

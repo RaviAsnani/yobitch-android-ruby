@@ -13,8 +13,9 @@
         android:padding="15dp"
         android:gravity="center"
         android:textColor="@android:color/white"
-        android:textSize="16dp"
-        android:layout_height="wrap_content"
+        android:textSize="12dp"
+        android:textAllCaps="true"
+        android:layout_height="300px"
         android:text="Friend" />
 
 </LinearLayout>
