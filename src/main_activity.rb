@@ -24,16 +24,16 @@ class MainActivity
   include Ads
 
   attr_accessor :drawer_layout, :abuse_selection_list, :bitch_list, :friend_grid, :user, :progress_dialog
-  attr_accessor :invite_by_whatsapp, :gcm
+  attr_accessor :invite_by_whatsapp, :gcm, :analytics
 
   # Entry point into the app
   def onCreate(bundle)
     super
+    track_app_state("onCreate")
 
-    $main_activity = self
-
-    # Initiate crash tracking
-    BugSenseHandler.initAndStartSession(self, "bc7fb570");
+    $main_activity = self # Save reference to the main activity
+    $user = @user = User.new(self) # Start with an invalid gcm token
+    $gcm = @gcm = Gcm.new(self, CONFIG.get(:gcm_sender_id), @user)  # Start with empty user object    
 
     set_title "Yo! B*tch!"
     init_activity {
@@ -43,18 +43,50 @@ class MainActivity
   end
 
 
+  def onStart
+    super
+    track_app_state("onStart")
+  end
+
+  def onRestart
+    super
+    track_app_state("onRestart")
+  end
+
+  def onResume
+    super
+    track_app_state("onResume")
+  end
+
+  def onPause
+    super
+    track_app_state("onPause")
+  end
+
+  def onStop
+    super
+    track_app_state("onStop")
+  end
+
+  def onDestroy
+    super
+    track_app_state("onDestroy")
+  end
+
+
   # UI building starts here
   def init_activity(&on_init_complete_block)
+    BugSenseHandler.initAndStartSession(self, CONFIG.get(:bugsense_id)) # Initiate crash tracking
+    @analytics = Analytics.new(self, CONFIG.get(:ga_tracking_id)) # Initiate Analytics
+    PixateFreestyle.init(self)  # Initiate Freestyle
+    
     #InstallTracker.track_install_referrer_broadcast(self) # Start tracking app install referrer immediately
-    PixateFreestyle.init(self)
+
     setContentView($package.R.layout.main)
 
     @progress_dialog = UiProgressDialog.new(self)
 
     setup_view_references()
-
-    $user = @user = User.new(self) # Start with an invalid gcm token
-    $gcm = @gcm = Gcm.new(self, CONFIG.get(:gcm_sender_id), @user)  # Start with empty user object
 
     ui_setup_complete = false
     # Render the user if data is available from cache
@@ -97,6 +129,7 @@ class MainActivity
     Logger.d(@user.get("name"))
     
     BugSenseHandler.set_user_identifier(@user.get("email")) # Tell BugSense who is this user
+    @analytics.set_user(@user.get("email"))
 
     run_on_ui_thread {
       render_ui(@user, mode)
@@ -144,6 +177,8 @@ class MainActivity
 
     # Handle taps on invite buttons
     setup_button_handlers
+
+    @analytics.fire_screen(:home_screen)
   end
   
 
@@ -154,6 +189,10 @@ class MainActivity
 
     @friend_grid.on_item_click_listener = proc { |parent_view, view, position, row_id| 
       Logger.d("On item click listener : #{position}, #{row_id}, #{@user.get("friends")[position]["name"]}")
+
+      @analytics.fire_event({:category => "home_screen", :action => "tap", :label => "friend"})
+      @analytics.fire_event({:category => "home_screen", :action => "stats_friend_tap", :label => "friend : #{@user.get("friends")[position]["name"]}"})
+      
       render_and_open_right_drawer(@user.get("friends")[position]) 
     }
   end
@@ -164,6 +203,7 @@ class MainActivity
     # Render the bitch list based on which user is tapped from main screen
     render_bitch_list(@user.get("messages"), friend_object)
     @drawer_layout.open_drawer(@abuse_selection_list)
+    @analytics.fire_screen(:bitch_drawer)
   end
 
 
@@ -189,6 +229,9 @@ class MainActivity
 
   # Sends message to a friend
   def send_message_to_friend(friend_object, bitch_object)
+    @analytics.fire_event({:category => "bitch_drawer", :action => "tap", :label => "bitch"})
+    @analytics.fire_event({:category => "bitch_drawer", :action => "stats_bitch_tap", :label => "bitch : #{bitch_object["abuse"]}"})
+   
     @progress_dialog.show("Yo! B*tching #{friend_object["name"]}...")
     @user.send_message(friend_object, bitch_object) {
       run_on_ui_thread {
@@ -201,7 +244,8 @@ class MainActivity
 
   # Handle tap events on invite by whatsapp and email
   def setup_button_handlers
-    @invite_by_whatsapp.on_click_listener = proc { |view| 
+    @invite_by_whatsapp.on_click_listener = proc { |view|
+      @analytics.fire_event({:category => "home_screen", :action => "tap", :label => "share : whatsapp"})
       share_via_whatsapp(@user.get_invite_message)
     }
   end
@@ -209,6 +253,9 @@ class MainActivity
 
   # UI interation when a notification is received by use model
   def user_notification_received(message)
+    @analytics.fire_event({:category => "notification", :action => "received", :label => "bitch"})
+    @analytics.fire_event({:category => "notification", :action => "stats_received", :label => "bitch : #{message["message"]}"})
+   
     UiNotification.build(self, message)
   end
 
@@ -227,6 +274,7 @@ class MainActivity
 
     if(klass == "notification_random_bitch")  # We need to send back a random bitch
       Logger.d("Found Pending intent with Klass => #{klass}")
+      @analytics.fire_event({:category => "notification", :action => "replied", :label => "random_bitch"})
       begin
         friend_object = @user.get_friend_by_id(sender_id.to_i)
         Logger.d(friend_object)
@@ -258,6 +306,12 @@ class MainActivity
   end
 
 
+  # Util method to track various states of this activity
+  def track_app_state(state_name)
+    Logger.d("In #{state_name}")
+    analytics = Analytics.new(self, CONFIG.get(:ga_tracking_id))
+    analytics.fire_event({:category => "android", :action => "app_state", :label => state_name})
+  end
 
 end
 

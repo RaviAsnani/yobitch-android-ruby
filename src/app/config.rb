@@ -19,7 +19,9 @@ class Config
           :add_friend => "/api/v1/users/add_friend",
           :gcm_sender_id => "77573904884",
           :package_name => "com.rum.yobitch",
-          :ad_unit_id => "ca-app-pub-4205525304773174/8192109240"
+          :ad_unit_id => "ca-app-pub-4205525304773174/8192109240",
+          :ga_tracking_id => "UA-52998741-1",
+          :bugsense_id => "bc7fb570"
         },
         :development => {
           :debug => true,
@@ -32,7 +34,9 @@ class Config
           :add_friend => "/api/v1/users/add_friend",
           :gcm_sender_id => "77573904884",
           :package_name => "com.rum.yobitch",
-          :ad_unit_id => "ca-app-pub-4205525304773174/8192109240"
+          :ad_unit_id => "ca-app-pub-4205525304773174/8192109240",
+          :ga_tracking_id => "UA-52998741-1",
+          :bugsense_id => "bc7fb570"
         }
     }
   end

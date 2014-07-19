@@ -8,6 +8,7 @@ require "app/common/gcm"
 require "app/common/install_tracker"
 require "app/common/persistence"
 require "app/common/ads"
+require "app/common/analytics"
 
 require "json"
 
