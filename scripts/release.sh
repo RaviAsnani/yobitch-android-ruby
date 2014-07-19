@@ -3,6 +3,12 @@
 echo "Releaseing..."
 echo "Please run this from project root or heavens might fall!!!"
 
+echo "Tagging the repository & pushing the tag to Production"
+tag=$(date +"%S-%M-%H-%d-%m-%Y")
+now=$(date)
+git tag -a `echo $now` -m "Production candidate created at $now"
+git push origin tag
+
 echo "Copying jRuby runtime into project scope : /libs"
 cp ./tmp/*.jar ./libs
 
