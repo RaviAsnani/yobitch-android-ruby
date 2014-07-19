@@ -4,5 +4,4 @@
 adb_logcat.log
 bin
 gen
-local.properties
 tmp
