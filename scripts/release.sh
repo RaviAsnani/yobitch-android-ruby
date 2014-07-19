@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "Releaseing..."
+echo "Releasing..."
 echo "Please run this from project root or heavens might fall!!!"
 
 echo "Tagging the repository & pushing the tag to Production"
