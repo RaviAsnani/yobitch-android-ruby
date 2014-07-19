@@ -405,7 +405,6 @@ if (JRubyAdapter.isInitialized() && scriptInfo.isReadyToLoad()) {
   }
 */
 
-/*
   public void onDestroy() {
     if (ScriptLoader.isCalledFromJRuby()) {super.onDestroy(); return;}
     if (!JRubyAdapter.isInitialized()) {
@@ -429,7 +428,6 @@ if (JRubyAdapter.isInitialized() && scriptInfo.isReadyToLoad()) {
     }
     ScriptLoader.unloadScript(this);
   }
-*/
 
 /*
   public boolean onKeyDown(int keyCode, android.view.KeyEvent event) {
@@ -681,7 +679,6 @@ if (JRubyAdapter.isInitialized() && scriptInfo.isReadyToLoad()) {
   }
 */
 
-/*
   public void onPause() {
     if (ScriptLoader.isCalledFromJRuby()) {super.onPause(); return;}
     if (!JRubyAdapter.isInitialized()) {
@@ -704,7 +701,6 @@ if (JRubyAdapter.isInitialized() && scriptInfo.isReadyToLoad()) {
       }
     }
   }
-*/
 
 /*
   public void onPostCreate(android.os.Bundle savedInstanceState) {
@@ -806,7 +802,6 @@ if (JRubyAdapter.isInitialized() && scriptInfo.isReadyToLoad()) {
   }
 */
 
-/*
   public void onRestart() {
     if (ScriptLoader.isCalledFromJRuby()) {super.onRestart(); return;}
     if (!JRubyAdapter.isInitialized()) {
@@ -829,7 +824,6 @@ if (JRubyAdapter.isInitialized() && scriptInfo.isReadyToLoad()) {
       }
     }
   }
-*/
 
 /*
   public void onRestoreInstanceState(android.os.Bundle savedInstanceState) {
@@ -856,7 +850,6 @@ if (JRubyAdapter.isInitialized() && scriptInfo.isReadyToLoad()) {
   }
 */
 
-/*
   public void onResume() {
     if (ScriptLoader.isCalledFromJRuby()) {super.onResume(); return;}
     if (!JRubyAdapter.isInitialized()) {
@@ -879,7 +872,6 @@ if (JRubyAdapter.isInitialized() && scriptInfo.isReadyToLoad()) {
       }
     }
   }
-*/
 
 /*
   public void onSaveInstanceState(android.os.Bundle outState) {
@@ -931,7 +923,6 @@ if (JRubyAdapter.isInitialized() && scriptInfo.isReadyToLoad()) {
   }
 */
 
-/*
   public void onStart() {
     if (ScriptLoader.isCalledFromJRuby()) {super.onStart(); return;}
     if (!JRubyAdapter.isInitialized()) {
@@ -954,9 +945,7 @@ if (JRubyAdapter.isInitialized() && scriptInfo.isReadyToLoad()) {
       }
     }
   }
-*/
 
-/*
   public void onStop() {
     if (ScriptLoader.isCalledFromJRuby()) {super.onStop(); return;}
     if (!JRubyAdapter.isInitialized()) {
@@ -979,7 +968,6 @@ if (JRubyAdapter.isInitialized() && scriptInfo.isReadyToLoad()) {
       }
     }
   }
-*/
 
 /*
   public void onTitleChanged(java.lang.CharSequence title, int color) {
