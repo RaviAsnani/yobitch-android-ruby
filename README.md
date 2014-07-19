@@ -1,9 +1,10 @@
 Open Todo's
 * Write a boot service which loads the jruby instance  (Incomplete work in boot_completed branch. Crash when notification is received)
 * Beautify UI - make it look like actual Yo!
-* Add a splash screen while jruby loads
 * Explore using https://github.com/nathankleyn/ruby_events for events
 * Logcat STILL complains too much is happening on main thread.
+* Add ads
+* Add ability to add your own bitch message but make it paid
 
 
 Closed Todo's
@@ -22,6 +23,7 @@ Closed Todo's
 * Handle errors in network calls
 * Handle case when there are no friends of a user => Is it even valid anymore with the Bot in place?
 * Save user locally on device
+* Add a splash screen while jruby loads
 
 
 
