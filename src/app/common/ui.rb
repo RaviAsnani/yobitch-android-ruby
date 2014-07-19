@@ -5,6 +5,7 @@ java_import 'android.app.PendingIntent'
 java_import 'android.content.Intent'
 java_import 'android.support.v4.app.NotificationCompat'
 java_import 'android.os.Bundle'
+java_import 'android.media.RingtoneManager'
 
 
 module Ui
@@ -49,20 +50,18 @@ module Ui
   # put_extra method on the intent (which is not working somehow... sob sob)
   class UiNotification
     def self.build(context, notification_data)
+      sound_uri = RingtoneManager::get_default_uri(RingtoneManager::TYPE_NOTIFICATION)
+
       # Data, Intent & Pending intent to open app
       open_intent = Intent.new
       open_intent.setClassName($package_name, 'com.rum.yobitch.MainActivity')
       open_intent.set_action("notification_open:#{notification_data["sender"]["id"]}")
-      #data_open = {:klass => "notification_open", :notification_data => notification_data}.to_json
-      #open_intent.put_extra("n_data", data_open)  
       pending_open_intent = PendingIntent::getActivity(context, 0, open_intent, 0);
 
       # Data, Intent & Pending intent to send back a random bitch
       random_intent = Intent.new
       random_intent.setClassName($package_name, 'com.rum.yobitch.MainActivity')
       random_intent.set_action("notification_random_bitch:#{notification_data["sender"]["id"]}")
-      #data_random = {:klass => "notification_random_bitch", :notification_data => notification_data}.to_json
-      #random_intent.put_extra("n_data", data_random)
       pending_random_intent = PendingIntent::getActivity(context, 0, random_intent, 0)
 
       builder = NotificationCompat::Builder.new(context)
@@ -71,6 +70,7 @@ module Ui
                   .set_content_text(notification_data["title"])
                   .set_content_intent(pending_open_intent)
                   .add_action($package.R::drawable::reply, "Reply with a random B*tch!", pending_random_intent)
+                  .set_sound(sound_uri)
                   .build()
 
       builder.flags |= android.app.Notification::FLAG_AUTO_CANCEL;

@@ -7,6 +7,7 @@ Open Todo's
 * Add ability to add your own bitch message but make it paid
 
 
+
 Closed Todo's
 * Setup Toast to display user’s name when he logs in - refactor into common/ui
 * Setup toast when user sends a bitch
@@ -24,6 +25,8 @@ Closed Todo's
 * Handle case when there are no friends of a user => Is it even valid anymore with the Bot in place?
 * Save user locally on device
 * Add a splash screen while jruby loads
+* Play sound when a push arrives
+
 
 
 
