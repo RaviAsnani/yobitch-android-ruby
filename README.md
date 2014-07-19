@@ -4,7 +4,7 @@ Open Todo's
 * Explore using https://github.com/nathankleyn/ruby_events for events
 * Logcat STILL complains too much is happening on main thread.
 * Add ability to add your own bitch message but make it paid
-* Notification does not goes away when user decides to send a random bitch
+* When notification is tapped, another instance of app is created (which can be verified by pressing back button)
 
 
 
@@ -29,6 +29,7 @@ Closed Todo's
 * Add ads
 * Add BugSense
 * Add Analytics
+* Notification does not goes away when user decides to send a random bitch
 
 
 
