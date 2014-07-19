@@ -38,16 +38,6 @@ class MainActivity
   end
 
 
-  def onDestroy
-    Logger.d("MainActivity onDestroy", "$")
-  end
-
-
-  def onResume
-    Logger.d("MainActivity onResume", "$")
-  end
-
-
   # UI building starts here
   def init_activity(&on_init_complete_block)
     #InstallTracker.track_install_referrer_broadcast(self) # Start tracking app install referrer immediately

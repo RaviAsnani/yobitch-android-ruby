@@ -5,7 +5,10 @@
     android:layout_height="fill_parent"
     android:orientation="vertical"
     android:gravity="center_horizontal|center_vertical"
-    android:background="#30587c">
+    android:background="#4096EE"
+    android:layout_margin="0dp"
+    android:verticalSpacing="0dp"
+    android:horizontalSpacing="0dp">
 
     <!--Specify your splash image here-->
     <ImageView
@@ -15,10 +18,10 @@
         android:scaleType="fitCenter"
         android:layout_weight="1"/>
 
-    <TextView android:id="@+id/text"
+    <!-- <TextView android:id="@+id/text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Please wait..."
-        android:color="#000000"/>
+        android:color="#000000"/> -->
 
 </LinearLayout>
