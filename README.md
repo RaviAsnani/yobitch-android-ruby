@@ -3,7 +3,6 @@ Open Todo's
 * Beautify UI - make it look like actual Yo!
 * Explore using https://github.com/nathankleyn/ruby_events for events
 * Logcat STILL complains too much is happening on main thread.
-* Add ads
 * Add ability to add your own bitch message but make it paid
 
 
@@ -26,6 +25,8 @@ Closed Todo's
 * Save user locally on device
 * Add a splash screen while jruby loads
 * Play sound when a push arrives
+* Add ads
+
 
 
 

@@ -20,6 +20,7 @@ $main_activity = nil
 class MainActivity
   include ShareManager
   include Ui
+  include Ads
 
   attr_accessor :drawer_layout, :abuse_selection_list, :bitch_list, :friend_grid, :user, :progress_dialog
   attr_accessor :invite_by_whatsapp, :gcm
@@ -79,6 +80,10 @@ class MainActivity
       end
     end
 
+    # Load ads
+    get_admob_ad_view(self, 
+        find_view_by_id($package.R::id::id_main_screen_layout),
+        CONFIG.get(:ad_unit_id))
   end
 
 

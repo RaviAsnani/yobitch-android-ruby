@@ -42,12 +42,18 @@
             android:name="com.google.android.gms.version"
             android:value="5077000" />       
         <!-- GCM Related end -->
+
+        <!-- Admob related -->
+         <activity android:name="com.google.android.gms.ads.AdActivity"
+             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"/>
+        <!-- Admob related -->
     </application>
 
 
     <uses-sdk android:minSdkVersion='8' android:targetSdkVersion='20'/>
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE"/>
     <uses-permission android:name="android.permission.READ_CONTACTS"/>    

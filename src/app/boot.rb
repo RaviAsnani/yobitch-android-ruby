@@ -7,6 +7,7 @@ require "app/common/share_manager"
 require "app/common/gcm"
 require "app/common/install_tracker"
 require "app/common/persistence"
+require "app/common/ads"
 
 require "json"
 

@@ -18,7 +18,8 @@ class Config
           :message_send => "/api/v1/users/send_message",
           :add_friend => "/api/v1/users/add_friend",
           :gcm_sender_id => "77573904884",
-          :package_name => "com.rum.yobitch"
+          :package_name => "com.rum.yobitch",
+          :ad_unit_id => "ca-app-pub-4205525304773174/8192109240"
         },
         :development => {
           :debug => true,
@@ -30,7 +31,8 @@ class Config
           :message_send => "/api/v1/users/send_message",
           :add_friend => "/api/v1/users/add_friend",
           :gcm_sender_id => "77573904884",
-          :package_name => "com.rum.yobitch"
+          :package_name => "com.rum.yobitch",
+          :ad_unit_id => "ca-app-pub-4205525304773174/8192109240"
         }
     }
   end
