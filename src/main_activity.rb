@@ -10,6 +10,7 @@ require "app/adapters/friend_grid_adapter"
 java_import 'com.pixate.freestyle.PixateFreestyle'
 java_import 'android.support.v4.widget.DrawerLayout'
 java_import 'android.view.Gravity'
+java_import 'com.bugsense.trace.BugSenseHandler'
 
 # Keep a global instance of the user for just in case uses (like for GCM registration update)
 $user = nil
@@ -30,6 +31,9 @@ class MainActivity
     super
 
     $main_activity = self
+
+    # Initiate crash tracking
+    BugSenseHandler.initAndStartSession(self, "bc7fb570");
 
     set_title "Yo! B*tch!"
     init_activity {
@@ -91,6 +95,9 @@ class MainActivity
   def all_that_happens_when_user_is_available(mode, &on_init_complete_block)
     Logger.d(@user.get("email"))
     Logger.d(@user.get("name"))
+    
+    BugSenseHandler.set_user_identifier(@user.get("email")) # Tell BugSense who is this user
+
     run_on_ui_thread {
       render_ui(@user, mode)
       # Should always execute at the end of ui initialization
