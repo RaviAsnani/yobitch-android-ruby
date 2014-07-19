@@ -1,0 +1,9 @@
+Steps to build produciton release
+=================================
+0. Ensure that you are on master branch
+1. Ensure that $proj_folder/../../release/Yobitch.keystore exists
+2. Update the versionCode and versionNumber in AndroidManifest.xml to today's MMHHDDMMYYYY
+3. git add . && git commit -am "Updated versionCode and versionNumber for release" && git push origin master
+4. Run ./scripts/release.sh
+5. Enter the keystore passwords twice as asked
+6. Release on Google Play
