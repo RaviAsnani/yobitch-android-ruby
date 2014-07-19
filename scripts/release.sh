@@ -6,7 +6,9 @@ echo "Please run this from project root or heavens might fall!!!"
 echo "Tagging the repository & pushing the tag to Production"
 tag_name=$(date +"%S-%M-%H-%d-%m-%Y")
 now=$(date)
-git tag `echo $tag_name` -m "Production candidate created at $now"
+who=$(whoami)
+machine=$(hostname)
+git tag `echo $tag_name` -m "Production candidate created at $now by $who on $machine"
 git push origin $tag_name
 
 echo "Copying jRuby runtime into project scope : /libs"

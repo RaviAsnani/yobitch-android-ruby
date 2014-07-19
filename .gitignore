@@ -6,3 +6,6 @@ local.properties
 bin
 gen
 tmp
+libs/dx.jar
+libs/jruby-core-1.7.13.jar
+libs/jruby-stdlib-1.7.13.jar
