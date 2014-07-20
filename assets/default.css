@@ -1,38 +1,21 @@
 #invite_button, #add_by_email_button, #bitch {
   background-color : #40203f;
-  /*border : 7px solid #356AA0;*/
   color : #ffffff;
   padding : 15px;
   margin : 0;
   font-size : 12pt;
-  /*border-radius : 3px;*/
 }
 
 #friend {
-  /*border-radius: 3px;*/
   height: 300px;
   font-size: 12pt;
-  
-  background-color : #693f69;
-  /*background-color : #693f69;*/
-
-  /*border : 7px solid #356AA0;*/
   color : #ffffff;  
   padding : 15px;
   margin : 0;
   column-count : 1;
 }
 
-#friend_1 {
-  background-color : #ffffff;
-}
-
-#1 {
-  background-color : #ffffff;
-}
-
 #id_main_screen_layout {
-  /*background-color: #c0c0c0;*/
   margin: 0;
   padding: 0;
 }

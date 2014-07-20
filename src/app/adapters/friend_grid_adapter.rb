@@ -1,7 +1,7 @@
 require "app/boot"
+java_import 'android.graphics.Color'
 
 ruboto_import_widgets :TextView, :ArrayAdapter
-
 
 class FriendGridAdapter < ArrayAdapter
   attr_accessor :friend_list, :context, :view
@@ -25,6 +25,11 @@ class FriendGridAdapter < ArrayAdapter
     # Find the layout's inner elements & populate them
     text_view = layout.find_view_by_id($package.R::id::friend)
     text_view.set_text(@friend_list[position]["name"])
+
+    colors = ["#693f69", "#7c4866", "#bf7580", "#e69688", "#ffba9a", "#ff8366", "#ff9d66", "#ffb666", "#ffcb65", "#ffdb65"]
+    color = colors[position.to_s.split("").last.to_i]
+    text_view.set_background_color(Color.parseColor(color))
+    
     return layout
   end
 
