@@ -5,6 +5,8 @@ Open Todo's
 * Logcat STILL complains too much is happening on main thread.
 * Add ability to add your own bitch message but make it paid
 * When notification is tapped, another instance of app is created (which can be verified by pressing back button)
+* Sender should be notified by a push that his invitee has joined - server side & client side work. Opening of that push should enforce an app refresh
+* Sync all contacts and use that as means to determine that who all should receive a push when someone comes online.
 
 
 
@@ -43,6 +45,5 @@ Best if's
 
 Delayed till next versions
 * Invite by email
-* Contacts sync
 
 
