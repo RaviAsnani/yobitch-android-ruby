@@ -94,7 +94,7 @@ module Ui
       builder.flags |= android.app.Notification::FLAG_AUTO_CANCEL;
 
       notification_manager = context.get_system_service(Context::NOTIFICATION_SERVICE)
-      notification_manager.notify(notification_data["id"]||1, builder)
+      notification_manager.notify(1, builder)
     end
   end
 
