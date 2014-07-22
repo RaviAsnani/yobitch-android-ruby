@@ -10,12 +10,15 @@
     <Button
         android:id="@+id/invite_button"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="wrap_content"        
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:text="Invite a friend via WhatsApp"
-        android:layout_margin="0dp"/>
+        android:text="Invite friends via WhatsApp"
+        android:layout_margin="0dp"
+        android:padding="15dp"
+        android:textSize="16dp"
+        android:textAllCaps="true"/>
 
 <!--     <Button
         android:id="@+id/add_by_email_button"
