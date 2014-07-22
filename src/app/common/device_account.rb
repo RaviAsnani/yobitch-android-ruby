@@ -17,22 +17,28 @@ class DeviceAccount
   def get_user_details
     return {
       :name => get_account_name,
-      :email => get_google_emails(:primary)
+      :email => get_emails(:primary, :google),
+      :all => get_emails(:all, :all)
     }    
   end
 
 
   # If style is :primary, return the first email available. Else, return all
-  def get_google_emails(style = :primary)
+  # If provider is google, look only for google accounts, else all
+  def get_emails(style, provider)
     manager = AccountManager.get(@context)
-    accounts = manager.get_accounts_by_type("com.google")
+    if provider == :google
+      accounts = manager.get_accounts_by_type("com.google")
+    else
+      accounts = manager.get_accounts
+    end
     emails = []
     accounts.each { |account|
       emails.push(account.name)
       Logger.d(account.to_s)
     }
 
-    return(style == :primary ? emails[0] : emails )
+    return(style == :primary ? emails.first : emails )
   end
 
 
