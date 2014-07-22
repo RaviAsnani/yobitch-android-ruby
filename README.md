@@ -1,6 +1,5 @@
 Open Todo's
 * Write a boot service which loads the jruby instance  (Incomplete work in boot_completed branch. Crash when notification is received)
-* Beautify UI - make it look like actual Yo!
 * Explore using https://github.com/nathankleyn/ruby_events for events
 * Logcat STILL complains too much is happening on main thread.
 * Add ability to add your own bitch message but make it paid
@@ -32,6 +31,7 @@ Closed Todo's
 * Add BugSense
 * Add Analytics
 * Notification does not goes away when user decides to send a random bitch
+* Beautify UI
 
 
 
