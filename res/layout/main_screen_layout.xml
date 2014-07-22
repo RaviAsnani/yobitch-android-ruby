@@ -7,15 +7,17 @@
     
     <!-- Layout for the main screen -->
 
-    <Button
+    <TextView
         android:id="@+id/invite_button"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:text="Invite a friend by WhatsApp"
-        android:layout_margin="10dp"/>
+        android:layout_gravity="center"
+        android:padding="15dp"
+        android:gravity="center"
+        android:textColor="@android:color/white"
+        android:textSize="16dp"
+        android:textAllCaps="false"
+        android:text="Invite friends via WhatsApp"/>
 
 <!--     <Button
         android:id="@+id/add_by_email_button"
@@ -36,9 +38,9 @@
         android:numColumns="2" 
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_margin="10dp"
-        android:verticalSpacing="10dp"
-        android:horizontalSpacing="10dp">     
+        android:layout_margin="0dp"
+        android:verticalSpacing="0dp"
+        android:horizontalSpacing="0dp">     
     </GridView>
 
 </RelativeLayout>

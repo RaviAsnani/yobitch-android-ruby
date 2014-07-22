@@ -7,14 +7,16 @@
     <!-- Layout for every friend in first_screen -->
     
     <TextView
-        android:id="@+id/friend"
+        android:id="@+id/friend_item"
         android:layout_width="match_parent"
+        android:layout_height="130dp"
         android:layout_gravity="center"
         android:padding="15dp"
         android:gravity="center"
         android:textColor="@android:color/white"
         android:textSize="16dp"
-        android:layout_height="wrap_content"
-        android:text="Friend" />
+        android:textAllCaps="true"
+        android:text="Friend"
+        android:background="#ffff0000" />            
 
 </LinearLayout>

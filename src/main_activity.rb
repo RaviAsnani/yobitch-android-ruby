@@ -184,7 +184,7 @@ class MainActivity
 
   # Renders the friend list in main screen
   def render_friend_grid(friends)
-    friend_grid_adapter = FriendGridAdapter.new(self, $package.R::id::friend, friends)
+    friend_grid_adapter = FriendGridAdapter.new(self, $package.R::id::friend_item, friends)
     @friend_grid.set_adapter(friend_grid_adapter)
 
     @friend_grid.on_item_click_listener = proc { |parent_view, view, position, row_id| 

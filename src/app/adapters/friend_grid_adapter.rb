@@ -1,7 +1,7 @@
 require "app/boot"
+java_import 'android.graphics.Color'
 
 ruboto_import_widgets :TextView, :ArrayAdapter
-
 
 class FriendGridAdapter < ArrayAdapter
   attr_accessor :friend_list, :context, :view
@@ -15,6 +15,7 @@ class FriendGridAdapter < ArrayAdapter
 
   def getView(position, convert_view, parent_view_group)
     layout = convert_view
+    colors = ["#693f69", "#7c4866", "#bf7580", "#e69688", "#ffba9a", "#ff8366", "#ff9d66", "#ffb666", "#ffcb65", "#ffdb65"]
 
     # Inflate the layout if it's null. If not, just use it as it is.
     if(layout == nil)
@@ -23,10 +24,17 @@ class FriendGridAdapter < ArrayAdapter
     end
 
     # Find the layout's inner elements & populate them
-    text_view = layout.find_view_by_id($package.R::id::friend)
+    text_view = layout.find_view_by_id($package.R::id::friend_item)
     text_view.set_text(@friend_list[position]["name"])
-
+    text_view.set_background_color(Color::parse_color(get_color(colors, position)))
+    
     return layout
+  end
+
+
+  def get_color(colors, position)
+    total_colors = colors.length
+    return position < total_colors ? colors[position] : colors[position % total_colors]
   end
 
 end
