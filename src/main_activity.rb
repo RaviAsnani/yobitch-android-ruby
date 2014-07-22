@@ -43,6 +43,9 @@ class MainActivity
       Logger.d("UI init complete, now processing pending intent")
       process_pending_intent(get_intent()) # If we were opened by a notification, process any required actions
     }
+
+    # Test
+    #ContactsSync.new(self)
   end
 
 

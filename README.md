@@ -5,6 +5,7 @@ Open Todo's
 * Add ability to add your own bitch message but make it paid
 * When notification is tapped, another instance of app is created (which can be verified by pressing back button)
 * Sync all contacts and use that as means to determine that who all should receive a push when someone comes online.
+* When install referrer is fired and if at that time the app is not open, system keeps on looping into a threaded $user.wait_till_user_is_inflated method. Thought, things work out fine when app starts. Maybe sleep longer at this stage?
 
 
 
