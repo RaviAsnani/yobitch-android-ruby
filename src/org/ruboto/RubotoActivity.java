@@ -280,7 +280,6 @@ if (JRubyAdapter.isInitialized() && scriptInfo.isReadyToLoad()) {
   }
 */
 
-/*
   public boolean onCreateOptionsMenu(android.view.Menu menu) {
     if (ScriptLoader.isCalledFromJRuby()) return super.onCreateOptionsMenu(menu);
     if (!JRubyAdapter.isInitialized()) {
@@ -303,7 +302,6 @@ if (JRubyAdapter.isInitialized() && scriptInfo.isReadyToLoad()) {
       }
     }
   }
-*/
 
 /*
   public boolean onCreatePanelMenu(int featureId, android.view.Menu menu) {
@@ -604,7 +602,6 @@ if (JRubyAdapter.isInitialized() && scriptInfo.isReadyToLoad()) {
   }
 */
 
-/*
   public boolean onOptionsItemSelected(android.view.MenuItem item) {
     if (ScriptLoader.isCalledFromJRuby()) return super.onOptionsItemSelected(item);
     if (!JRubyAdapter.isInitialized()) {
@@ -627,7 +624,6 @@ if (JRubyAdapter.isInitialized() && scriptInfo.isReadyToLoad()) {
       }
     }
   }
-*/
 
 /*
   public void onOptionsMenuClosed(android.view.Menu menu) {

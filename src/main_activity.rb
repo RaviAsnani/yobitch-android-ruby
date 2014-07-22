@@ -11,6 +11,9 @@ java_import 'com.pixate.freestyle.PixateFreestyle'
 java_import 'android.support.v4.widget.DrawerLayout'
 java_import 'android.view.Gravity'
 java_import 'com.bugsense.trace.BugSenseHandler'
+java_import 'android.content.Intent'
+java_import 'android.net.Uri'
+
 
 # Keep a global instance of the user for just in case uses (like for GCM registration update)
 $user = nil
@@ -80,8 +83,6 @@ class MainActivity
     @analytics = Analytics.new(self, CONFIG.get(:ga_tracking_id)) # Initiate Analytics
     PixateFreestyle.init(self)  # Initiate Freestyle
     
-    #InstallTracker.track_install_referrer_broadcast(self) # Start tracking app install referrer immediately
-
     setContentView($package.R.layout.main)
 
     @progress_dialog = UiProgressDialog.new(self)
@@ -313,6 +314,29 @@ class MainActivity
     Logger.d("In #{state_name}")
     analytics = Analytics.new(self, CONFIG.get(:ga_tracking_id))
     analytics.fire_event({:category => "android", :action => "app_state", :label => state_name})
+  end
+
+
+  # Create options menu
+  def onCreateOptionsMenu(menu)
+    inflater = get_menu_inflater()
+    inflater.inflate($package.R::layout::options_menu, menu)
+    return true
+  end
+
+
+  # Handle options menu
+  def onOptionsItemSelected(menu_item)
+    Logger.d("Menu option tapped : #{menu_item.get_item_id}")
+
+    case menu_item.get_item_id()
+    when $package.R::id::options_menu_rate
+      intent = Intent.new(Intent::ACTION_VIEW)
+      intent.set_data(Uri.parse("market://details?id=#{CONFIG.get(:package_name)}"))
+      start_activity(intent)
+    end
+      
+    return true
   end
 
 end
