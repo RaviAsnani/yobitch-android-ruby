@@ -57,6 +57,8 @@ module Ui
     end
 
 
+
+    # notification_data["klass"] => "bitch" || "friend_add"
     def self.build(context, notification_data)
       sound_uri = RingtoneManager::get_default_uri(RingtoneManager::TYPE_NOTIFICATION)
 
@@ -66,25 +68,33 @@ module Ui
       open_intent.set_action("notification_open:#{notification_data["sender"]["id"]}")
       pending_open_intent = PendingIntent::getActivity(context, 0, open_intent, 0);
 
-      # Data, Intent & Pending intent to send back a random bitch
-      random_intent = Intent.new
-      random_intent.setClassName($package_name, 'com.rum.yobitch.MainActivity')
-      random_intent.set_action("notification_random_bitch:#{notification_data["sender"]["id"]}")
-      pending_random_intent = PendingIntent::getActivity(context, 0, random_intent, 0)
 
       builder = NotificationCompat::Builder.new(context)
                   .set_small_icon($package.R::drawable::shout)
                   .set_content_title(notification_data["message"])
                   .set_content_text(notification_data["title"])
                   .set_content_intent(pending_open_intent)
-                  .add_action($package.R::drawable::reply, "Reply with a random B*tch!", pending_random_intent)
                   .set_sound(sound_uri)
-                  .build()
+                  
+
+      # If the notification klass==bitch, then build the additional action of random bitch
+      if notification_data["klass"] == "bitch"
+        # Data, Intent & Pending intent to send back a random bitch
+        random_intent = Intent.new
+        random_intent.setClassName($package_name, 'com.rum.yobitch.MainActivity')
+        random_intent.set_action("notification_random_bitch:#{notification_data["sender"]["id"]}")
+        pending_random_intent = PendingIntent::getActivity(context, 0, random_intent, 0)
+
+        builder.add_action($package.R::drawable::reply, "Reply with a random B*tch!", pending_random_intent)
+      end
+         
+      # Finally build the notification       
+      builder = builder.build()
 
       builder.flags |= android.app.Notification::FLAG_AUTO_CANCEL;
 
       notification_manager = context.get_system_service(Context::NOTIFICATION_SERVICE)
-      notification_manager.notify(1, builder)
+      notification_manager.notify(notification_data["id"]||1, builder)
     end
   end
 

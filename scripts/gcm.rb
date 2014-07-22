@@ -6,31 +6,51 @@ require "pp"
 
 config = {
   :gcm_api_key => "AIzaSyCdNZj8zoB25lEz65eqTULCnMj0nPupETo",
-  :collapse_key => "com.rom.yobitch"
+  :collapse_key => "com.rum.yobitch"
 }
 
 registration_ids = [
-  "APA91bGLQmyAYTbROYHyKWqv6XVdRY4dNbDAsIRY4ulmDO_tOEbGoJcqsYGq8S1d7-vWcNjKTzC-Wiat3M-Jxt0l8NQSPnldDz0M1o-lZVwMnpmB_mB1V1MrZ93PiTjE3mjJ6s9lJYpCVwdlv4v7iH7FVTEpRdR_mA",
-  "APA91bHIWEpiMZ4XD3oLL8Xn6P7FtqRqC7JkuXdCVG5x9ZMPKyGiwks016SCKWvC9Oay0iXDV6i2481sLTsfu3eGpexOKvsIaL47nubpF-v27TdwdSxOdgX2MWUsSURQZh4-N780j6-YTkavDubXwdAEqP5lMLlopA"
+  "APA91bGDrUbXsxCaVDiZ9dFoLpeFdWMKQXZPLhDDC6Mq-ZvfSPu62hGAK_3dadUGyOjuISN7Sj0I1lG4_ttFMVeS880xB9oull67VRdxa1wO1ci1GyOFoGCKgi7UKd1w7I1hiCDPU0HHEyFbX8IAt95ZFY1IdsV9-A"
 ]
 
 messages = [
   {
-   "data" => {
+    "data" => {
       "sender" => {
         "id" => "1",
         "name" => "Ravi Asnani",
         "email" => "asnafam@gmail.com"
       },
-    "receiver" => {
-      "id" => "3",
-      "name" => "makuchaku",
-      "email" => "maku@makuchaku.in"
-    },
-    "message" => "You are a B*tch",
-    "title" => "Ravi Asnani b*tched you!"
-   }
+      "receiver" => {
+        "id" => "3",
+        "name" => "makuchaku",
+        "email" => "maku@makuchaku.in"
+      },
+      "message" => "You are a B*tch",
+      "title" => "Ravi Asnani b*tched you!",
+      "klass" => "bitch",
+      "id" => rand(1000)
+    }
+  },
+  {
+    "data" => {
+      "sender" => {
+        "id" => "1",
+        "name" => "Ravi Asnani",
+        "email" => "asnafam@gmail.com"
+      },
+      "receiver" => {
+        "id" => "3",
+        "name" => "makuchaku",
+        "email" => "maku@makuchaku.in"
+      },
+      "message" => "Mayank added you as a friend",
+      "title" => "Let the B*tching begin!",
+      "klass" => "friend_add",
+      "id" => rand(1000)
+    }
   }
+
 ]
 
 

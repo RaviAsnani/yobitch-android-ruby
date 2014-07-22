@@ -252,7 +252,7 @@ class MainActivity
   end
 
 
-  # UI interation when a notification is received by use model
+  # UI interation when a notification is received by user model
   def user_notification_received(message)
     @analytics.fire_event({:category => "notification", :action => "received", :label => "bitch"})
     @analytics.fire_event({:category => "notification", :action => "stats_received", :label => "bitch : #{message["message"]}"})
