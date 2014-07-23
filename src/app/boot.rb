@@ -8,7 +8,7 @@ require "app/common/gcm"
 require "app/common/persistence"
 require "app/common/ads"
 require "app/common/analytics"
-#require "app/common/contacts_sync"
+require "app/common/contacts_sync"
 
 require "json"
 

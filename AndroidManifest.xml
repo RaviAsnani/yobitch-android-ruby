@@ -71,6 +71,9 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+
+
     <permission android:name="com.rum.yobitch.gcm.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
     <uses-permission android:name="com.rum.yobitch.gcm.permission.C2D_MESSAGE" /> 

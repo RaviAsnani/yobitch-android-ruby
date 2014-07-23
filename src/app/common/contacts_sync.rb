@@ -9,36 +9,40 @@ class ContactsSync
 
   def initialize(context)
     @context = context
-    find_all_contacts_with_email
+    find_all_contacts_with_email { |emails|
+      # Save the contacts on the server 
+      Logger.d(emails)
+    }
   end
 
 
-  # See http://stackoverflow.com/questions/5205999/android-get-a-cursor-only-with-contacts-that-have-an-email-listed-android-2-0
-  # See http://stackoverflow.com/questions/5457699/cursor-adapter-and-sqlite-example
-  def find_all_contacts_with_email
-    content_resolver = @context.get_content_resolver()
-    projection = [
-                    "_id", 
-                    ContactsContract::Contacts::DISPLAY_NAME,
-                    ContactsContract::Contacts::PHOTO_ID,
-                    ContactsContract::CommonDataKinds::Email::DATA, 
-                    ContactsContract::CommonDataKinds::Photo::CONTACT_ID
-                  ]
-
-    order = "CASE WHEN " 
-            + ContactsContract::Contacts::DISPLAY_NAME 
-            + " NOT LIKE '%@%' THEN 1 ELSE 2 END, " 
-            + ContactsContract::Contacts::DISPLAY_NAME 
-            + ", " 
-            + ContactsContract::CommonDataKinds::Email.DATA
-            + " COLLATE NOCASE"
-
-    filter = ContactsContract::CommonDataKinds::Email::DATA + " NOT LIKE ''"
-    cursor = content_resolver.query(ContactsContract::CommonDataKinds::Email::CONTENT_URI, 
-                                      projection, filter, nil, order)
+  # Finds all contacts in raw_contacts, get their sort_key (indexed field) 
+  # Check on every sort_key if its an email
+  # If so, it's a candidate for sync
+  def find_all_contacts_with_email(&block)
+    emails = []
+    cr = @context.get_content_resolver()
+    cur = cr.query(ContactsContract::Contacts::CONTENT_URI, nil, nil, nil, nil)
+    if cur.get_count() > 0
+      Logger.d("#{cur.get_count} contacts are candidate for sync!")
+      while cur.moveToNext() do
+        text = cur.get_string(cur.get_column_index("sort_key"))
+        emails << text if is_contact_an_email?(text) == true
+      end
+      Logger.d("#{emails.length} contacts to actually sync!")
+    else
+      Logger.d("NO contact to sync!")
+    end
+    cur.close
+    block.call(emails)
+  end
 
 
 
+  # Confirms if the given contact is an email or not
+  def is_contact_an_email?(text)
+    regex = /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/
+    return (text =~ regex).nil? ? false : true
   end
 
 end
