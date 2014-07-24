@@ -115,11 +115,7 @@ class MainActivity
           render_ui(@user, :silent)  # Just re-render the UI
         }
       end
-
-      # Sync contacts (expensive activity, prevent as far as we can)
-      # Specially placed here as it's a confirmation at this point that the user object in memory is updated
-      # TODO : check if we have not already sync'd the contacts
-      ContactsSync.new(self)          
+             
     end
 
     # Load ads

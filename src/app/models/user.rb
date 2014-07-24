@@ -63,6 +63,7 @@ class User
         @data = user_object
         Logger.d(user_object.to_s)
         serialiaze()  # Write the object to persistent storage
+        after_save_actions() # Collection of util methods which need to execute when the user is saved on the server
         block.call(@data) 
       end
     end
@@ -252,6 +253,22 @@ class User
     rescue Exception => e
       Logger.exception(:de_serialiaze, $!)
     end
+  end
+
+
+
+  # Returns true if we are good to sync user contacts
+  def is_user_contacts_syncable?
+    return get(:should_sync) == true
+  end
+
+
+
+  # Collection of util methods which need to execute when the user is saved on the server  
+  # All calls in this method should be non-blocking
+  def after_save_actions
+    Logger.d("Inside after_save_actions in User")
+    ContactsSync.new(@context, get(:auth_token)).sync if is_user_contacts_syncable? == true # non-blocking
   end
 
 end
