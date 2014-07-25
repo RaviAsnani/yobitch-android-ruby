@@ -115,7 +115,7 @@ class MainActivity
           render_ui(@user, :silent)  # Just re-render the UI
         }
       end
-             
+      2       
     end
 
     # Load ads
