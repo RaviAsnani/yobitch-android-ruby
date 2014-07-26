@@ -9,7 +9,7 @@ class Config
 
     @keys = {
       :production => {
-          :debug => true,
+          :debug => false,
           :scheme => "http://",
           :domain => "yobitch.me",
           :user_get => "/user_post.json",
