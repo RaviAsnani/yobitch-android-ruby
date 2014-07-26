@@ -6,7 +6,6 @@ Open Todo's
 * When notification is tapped, another instance of app is created (which can be verified by pressing back button)
 * When install referrer is fired and if at that time the app is not open, system keeps on looping into a threaded $user.wait_till_user_is_inflated method. Thought, things work out fine when app starts. Maybe sleep longer at this stage? OR pull out (& update) the user from shared preferences?
 * When A invites B and A's app is in onStop state, the friend_add push crashes in gcm_broadcast_receiver.rb:16:$gcm.on_gcm_message_received(data) => Somehow the contexts of $user and $gcm need to be restored from anywhere.
-* App should not crash when started with no internet connection. It should error out gracefully.
 
 
 
@@ -37,6 +36,7 @@ Closed Todo's
 * Contacts sync todo
 ** Sync all contacts and use that as means to determine that who all should receive a push when someone comes online.
 ** Whenever first sync happens, server should setup :should_sync=false in the user fields based on which the next sync will be cancelled
+* App should not crash when started with no internet connection. It should error out gracefully.
 
 
 

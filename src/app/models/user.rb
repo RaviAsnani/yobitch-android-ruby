@@ -7,7 +7,7 @@ class User
   include Persistence
 
   attr_accessor :data, :context, :ui_refresh_executor
-  attr_accessor :notification_received_executor, :on_api_call_failed
+  attr_accessor :on_api_call_failed
   INVALID_TOKEN = "invalid_token"
 
   def initialize(context)
@@ -112,20 +112,6 @@ class User
     end
   end
 
-
-
-  # To be called when GCM message is received from the server
-  def on_gcm_message_received(gcm_message)
-    Logger.d("In User, got GCM message : gcm_message : #{gcm_message.to_s}")
-    message = JSON.parse(gcm_message)
-    @notification_received_executor.call(message)
-  end  
-
-
-  # Sets up a reference of a block which should execute on main UI when a notification is received
-  def listen_for_notification_received(&block)
-    @notification_received_executor = block
-  end
 
 
   # A method that can setup a block of code which can be requested for execution when user model updates

@@ -5,10 +5,10 @@ java_import 'com.google.android.gms.common.ConnectionResult'
 java_import 'com.google.android.gms.common.GooglePlayServicesUtil'
 
 # TODO
-# 1. Implement shared preferences and save the fetched gcm registration id into that
-# 2. Depends on a $user object present in the system
+# 1. Depends on a $user object present in the system
 
 class Gcm
+  include Ui
 
   attr_accessor :context, :sender_id, :gcm_token, :user_object
 
@@ -66,11 +66,21 @@ class Gcm
 
 
 
-  # Relayes the gcm message to user if it exists
-  def on_gcm_message_received(gcm_message)
+  # Relayes the gcm message to MainActivity
+  def self.on_gcm_message_received(context, gcm_message)
     return if (gcm_message.nil? or gcm_message.length == 0)
-    Logger.d("In Gcm, got GCM message. Relaying it to user object. gcm_message : #{gcm_message}")
-    $user.on_gcm_message_received(gcm_message) if not $user.nil?
+    Logger.d("In Gcm, got GCM message. gcm_message : #{gcm_message}")
+    #MainActivity.on_notification_received(context, gcm_message)
+
+
+    # Move this out to MainActivity - it should not live here!
+    analytics = Analytics.new(context, CONFIG.get(:ga_tracking_id)) # Initiate Analytics
+
+    notification_data = JSON.parse(gcm_message)
+    analytics.fire_event({:category => "notification", :action => "received", 
+                          :label => notification_data["klass"]})
+   
+    UiNotification.build(context, notification_data)    
   end
 
 end

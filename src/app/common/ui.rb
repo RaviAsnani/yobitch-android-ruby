@@ -1,3 +1,7 @@
+require 'ruboto/widget'
+require 'ruboto/util/toast'
+
+
 java_import 'android.app.ProgressDialog'
 java_import 'android.widget.Toast'
 
@@ -68,9 +72,8 @@ module Ui
       open_intent.set_action("notification_open:#{notification_data["sender"]["id"]}")
       pending_open_intent = PendingIntent::getActivity(context, 0, open_intent, 0);
 
-
       builder = NotificationCompat::Builder.new(context)
-                  .set_small_icon($package.R::drawable::shout)
+                  .set_small_icon(Ruboto::R::drawable::shout)
                   .set_content_title(notification_data["message"])
                   .set_content_text(notification_data["title"])
                   .set_content_intent(pending_open_intent)
@@ -85,7 +88,7 @@ module Ui
         random_intent.set_action("notification_random_bitch:#{notification_data["sender"]["id"]}")
         pending_random_intent = PendingIntent::getActivity(context, 0, random_intent, 0)
 
-        builder.add_action($package.R::drawable::reply, "Reply with a random B*tch!", pending_random_intent)
+        builder.add_action(Ruboto::R::drawable::reply, "Reply with a random B*tch!", pending_random_intent)
       end
          
       # Finally build the notification       

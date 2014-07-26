@@ -1,5 +1,7 @@
 # Implements the storage options  - right now, primarily via SharedPreferences
 
+require "app/boot"
+
 java_import 'android.preference.PreferenceManager'
 
 

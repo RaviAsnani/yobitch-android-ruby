@@ -141,11 +141,6 @@ class MainActivity
     
     @gcm.register()  # Initialize GCM outside of the main thread
 
-    # Setup what should happen when a notification is received      
-    @user.listen_for_notification_received { |message|  
-      user_notification_received(message)
-    }
-
     # Know when to refresh the UI
     @user.listen_for_ui_refresh {
       Logger.d("Refreshing UI")
@@ -253,12 +248,15 @@ class MainActivity
   end
 
 
-  # UI interation when a notification is received by user model
-  def user_notification_received(message)
-    @analytics.fire_event({:category => "notification", :action => "received", :label => "bitch"})
-    @analytics.fire_event({:category => "notification", :action => "stats_received", :label => "bitch : #{message["message"]}"})
+  # UI interation when a notification is received
+  def self.on_notification_received(context, message)
+    analytics = Analytics.new(context, CONFIG.get(:ga_tracking_id)) # Initiate Analytics
+
+    notification_data = JSON.parse(message)
+    analytics.fire_event({:category => "notification", :action => "received", 
+                          :label => notification_data["klass"]})
    
-    UiNotification.build(self, message)
+    UiNotification.build(context, notification_data)
   end
 
 

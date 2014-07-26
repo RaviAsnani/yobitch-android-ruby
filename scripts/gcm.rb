@@ -10,33 +10,15 @@ config = {
 }
 
 registration_ids = [
-  "APA91bGRhJ6pzt8YE7HaMrWSGQsCLjO_YOdNozJfDKZBYVrsoaCJQ-4XNonNccf-tcjkYJBVjjS_fKGNJaV61Yszwokak5PbTecDrJGAWR4jsM4wD9ZWiLcpZoMTV09tb9C8QdvVGAh9Ini98qbfgb2h1Fq1Vcof7Q"
+  "APA91bGDrUbXsxCaVDiZ9dFoLpeFdWMKQXZPLhDDC6Mq-ZvfSPu62hGAK_3dadUGyOjuISN7Sj0I1lG4_ttFMVeS880xB9oull67VRdxa1wO1ci1GyOFoGCKgi7UKd1w7I1hiCDPU0HHEyFbX8IAt95ZFY1IdsV9-A"
 ]
 
 messages = [
-  {
-    "data" => {
-      "sender" => {
-        "id" => "0",
-        "name" => "Bot",
-        "email" => "asnafam@gmail.com"
-      },
-      "receiver" => {
-        "id" => "3",
-        "name" => "makuchaku",
-        "email" => "maku@makuchaku.in"
-      },
-      "message" => "You are a B*tch",
-      "title" => "Ravi Asnani b*tched you!",
-      "klass" => "bitch",
-      "id" => rand(1000)
-    }
-  }
   # {
   #   "data" => {
   #     "sender" => {
-  #       "id" => "1",
-  #       "name" => "Ravi Asnani",
+  #       "id" => "0",
+  #       "name" => "Bot",
   #       "email" => "asnafam@gmail.com"
   #     },
   #     "receiver" => {
@@ -44,12 +26,30 @@ messages = [
   #       "name" => "makuchaku",
   #       "email" => "maku@makuchaku.in"
   #     },
-  #     "message" => "Mayank added you as a friend",
-  #     "title" => "Let the B*tching begin!",
-  #     "klass" => "friend_add",
+  #     "message" => "You are a B*tch",
+  #     "title" => "Ravi Asnani b*tched you!",
+  #     "klass" => "bitch",
   #     "id" => rand(1000)
   #   }
   # }
+  {
+    "data" => {
+      "sender" => {
+        "id" => "1",
+        "name" => "Ravi Asnani",
+        "email" => "asnafam@gmail.com"
+      },
+      "receiver" => {
+        "id" => "3",
+        "name" => "makuchaku",
+        "email" => "maku@makuchaku.in"
+      },
+      "message" => "Ravi added you as a friend",
+      "title" => "Let the B*tching begin!",
+      "klass" => "friend_add",
+      "id" => rand(1000)
+    }
+  }
 
 ]
 
