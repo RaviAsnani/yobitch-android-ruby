@@ -18,6 +18,14 @@
                         android:host="www.yobitch.me"
                         android:pathPrefix="/i/"/> <!-- matches /i/123/makuchaku-1/ -->
             </intent-filter>
+            <intent-filter>
+                <action android:name='android.intent.action.VIEW'/>
+                <category android:name='android.intent.category.DEFAULT'/>
+                <category android:name='android.intent.category.BROWSABLE'/>
+                <data android:scheme="http"
+                        android:host="yobitch.me"
+                        android:pathPrefix="/i/"/> <!-- matches /i/123/makuchaku-1/ -->
+            </intent-filter>            
             <!-- Intent filter to recognise live addition of friends -->
 
             <ImageView android:id="@+id/shout" android:src="@drawable/shout"></ImageView>
