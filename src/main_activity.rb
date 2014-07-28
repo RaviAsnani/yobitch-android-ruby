@@ -39,6 +39,9 @@ class MainActivity
     $gcm = @gcm = Gcm.new(self, CONFIG.get(:gcm_sender_id), @user)  # Start with empty user object    
 
     set_title "Yo! B*tch!"
+
+    process_opening_intent(get_intent())  # Process the intent which did this invocation
+
     init_activity {
       Logger.d("UI init complete, now processing pending intent")
       process_pending_intent(get_intent()) # If we were opened by a notification, process any required actions
@@ -115,7 +118,6 @@ class MainActivity
           render_ui(@user, :silent)  # Just re-render the UI
         }
       end
-      2       
     end
 
     # Load ads
@@ -258,6 +260,25 @@ class MainActivity
    
     UiNotification.build(context, notification_data)
   end
+
+
+
+  # Extract any info out of the intent which triggered this invocation
+  # Specially to be used for live handling of friend addition
+  def process_opening_intent(intent)
+    Logger.d("#{get_intent().get_data()}", "?")
+    tapped_url = intent.get_data()
+
+    begin
+      if tapped_url != nil
+        friend_id = tapped_url.to_s.split("/")[4].to_i
+        Logger.d("Add friend : #{friend_id}", "?")
+      end
+    rescue
+      Logger.exception(:process_opening_intent, $!)
+    end
+  end
+
 
 
   # If we were opened by a notification, process any required actions

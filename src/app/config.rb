@@ -1,4 +1,4 @@
-ENV = :production   # This variable governs all config
+ENV = :development   # This variable governs all config
 
 class Config
 
@@ -27,9 +27,9 @@ class Config
         :development => {
           :debug => true,
           :scheme => "http://",
-          :domain => "192.168.43.186",
+          :domain => "yobitch.me",
           :user_get => "/user_post.json",
-          :user_save => "/user_post.json",
+          :user_save => "/api/v1/users",
           :user_post => "/api/v1/users/send_message",
           :message_send => "/api/v1/users/send_message",
           :add_friend => "/api/v1/users/add_friend",
