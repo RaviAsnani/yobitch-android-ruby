@@ -273,6 +273,7 @@ class MainActivity
       if tapped_url != nil
         friend_id = tapped_url.to_s.split("/")[4].to_i
         Logger.d("Add friend : #{friend_id}", "?")
+        @user.add_future_friend(friend_id)
       end
     rescue
       Logger.exception(:process_opening_intent, $!)

@@ -6,12 +6,13 @@ class User
   include Ui
   include Persistence
 
-  attr_accessor :data, :context, :ui_refresh_executor
+  attr_accessor :data, :context, :ui_refresh_executor, :future_params
   attr_accessor :on_api_call_failed
   INVALID_TOKEN = "invalid_token"
 
   def initialize(context)
     @context = context
+    @future_params = {}
 
     user_details = DeviceAccount.new(@context).get_user_details()
     @data = {
@@ -50,18 +51,24 @@ class User
   def save(&block)
     Logger.d "Saving user"
 
-    json = {
+    params = {
       :user => {
         :name => get(:name),
         :email => get(:email),
         :gcm_token => get(:gcm_token)
       }
-    }.to_json
+    }
 
-    network_post(CONFIG.get(:user_save), nil, json, @on_api_call_failed) do |user_object|
+    # Merge any future params if they exist
+    params.merge!(@future_params) if not @future_params.empty?
+
+    Logger.d("Params for /user POST => #{params.to_json}", "#")
+
+    network_post(CONFIG.get(:user_save), nil, params.to_json, @on_api_call_failed) do |user_object|
       if is_valid_network_user_object?(user_object)
+        empty_out_future_params
         @data = user_object
-        Logger.d(user_object.to_s)
+        Logger.d("Success in :user_save => " + user_object.to_s)
         serialiaze()  # Write the object to persistent storage
         after_save_actions() # Collection of util methods which need to execute when the user is saved on the server
         block.call(@data) 
@@ -255,6 +262,27 @@ class User
   def after_save_actions
     Logger.d("Inside after_save_actions in User")
     ContactsSync.new(@context, get(:auth_token)).sync if is_user_contacts_syncable? == true # non-blocking
+  end
+
+
+
+  # Keep a set of given params(key=value) handy so that they can be sent back to server in first available 
+  # /user POST call - all the params will go in top level params
+  def add_future_params(key, value)
+    @future_params[key] = value
+  end
+
+
+  # Reverse of what save_future_params does
+  def empty_out_future_params
+    @future_params = {}
+  end
+
+
+
+  # Just a happy wrapper over creating a happy future param for adding a friend :D
+  def add_future_friend(friend_id)
+    add_future_params(:add_friends, [friend_id])
   end
 
 end
