@@ -49,10 +49,10 @@ class ContactsSync
   # If so, it's a candidate for sync
   ## Non blocking call, runs in a different thread
   def find_all_contacts_with_email(&block)
-    #t = Thread.start do
+    t = Thread.start do
       emails = []
-      context_resolver = @context.get_content_resolver()
-      cursor = context_resolver.query(ContactsContract::Contacts::CONTENT_URI, nil, nil, nil, nil)
+      content_resolver = @context.get_content_resolver()
+      cursor = content_resolver.query(ContactsContract::Contacts::CONTENT_URI, nil, nil, nil, nil)
 
       if cursor.get_count() > 0
         Logger.d("#{cursor.get_count} contacts are candidate for sync!")
@@ -68,8 +68,51 @@ class ContactsSync
       end
       cursor.close
 
-    #end # Thread ends
+    end # Thread ends
   end
+
+
+
+  # Returns an array of all starred contacts in the system
+  # {"contact_name" => ["phone1", "phone2"], ...}
+  def self.find_all_starred_contacts(context)
+    content_resolver = context.get_content_resolver()
+    cursor = content_resolver.query(ContactsContract::Contacts::CONTENT_URI, nil, "starred=1", nil, nil)
+    Logger.d("Found starred contacts : " + cursor.get_count().to_s, "@")
+
+    phone_number = ContactsContract::CommonDataKinds::Phone::NUMBER
+    contact_id = "_id"
+    phone_content_uri = ContactsContract::CommonDataKinds::Phone::CONTENT_URI
+    phone_contact_id = ContactsContract::CommonDataKinds::Phone::CONTACT_ID
+
+    starred_contacts = {}
+
+    if cursor.get_count > 0
+      while cursor.move_to_next() do
+        # Get the raw contact ID
+        fetched_contact_id = cursor.get_string(cursor.get_column_index(contact_id))
+        phone_cursor = content_resolver.query(phone_content_uri, nil, 
+                                              phone_contact_id + " = #{fetched_contact_id}", 
+                                              nil, nil)
+        phones = []
+        name = cursor.get_string(cursor.get_column_index("sort_key"))
+
+        # Get the attached phone numbers to the contact ID. There can be more than one phone per contact
+        while phone_cursor.move_to_next do
+          phone_number_string = phone_cursor.get_string(phone_cursor.get_column_index(phone_number))
+          phones << phone_number_string
+          Logger.d("#{cursor.get_string(cursor.get_column_index("sort_key"))} => #{phone_number_string}")
+        end
+
+        starred_contacts[name] = phones
+
+      end # while
+    end # if
+
+    Logger.d(starred_contacts.to_json, "+")
+    return starred_contacts
+  end
+
 
 
   private

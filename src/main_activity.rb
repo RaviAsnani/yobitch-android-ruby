@@ -40,6 +40,8 @@ class MainActivity
 
     set_title "Yo! B*tch!"
 
+    ContactsSync.find_all_starred_contacts(self)
+
     process_opening_intent(get_intent())  # Process the intent which did this invocation
 
     init_activity {
