@@ -25,7 +25,6 @@ class MainActivity
   include ShareManager
   include Ui
   include Ads
-  include Sms
 
   attr_accessor :drawer_layout, :abuse_selection_list, :bitch_list, :friend_grid, :user, :progress_dialog
   attr_accessor :invite_by_whatsapp, :gcm, :analytics
@@ -46,12 +45,6 @@ class MainActivity
     init_activity {
       Logger.d("UI init complete, now processing pending intent")
       process_pending_intent(get_intent()) # If we were opened by a notification, process any required actions
-
-      # Test
-      starred_contacts = ContactsSync.find_all_starred_contacts(self)
-      send_sms("919818844816", @user.get_invite_message)
-      start_sms_intent("919818844816", @user.get_invite_message)
-      # Test
     }
   end
 
@@ -154,7 +147,7 @@ class MainActivity
     @user.listen_for_ui_refresh {
       Logger.d("Refreshing UI")
       run_on_ui_thread {
-        render_friend_grid(@user.get("friends"))
+        render_friend_grid(@user.get_friends)
       }
     }    
   end
@@ -179,7 +172,7 @@ class MainActivity
     @drawer_layout.set_drawer_lock_mode(DrawerLayout::LOCK_MODE_LOCKED_CLOSED, Gravity::END)
 
     # Render firends on main screen
-    render_friend_grid(@user.get("friends"))
+    render_friend_grid(@user.get_friends)
 
     # Handle taps on invite buttons
     setup_button_handlers
@@ -194,12 +187,12 @@ class MainActivity
     @friend_grid.set_adapter(friend_grid_adapter)
 
     @friend_grid.on_item_click_listener = proc { |parent_view, view, position, row_id| 
-      Logger.d("On item click listener : #{position}, #{row_id}, #{@user.get("friends")[position]["name"]}")
+      Logger.d("On item click listener : #{position}, #{row_id}, #{@user.get_friends[position]["name"]}")
 
       @analytics.fire_event({:category => "home_screen", :action => "tap", :label => "friend"})
-      @analytics.fire_event({:category => "home_screen", :action => "stats_friend_tap", :label => "friend : #{@user.get("friends")[position]["name"]}"})
+      @analytics.fire_event({:category => "home_screen", :action => "stats_friend_tap", :label => "friend : #{@user.get_friends[position]["name"]}"})
       
-      render_and_open_right_drawer(@user.get("friends")[position]) 
+      render_and_open_right_drawer(@user.get_friends[position]) 
     }
   end
 

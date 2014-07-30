@@ -18,8 +18,32 @@ class Message
   end
 
 
+
+  # Sends the bitch message
   def send(&block)
-    Logger.d("Sending message...")
+    Logger.d("Sending message..., klass=#{@to["klass"]}")
+
+    # Select transport based on what capability the recepient supports.
+    # if klass==:starred_contact, then only SMS is supported. 
+    @to["klass"] == :starred_contact ? send_sms_message(&block) : send_data_message(&block)
+  end
+
+
+
+  # Send the yobitch message via SMS connection
+  def send_sms_message(&block)
+    Logger.d("Sending message via SMS connection...")
+
+    Sms.send_sms(@to["phone_number"], @from.get_invite_message, @on_api_call_failed)
+    block.call(nil)
+  end
+
+
+
+  # Send the yobitch message via data connection
+  def send_data_message(&block)
+    Logger.d("Sending message via data connection...")
+
     body = {
       :auth_token => @from.get("auth_token"),
       :receiver_id => @to["id"],
@@ -33,4 +57,9 @@ class Message
       block.call(@data)
     end
   end
+
+
 end
+
+
+

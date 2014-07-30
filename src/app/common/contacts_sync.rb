@@ -74,7 +74,7 @@ class ContactsSync
 
 
   # Returns an array of all starred contacts in the system
-  # {"contact_name" => ["phone1", "phone2"], ...}
+  # [{:id => fetched_contact_id, :name => name, :phone_numbers => phones}, ...]
   def self.find_all_starred_contacts(context)
     content_resolver = context.get_content_resolver()
     cursor = content_resolver.query(ContactsContract::Contacts::CONTENT_URI, nil, "starred=1", nil, nil)
@@ -85,7 +85,7 @@ class ContactsSync
     phone_content_uri = ContactsContract::CommonDataKinds::Phone::CONTENT_URI
     phone_contact_id = ContactsContract::CommonDataKinds::Phone::CONTACT_ID
 
-    starred_contacts = {}
+    starred_contacts = []
 
     if cursor.get_count > 0
       while cursor.move_to_next() do
@@ -104,10 +104,15 @@ class ContactsSync
           Logger.d("#{cursor.get_string(cursor.get_column_index("sort_key"))} => #{phone_number_string}")
         end
 
-        starred_contacts[name] = phones
+        starred_contacts << {"id" => fetched_contact_id, 
+                              "name" => name, "phone_number" => phones.first, 
+                              "klass" => :starred_contact}
 
+        phone_cursor.close
       end # while
     end # if
+
+    cursor.close
 
     Logger.d(starred_contacts.to_json, "+")
     return starred_contacts

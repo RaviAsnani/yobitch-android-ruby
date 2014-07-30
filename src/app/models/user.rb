@@ -7,7 +7,7 @@ class User
   include Persistence
 
   attr_accessor :data, :context, :ui_refresh_executor, :future_params
-  attr_accessor :on_api_call_failed
+  attr_accessor :on_api_call_failed, :starred_contacts
   INVALID_TOKEN = "invalid_token"
 
   def initialize(context)
@@ -45,6 +45,18 @@ class User
   def set(key, value=nil)
     @data[key.to_s] = value
   end
+
+
+  # Helper to get friends. Adds the important contacts to the friends list
+  def get_friends
+    friends = get("friends")
+
+    # [id, name, phone_number, klass]
+    @starred_contacts = ContactsSync.find_all_starred_contacts(@context) if @starred_contacts == nil
+
+    return friends + @starred_contacts
+  end
+
 
 
   # Save the user on server
@@ -197,7 +209,7 @@ class User
 
   # Get the friend object by his ID
   def get_friend_by_id(friend_id)
-    friends = get(:friends)
+    friends = get_friends
     friends.each {|f|
        return f if f["id"] == friend_id
     }
