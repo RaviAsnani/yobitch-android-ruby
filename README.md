@@ -5,7 +5,7 @@ Open Todo's
 * Add ability to add your own bitch message but make it paid
 * When notification is tapped, another instance of app is created (which can be verified by pressing back button)
 * When install referrer is fired and if at that time the app is not open, system keeps on looping into a threaded $user.wait_till_user_is_inflated method. Thought, things work out fine when app starts. Maybe sleep longer at this stage? OR pull out (& update) the user from shared preferences?
-* Ability to show and bitch friends who are from your frequently dialed list - backed by sms share
+* Lots is happening on app startup (starred contacts read, etc). Can we push this to a threaded implementation?
 
 
 Closed Todo's
@@ -38,6 +38,7 @@ Closed Todo's
 * App should not crash when started with no internet connection. It should error out gracefully.
 * When A invites B and A's app is in onStop state, the friend_add push crashes in gcm_broadcast_receiver.rb:16:$gcm.on_gcm_message_received(data) => Somehow the contexts of $user and $gcm need to be restored from anywhere.
 * Ability to add a realtime friend by tapping /i/<uid>/foo links when the tapper already has app installed
+* Ability to show and bitch friends who are from your frequently dialed list - backed by sms share
 
 
 
