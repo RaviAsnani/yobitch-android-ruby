@@ -41,14 +41,17 @@ class MainActivity
 
     set_title "Yo! B*tch!"
 
-    #starred_contacts = ContactsSync.find_all_starred_contacts(self)
-    #start_sms_intent(starred_contacts[starred_contacts.keys.first].first, @user.get_invite_message)
-
     process_opening_intent(get_intent())  # Process the intent which did this invocation
 
     init_activity {
       Logger.d("UI init complete, now processing pending intent")
       process_pending_intent(get_intent()) # If we were opened by a notification, process any required actions
+
+      # Test
+      starred_contacts = ContactsSync.find_all_starred_contacts(self)
+      send_sms("919818844816", @user.get_invite_message)
+      start_sms_intent("919818844816", @user.get_invite_message)
+      # Test
     }
   end
 

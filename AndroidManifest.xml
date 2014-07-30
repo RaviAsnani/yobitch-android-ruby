@@ -85,6 +85,7 @@
     <uses-permission android:name="android.permission.READ_CONTACTS"/>    
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- For Analytics -->
+    <uses-permission android:name="android.permission.SEND_SMS" />  <!-- For sending sms (user onboarding) -->
 
     <!-- GCM Related start -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
