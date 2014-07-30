@@ -25,6 +25,7 @@ class MainActivity
   include ShareManager
   include Ui
   include Ads
+  include Sms
 
   attr_accessor :drawer_layout, :abuse_selection_list, :bitch_list, :friend_grid, :user, :progress_dialog
   attr_accessor :invite_by_whatsapp, :gcm, :analytics
@@ -40,7 +41,8 @@ class MainActivity
 
     set_title "Yo! B*tch!"
 
-    ContactsSync.find_all_starred_contacts(self)
+    #starred_contacts = ContactsSync.find_all_starred_contacts(self)
+    #start_sms_intent(starred_contacts[starred_contacts.keys.first].first, @user.get_invite_message)
 
     process_opening_intent(get_intent())  # Process the intent which did this invocation
 
