@@ -20,7 +20,8 @@ class Config
           :sync_contacts => "/api/v1/users/sync_contacts",
           :gcm_sender_id => "77573904884",
           :package_name => "com.rum.yobitch",
-          :ad_unit_id => "ca-app-pub-4205525304773174/8192109240",
+          :admob_ad_unit_id => "ca-app-pub-4205525304773174/8192109240",
+          :appnext_ad_placement_id => "e72fda13-b2be-49f2-bf21-f9822f8a229f",
           :ga_tracking_id => "UA-52998741-1",
           :bugsense_id => "bc7fb570"
         },
@@ -36,7 +37,8 @@ class Config
           :sync_contacts => "/api/v1/users/sync_contacts",
           :gcm_sender_id => "77573904884",
           :package_name => "com.rum.yobitch",
-          :ad_unit_id => "ca-app-pub-4205525304773174/8192109240",
+          :admob_ad_unit_id => "ca-app-pub-4205525304773174/8192109240",
+          :appnext_ad_placement_id => "e72fda13-b2be-49f2-bf21-f9822f8a229f",
           :ga_tracking_id => "UA-52998741-1",
           :bugsense_id => "bc7fb570"
         }

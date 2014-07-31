@@ -14,6 +14,8 @@ java_import 'com.bugsense.trace.BugSenseHandler'
 java_import 'android.content.Intent'
 java_import 'android.net.Uri'
 
+java_import 'com.appnext.appnextsdk.Appnext'
+
 
 # Keep a global instance of the user for just in case uses (like for GCM registration update)
 $user = nil
@@ -123,7 +125,7 @@ class MainActivity
     # Load ads
     get_admob_ad_view(self, 
         find_view_by_id($package.R::id::id_main_screen_layout),
-        CONFIG.get(:ad_unit_id))
+        CONFIG.get(:admob_ad_unit_id))
   end
 
 
@@ -150,7 +152,13 @@ class MainActivity
         render_friend_grid(@user.get_friends)
       }
     }    
+
+    # Show Appnext interstitial ad upon entry
+    get_appnext_interstitial_ad(self, CONFIG.get(:appnext_ad_placement_id))
   end
+
+
+
 
 
   # Just stuff some important variables

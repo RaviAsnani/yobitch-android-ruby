@@ -73,6 +73,10 @@
          <activity android:name="com.google.android.gms.ads.AdActivity"
              android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"/>
         <!-- Admob related -->
+
+        <!-- Appnext.com SDK -->
+        <service android:name="com.appnext.appnextsdk.DownloadService"/>
+        <!-- Appnext.com SDK -->
     </application>
 
 

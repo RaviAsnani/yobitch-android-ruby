@@ -37,4 +37,13 @@ module Ads
     ad_view.load_ad(ad_request)
   end
 
+
+
+  # Renders an intersitital ad - should be moved to its own class/module
+  def get_appnext_interstitial_ad(context, placement_id)
+    appnext = Appnext.new(context)
+    appnext.set_app_id(placement_id)
+    appnext.show_bubble
+  end  
+
 end
