@@ -24,6 +24,7 @@ $main_activity = nil
 
 
 class MainActivity
+  include DisplayUtils
   include ShareManager
   include Ui
   include Ads
@@ -87,7 +88,7 @@ class MainActivity
     BugSenseHandler.initAndStartSession(self, CONFIG.get(:bugsense_id)) # Initiate crash tracking
     @analytics = Analytics.new(self, CONFIG.get(:ga_tracking_id)) # Initiate Analytics
     PixateFreestyle.init(self)  # Initiate Freestyle
-    
+
     setContentView($package.R.layout.main)
 
     @progress_dialog = UiProgressDialog.new(self)
@@ -139,6 +140,7 @@ class MainActivity
 
     run_on_ui_thread {
       render_ui(@user, mode)
+      
       # Should always execute at the end of ui initialization
       on_init_complete_block.call
     }
@@ -154,21 +156,22 @@ class MainActivity
     }    
 
     # Show Appnext interstitial ad upon entry
-    get_appnext_interstitial_ad(self, CONFIG.get(:appnext_ad_placement_id))
+    run_on_ui_thread_with_delay(2) {
+      get_appnext_interstitial_ad(self, CONFIG.get(:appnext_ad_placement_id))
+    }
   end
-
-
 
 
 
   # Just stuff some important variables
+  # find_view_by_id is VERY expensive. Only spend time in finding those view references which are needed on app startup
+  # Nothing else should be used with find_view_by_id
   def setup_view_references
     @drawer_layout = find_view_by_id($package.R::id::drawer_layout)
-    @abuse_selection_list = find_view_by_id($package.R::id::abuse_selection_list)
-    @bitch_list = find_view_by_id($package.R::id::bitch_list)
     @friend_grid = find_view_by_id($package.R::id::friend_grid)
     @invite_by_whatsapp = find_view_by_id($package.R::id::invite_button)    
   end
+
 
 
   # Render major components of the UI
@@ -180,13 +183,16 @@ class MainActivity
     @drawer_layout.set_drawer_lock_mode(DrawerLayout::LOCK_MODE_LOCKED_CLOSED, Gravity::END)
 
     # Render firends on main screen
-    render_friend_grid(@user.get_friends)
+    run_on_ui_thread_with_delay(1) {
+      render_friend_grid(@user.get_friends)
+    }
 
     # Handle taps on invite buttons
     setup_button_handlers
 
     @analytics.fire_screen(:home_screen)
   end
+
   
 
   # Renders the friend list in main screen
@@ -205,18 +211,22 @@ class MainActivity
   end
 
 
+
   # Opens the right drawer view with a given target user's name
   def render_and_open_right_drawer(friend_object)
     # Render the bitch list based on which user is tapped from main screen
     render_bitch_list(@user.get("messages"), friend_object)
+    @abuse_selection_list = find_view_by_id($package.R::id::abuse_selection_list)
     @drawer_layout.open_drawer(@abuse_selection_list)
     @analytics.fire_screen(:bitch_drawer)
   end
 
 
+
   # Renders the list of bitches in right panel
   def render_bitch_list(messages, friend_object)
     bitch_list_adapter = BitchListAdapter.new(self, $package.R::id::bitch, messages, friend_object["name"])
+    @bitch_list = find_view_by_id($package.R::id::bitch_list)
     @bitch_list.set_adapter(bitch_list_adapter)
 
     @bitch_list.on_item_click_listener = proc { |parent_view, view, position, row_id| 
@@ -228,10 +238,12 @@ class MainActivity
   end
 
 
+
   # Closes the drawer
   def close_right_drawer
     @drawer_layout.close_drawer(@abuse_selection_list)
   end
+
 
 
   # Sends message to a friend

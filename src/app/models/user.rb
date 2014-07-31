@@ -1,6 +1,7 @@
 require "app/boot"
 require "time"
 
+
 class User
   include Net
   include Ui
@@ -59,7 +60,7 @@ class User
         @starred_contacts = ContactsSync.find_all_starred_contacts(@context)
         Logger.d("#{@starred_contacts.length} starred contacts are available. Requesting a UI refresh")
         request_ui_refresh
-      end
+      end # Thread ends
     end
 
     return friends + @starred_contacts

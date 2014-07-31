@@ -10,8 +10,10 @@ require "app/common/ads"
 require "app/common/analytics"
 require "app/common/contacts_sync"
 require "app/common/sms"
+require "app/common/display_utils"
 
 require "json"
 
 
 import org.ruboto.Log
+java_import 'java.lang.System'

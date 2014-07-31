@@ -4,7 +4,7 @@ java_import 'android.graphics.Color'
 ruboto_import_widgets :TextView, :ArrayAdapter
 
 class FriendGridAdapter < ArrayAdapter
-  attr_accessor :friend_list, :context, :view
+  attr_accessor :friend_list, :context
 
   def initialize(context, view_id, friend_list)
     super(context, view_id, friend_list)
@@ -15,7 +15,7 @@ class FriendGridAdapter < ArrayAdapter
 
   def getView(position, convert_view, parent_view_group)
     layout = convert_view
-    colors = ["#693f69", "#7c4866", "#bf7580", "#e69688", "#ffba9a", "#ff8366", "#ff9d66", "#ffb666", "#ffcb65", "#ffdb65"]
+    colors = ["#7c4866", "#bf7580", "#e69688", "#ffba9a", "#ff8366", "#ff9d66", "#ffb666", "#ffcb65"]
 
     # Inflate the layout if it's null. If not, just use it as it is.
     if(layout == nil)
