@@ -101,7 +101,7 @@ class ContactsSync
         while phone_cursor.move_to_next do
           phone_number_string = phone_cursor.get_string(phone_cursor.get_column_index(phone_number))
           phones << phone_number_string
-          Logger.d("#{cursor.get_string(cursor.get_column_index("sort_key"))} => #{phone_number_string}")
+          #Logger.d("#{cursor.get_string(cursor.get_column_index("sort_key"))} => #{phone_number_string}")
         end
 
         starred_contacts << {"id" => fetched_contact_id, 
@@ -114,7 +114,7 @@ class ContactsSync
 
     cursor.close
 
-    Logger.d(starred_contacts.to_json, "+")
+    #Logger.d(starred_contacts.to_json, "+")
     return starred_contacts
   end
 

@@ -13,6 +13,7 @@ class User
   def initialize(context)
     @context = context
     @future_params = {}
+    @starred_contacts = []
 
     user_details = DeviceAccount.new(@context).get_user_details()
     @data = {
@@ -52,7 +53,14 @@ class User
     friends = get("friends")
 
     # [id, name, phone_number, klass]
-    @starred_contacts = ContactsSync.find_all_starred_contacts(@context) if @starred_contacts == nil
+    if @starred_contacts.length == 0
+      Logger.d("Starred contacts length was found to be 0, initiating a fetch")
+      t = Thread.start do
+        @starred_contacts = ContactsSync.find_all_starred_contacts(@context)
+        Logger.d("#{@starred_contacts.length} starred contacts are available. Requesting a UI refresh")
+        request_ui_refresh
+      end
+    end
 
     return friends + @starred_contacts
   end
