@@ -124,9 +124,11 @@ class MainActivity
     end
 
     # Load ads
-    get_admob_ad_view(self, 
-        find_view_by_id($package.R::id::id_main_screen_layout),
-        CONFIG.get(:admob_ad_unit_id))
+    run_on_ui_thread_with_delay(1) {
+      get_admob_ad_view(self, 
+          find_view_by_id($package.R::id::id_main_screen_layout),
+          CONFIG.get(:admob_ad_unit_id))
+    }
   end
 
 
@@ -156,7 +158,7 @@ class MainActivity
     }    
 
     # Show Appnext interstitial ad upon entry
-    run_on_ui_thread_with_delay(2) {
+    run_on_ui_thread_with_delay(1) {
       get_appnext_interstitial_ad(self, CONFIG.get(:appnext_ad_placement_id))
     }
   end
