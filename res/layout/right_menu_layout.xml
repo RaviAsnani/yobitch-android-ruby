@@ -3,13 +3,40 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" 
-    android:background="#693f69">
+    android:id="@+id/id_right_menu_layout">
 
     <!-- Layout for the right menu -->
-    
+
+    <!-- Add a new message -->
+    <LinearLayout
+        android:layout_height="75dp"
+        android:layout_width="match_parent"
+        android:orientation="horizontal" 
+        android:padding="15dp"
+        android:gravity="center"
+        android:background="#ffffb666" >
+        <ImageView
+            android:id="@+id/id_message_add_button_image"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/add"
+            android:gravity="center" />
+        <TextView
+            android:id="@+id/id_message_add_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingLeft="3dp"
+            android:paddingBottom="3dp"
+            android:textColor="@android:color/white"
+            android:textSize="16dp"
+            android:text="Add a new message"/>            
+    </LinearLayout> 
+    <!-- Add a new message --> 
 
     <ListView
         android:id="@+id/bitch_list"
+        android:layout_below="@+id/add_message_button"
         android:layout_width="match_parent"
         android:layout_margin="0dp"
         android:dividerHeight="0dp"
