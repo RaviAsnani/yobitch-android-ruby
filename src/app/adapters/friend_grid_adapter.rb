@@ -15,7 +15,7 @@ class FriendGridAdapter < ArrayAdapter
 
   def getView(position, convert_view, parent_view_group)
     layout = convert_view
-    colors = ["#7c4866", "#bf7580", "#e69688", "#ffba9a", "#ff8366", "#ff9d66", "#ffb666", "#ffcb65"]
+    colors = ["#bf7580", "#e69688", "#ffba9a", "#ff8366", "#ff9d66", "#ffb666", "#ffcb65"]
 
     # Inflate the layout if it's null. If not, just use it as it is.
     if(layout == nil)
@@ -29,7 +29,7 @@ class FriendGridAdapter < ArrayAdapter
     text_view.set_background_color(Color::parse_color(get_color(colors, position)))
 
     icon = @friend_list[position]["klass"] == :starred_contact ? Ruboto::R::drawable::sms_small : Ruboto::R::drawable::shout_small
-    text_view.set_compound_drawables_with_intrinsic_bounds(0, 0, 0, icon)
+    text_view.set_compound_drawables_with_intrinsic_bounds(icon, 0, 0, 0)
     
     return layout
   end
