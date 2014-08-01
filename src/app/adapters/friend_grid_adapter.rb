@@ -25,11 +25,14 @@ class FriendGridAdapter < ArrayAdapter
 
     # Find the layout's inner elements & populate them
     text_view = layout.find_view_by_id($package.R::id::friend_item)
+    image_view = layout.find_view_by_id($package.R::id::friend_item_klass)
+    
     text_view.set_text(@friend_list[position]["name"])
-    text_view.set_background_color(Color::parse_color(get_color(colors, position)))
 
     icon = @friend_list[position]["klass"] == :starred_contact ? Ruboto::R::drawable::sms_small : Ruboto::R::drawable::shout_small
-    text_view.set_compound_drawables_with_intrinsic_bounds(icon, 0, 0, 0)
+    image_view.set_image_resource(icon)
+
+    layout.set_background_color(Color::parse_color(get_color(colors, position)))
     
     return layout
   end
