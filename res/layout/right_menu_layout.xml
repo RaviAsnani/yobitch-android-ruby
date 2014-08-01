@@ -14,7 +14,7 @@
         android:orientation="horizontal" 
         android:padding="15dp"
         android:gravity="center"
-        android:background="#ffbf7580" >
+        android:background="#ffB10DC9" >
         <ImageView
             android:id="@+id/id_message_add_button_image"
             android:layout_width="20dp"

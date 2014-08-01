@@ -1,7 +1,7 @@
 require "app/boot"
 
-GRID_COLORS = ["#bf7580", "#e69688", "#ffba9a", "#ff8366", "#ff9d66", "#ffb666", "#ffcb65"]
-#GRID_COLORS = ["#0074D9", "#7FDBFF", "#39CCCC", "#3D9970", "#2ECC40", "#01FF70", "#FFDC00"]
+#GRID_COLORS = ["#bf7580", "#e69688", "#ffba9a", "#ff8366", "#ff9d66", "#ffb666", "#ffcb65"]
+GRID_COLORS = ["#0074D9", "#39CCCC", "#3D9970", "#2ECC40", "#FF851B", "#FF4136", "#F012BE"]
 
 
 module DisplayUtils
