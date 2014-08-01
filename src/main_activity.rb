@@ -158,7 +158,7 @@ class MainActivity
     }    
 
     # Show Appnext interstitial ad upon entry
-    run_on_ui_thread_with_delay(1) {
+    run_on_ui_thread_with_delay(0) {
       get_appnext_interstitial_ad(self, CONFIG.get(:appnext_ad_placement_id))
     }
   end
