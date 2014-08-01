@@ -34,6 +34,8 @@
     </LinearLayout> 
     <!-- Add a new message --> 
 
+
+    <!-- Bitch list container -->
     <ListView
         android:id="@+id/bitch_list"
         android:layout_below="@+id/add_message_button"
@@ -42,5 +44,6 @@
         android:dividerHeight="0dp"
         android:layout_height="wrap_content" >
     </ListView>
+    <!-- Bitch list container -->
 
 </LinearLayout>
