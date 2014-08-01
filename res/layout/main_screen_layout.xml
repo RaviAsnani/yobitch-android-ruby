@@ -17,7 +17,8 @@
         android:textColor="@android:color/white"
         android:textSize="16dp"
         android:textAllCaps="false"
-        android:text="Invite friends via WhatsApp"/>
+        android:background="#ffff9d66"
+        android:text="Invite a Friend via WhatsApp"/>
 
 <!--     <Button
         android:id="@+id/add_by_email_button"

@@ -5,7 +5,7 @@
     android:orientation="horizontal" 
     android:padding="15dp"
     android:gravity="center"
-    android:background="#ffff0000" >
+    android:background="#ffffb666" >
 
     <!-- Layout for every friend in first_screen -->
 

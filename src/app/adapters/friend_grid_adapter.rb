@@ -4,6 +4,8 @@ java_import 'android.graphics.Color'
 ruboto_import_widgets :TextView, :ArrayAdapter
 
 class FriendGridAdapter < ArrayAdapter
+  include DisplayUtils
+
   attr_accessor :friend_list, :context
 
   def initialize(context, view_id, friend_list)
@@ -15,7 +17,6 @@ class FriendGridAdapter < ArrayAdapter
 
   def getView(position, convert_view, parent_view_group)
     layout = convert_view
-    colors = ["#bf7580", "#e69688", "#ffba9a", "#ff8366", "#ff9d66", "#ffb666", "#ffcb65"]
 
     # Inflate the layout if it's null. If not, just use it as it is.
     if(layout == nil)
@@ -32,15 +33,9 @@ class FriendGridAdapter < ArrayAdapter
     icon = @friend_list[position]["klass"] == :starred_contact ? Ruboto::R::drawable::sms_small : Ruboto::R::drawable::shout_small
     image_view.set_image_resource(icon)
 
-    layout.set_background_color(Color::parse_color(get_color(colors, position)))
+    layout.set_background_color(Color::parse_color(get_from_grid_colors(:positional, position)))
     
     return layout
-  end
-
-
-  def get_color(colors, position)
-    total_colors = colors.length
-    return position < total_colors ? colors[position] : colors[position % total_colors]
   end
 
 end
