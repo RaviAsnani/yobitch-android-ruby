@@ -12,6 +12,6 @@
   padding: 0;
 }
 
-#id_main_screen_layout {
+#id_main_screen_layout, #id_right_menu_layout {
   background-color: #323232;
 }
