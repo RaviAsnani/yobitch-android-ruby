@@ -30,7 +30,7 @@ class MainActivity
   include Ads
 
   attr_accessor :drawer_layout, :abuse_selection_list, :bitch_list, :friend_grid, :user, :progress_dialog
-  attr_accessor :invite_by_whatsapp, :gcm, :analytics, :message_add_button
+  attr_accessor :invite_by_whatsapp, :gcm, :analytics, :message_add_button, :appnext_ads
 
   # Entry point into the app
   def onCreate(bundle)
@@ -85,6 +85,18 @@ class MainActivity
   def onDestroy
     super
     track_app_state("onDestroy")
+  end
+
+  # Try to close the ad popup if its open. Otherwise close the app
+  # BUG - popup is closed from (x) and then back is presses, it'll first try to close the ad which will fail. It'll only second time close the app
+  def onBackPressed
+    track_app_state("onBackPressed")
+    if not @appnext_ads.nil?
+      @appnext_ads.hide_bubble 
+      @appnext_ads = nil
+    else
+      super
+    end
   end
 
 
@@ -156,13 +168,12 @@ class MainActivity
     # Know when to refresh the UI
     @user.listen_for_ui_refresh {
       Logger.d("Refreshing UI")
-      #render_friend_grid(@user.get_friends)
       render_ui
     }    
 
     # Show Appnext interstitial ad upon entry
     run_on_ui_thread_with_delay(0) {
-      get_appnext_interstitial_ad(self, CONFIG.get(:appnext_ad_placement_id))
+      @appnext_ads = get_appnext_interstitial_ad(self, CONFIG.get(:appnext_ad_placement_id))
     }
   end
 

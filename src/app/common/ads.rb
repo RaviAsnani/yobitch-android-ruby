@@ -44,6 +44,7 @@ module Ads
     appnext = Appnext.new(context)
     appnext.set_app_id(placement_id)
     appnext.show_bubble
+    return appnext
   end  
 
 end

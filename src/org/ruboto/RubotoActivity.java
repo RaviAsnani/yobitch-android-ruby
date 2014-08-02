@@ -1165,7 +1165,6 @@ if (JRubyAdapter.isInitialized() && scriptInfo.isReadyToLoad()) {
   }
 */
 
-/*
   public void onBackPressed() {
     if (ScriptLoader.isCalledFromJRuby()) {super.onBackPressed(); return;}
     if (!JRubyAdapter.isInitialized()) {
@@ -1188,7 +1187,6 @@ if (JRubyAdapter.isInitialized() && scriptInfo.isReadyToLoad()) {
       }
     }
   }
-*/
 
 /*
   public void onDetachedFromWindow() {
