@@ -14,7 +14,7 @@
         android:orientation="horizontal" 
         android:padding="15dp"
         android:gravity="center"
-        android:background="#ffB10DC9"
+        android:background="#ff5E0070"
         android:id="@+id/invite_button" >
         <ImageView
             android:layout_width="30dp"
