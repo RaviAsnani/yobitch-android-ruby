@@ -3,7 +3,7 @@
   <item android:id="@+id/options_menu_add_message"
       android:title="Add a new B*tch message"
       android:showAsAction="ifRoom"
-      android:icon="@drawable/message_add" />      
+      android:icon="@drawable/add" />      
   <item android:id="@+id/options_menu_rate"
       android:title="Rate the App"
       android:showAsAction="ifRoom"
