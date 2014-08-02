@@ -1,8 +1,5 @@
 Open Todo's
-* Write a boot service which loads the jruby instance  (Incomplete work in boot_completed branch. Crash when notification is received)
 * Explore using https://github.com/nathankleyn/ruby_events for events
-* Logcat STILL complains too much is happening on main thread.
-* Add ability to add your own bitch message but make it paid
 * When notification is tapped, another instance of app is created (which can be verified by pressing back button)
 * When install referrer is fired and if at that time the app is not open, system keeps on looping into a threaded $user.wait_till_user_is_inflated method. Thought, things work out fine when app starts. Maybe sleep longer at this stage? OR pull out (& update) the user from shared preferences?
 
