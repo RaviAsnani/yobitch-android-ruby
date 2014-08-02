@@ -36,20 +36,19 @@ class MainActivity
   def onCreate(bundle)
     super
     track_app_state("onCreate")
-
-    $main_activity = self # Save reference to the main activity
-    $user = @user = User.new(self) # Start with an invalid gcm token
-    $gcm = @gcm = Gcm.new(self, CONFIG.get(:gcm_sender_id), @user)  # Start with empty user object    
-
-    @progress_dialog = UiProgressDialog.new(self) 
-
     set_title "Yo! B*tch!"
 
-    process_opening_intent(get_intent())  # Process the intent which did this invocation
-
-    # Render a super fast startup
+    @progress_dialog = UiProgressDialog.new(self) 
     @progress_dialog.show
+
+    # Render a super fast startup - push all processing off the main thread for 1 sec
     run_on_ui_thread_with_delay(1) {
+      $main_activity = self # Save reference to the main activity
+      $user = @user = User.new(self) # Start with an invalid gcm token
+      $gcm = @gcm = Gcm.new(self, CONFIG.get(:gcm_sender_id), @user)  # Start with empty user object    
+
+      process_opening_intent(get_intent())  # Process the intent which did this invocation
+
       init_activity {
         Logger.d("UI init complete, now processing pending intent")
         process_pending_intent(get_intent()) # If we were opened by a notification, process any required actions
@@ -267,6 +266,7 @@ class MainActivity
     @analytics.fire_event({:category => "bitch_drawer", :action => "tap", :label => "bitch"})
     @analytics.fire_event({:category => "bitch_drawer", :action => "stats_bitch_tap", :label => "bitch : #{bitch_object["abuse"]}"})
    
+    Logger.d("Yo! B*tching #{friend_object["name"]} with : #{bitch_object["abuse"]}")
     @progress_dialog.show("Yo! B*tching #{friend_object["name"]}...")
     @user.send_message(friend_object, bitch_object) {
       run_on_ui_thread {

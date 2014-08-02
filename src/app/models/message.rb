@@ -3,13 +3,13 @@ require "app/boot"
 class Message
   include Net
 
-  attr_accessor :from, :to, :message, :on_api_call_failed
+  attr_accessor :from, :to, :bitch_object, :on_api_call_failed
 
   # From user, to user, the message
-  def initialize(from, to, message)
+  def initialize(from, to, bitch_object)
     @from = from
     @to = to
-    @message = message
+    @bitch_object = bitch_object
 
     @on_api_call_failed = Proc.new { |json_obj|
       Logger.d("API CALL FAILED in Message", ">")
@@ -34,7 +34,7 @@ class Message
   def send_sms_message(&block)
     Logger.d("Sending message via SMS connection...")
 
-    Sms.send_sms(@to["phone_number"], @from.get_invite_message, @on_api_call_failed)
+    Sms.send_sms(@to["phone_number"], @from.get_invite_message(@bitch_object["abuse"]), @on_api_call_failed)
     block.call(nil)
   end
 
@@ -47,7 +47,7 @@ class Message
     body = {
       :auth_token => @from.get("auth_token"),
       :receiver_id => @to["id"],
-      :message_id => message["id"]
+      :message_id => bitch_object["id"]
     }.to_json
 
     Logger.d("Message => #{body.to_s}")
