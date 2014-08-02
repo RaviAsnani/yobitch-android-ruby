@@ -89,13 +89,14 @@ class User
       if is_valid_network_user_object?(user_object)
         empty_out_future_params
         @data = user_object
-        Logger.d("Success in :user_save => " + user_object.to_s)
+        Logger.d("Success in @user.save => " + user_object.to_s)
         serialiaze()  # Write the object to persistent storage
         after_save_actions() # Collection of util methods which need to execute when the user is saved on the server
         block.call(@data) 
       end
     end
   end
+
 
 
   # Update the user on server
@@ -115,11 +116,62 @@ class User
     network_put(CONFIG.get(:user_save), nil, json, @on_api_call_failed) do |user_object|
       if is_valid_network_user_object?(user_object)
         @data = user_object
-        Logger.d(user_object.to_s)
+        Logger.d("Success in @user.update => " + user_object.to_s)
+        serialiaze()  # Write the object to persistent storage
         block.call(@data)
       end
     end
   end
+
+
+
+  # Add a friend, given his ID
+  def add_friend(sender_id)
+    Logger.d("Got install referrer : sender_id:#{sender_id}")
+    
+    return if sender_id.nil? or sender_id.length == 0
+
+    json = {
+      :id => sender_id,
+      :auth_token => get(:auth_token)
+    }.to_json
+
+    network_post(CONFIG.get(:add_friend), nil, json, @on_api_call_failed) do |user_object|
+      if is_valid_network_user_object?(user_object)
+        @data = user_object
+        Logger.d("Success in @user.add_friend => " + user_object.to_s)
+        serialiaze()  # Write the object to persistent storage
+        request_ui_refresh 
+      end
+    end    
+  end
+  
+
+
+  # Add a bitch message for a given user on the server
+  def add_bitch_message(bitch_message_text, &block)
+    Logger.d("Adding bitch message for user on server : #{bitch_message_text}")
+    
+    return if bitch_message_text.length == 0 or bitch_message_text.nil?
+
+    json = {
+      :message => {
+          :abuse => bitch_message_text
+        },
+      :auth_token => get(:auth_token)
+    }.to_json
+
+    network_post(CONFIG.get(:add_bitch_message), nil, json, @on_api_call_failed) do |user_object|
+      if is_valid_network_user_object?(user_object)
+        @data = user_object
+        Logger.d("Success in @user.add_bitch_message => " + user_object.to_s)
+        serialiaze()  # Write the object to persistent storage
+        block.call(@data) 
+      end
+    end    
+  end
+
+
 
 
   # To be called when GCM token is received while gcm registration
@@ -194,28 +246,6 @@ class User
 
 
 
-  # Add a friend, given his ID
-  def add_friend(sender_id)
-    Logger.d("Got install referrer : sender_id:#{sender_id}")
-    
-    return if sender_id.nil? or sender_id.length == 0
-
-    json = {
-      :id => sender_id,
-      :auth_token => get(:auth_token)
-    }.to_json
-
-    network_post(CONFIG.get(:add_friend), nil, json, @on_api_call_failed) do |user_object|
-      if is_valid_network_user_object?(user_object)
-        @data = user_object
-        Logger.d(user_object.to_s)
-        request_ui_refresh 
-      end
-    end    
-  end
-
-
-
   # Get the friend object by his ID
   def get_friend_by_id(friend_id)
     friends = get_friends
@@ -255,6 +285,7 @@ class User
     Logger.d("Serializing the User object")
     save_to_shared_prefs(@context, self.class, self)
   end
+
 
 
   # Get back from serialized form
@@ -302,15 +333,12 @@ class User
 
 
   # Just a happy wrapper over creating a happy future param for adding a friend :D
+  # To be used when any invite link is tapped but at that moment, the user object is not available
+  # as the app is not yet initialized
   def add_future_friend(friend_id)
     add_future_params(:add_friends, [friend_id])
   end
 
-
-  # Just a happy wrapper to setup additional params for adding a bitch message by the user
-  def add_future_bitch_message_to_list(bitch_message_text)
-    add_future_params(:add_bitch_message, bitch_message_text)
-  end
 
 end
 

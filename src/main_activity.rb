@@ -300,8 +300,9 @@ class MainActivity
                             Proc.new { |new_bitch_message| 
                               Logger.d("User added new bitch message : #{new_bitch_message}")
                               run_on_ui_thread {@progress_dialog.show()}
-                              @user.add_future_bitch_message_to_list(new_bitch_message)
-                              @user.save { render_ui ("Message added to the list") }
+                              @user.add_bitch_message(new_bitch_message) {
+                                render_ui("Message added to the list")
+                              }
                             }
                           )
   end
@@ -410,6 +411,8 @@ class MainActivity
     Logger.d("Menu option tapped : #{menu_item.get_item_id}")
 
     case menu_item.get_item_id()
+    when $package.R::id::options_menu_add_message
+      on_message_add_button_clicked
     when $package.R::id::options_menu_rate
       intent = Intent.new(Intent::ACTION_VIEW)
       intent.set_data(Uri.parse("market://details?id=#{CONFIG.get(:package_name)}"))
