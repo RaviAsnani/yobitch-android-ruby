@@ -41,13 +41,19 @@ class MainActivity
     $user = @user = User.new(self) # Start with an invalid gcm token
     $gcm = @gcm = Gcm.new(self, CONFIG.get(:gcm_sender_id), @user)  # Start with empty user object    
 
+    @progress_dialog = UiProgressDialog.new(self) 
+
     set_title "Yo! B*tch!"
 
     process_opening_intent(get_intent())  # Process the intent which did this invocation
 
-    init_activity {
-      Logger.d("UI init complete, now processing pending intent")
-      process_pending_intent(get_intent()) # If we were opened by a notification, process any required actions
+    # Render a super fast startup
+    @progress_dialog.show
+    run_on_ui_thread_with_delay(1) {
+      init_activity {
+        Logger.d("UI init complete, now processing pending intent")
+        process_pending_intent(get_intent()) # If we were opened by a notification, process any required actions
+      }
     }
   end
 
@@ -90,8 +96,6 @@ class MainActivity
     PixateFreestyle.init(self)  # Initiate Freestyle
 
     setContentView($package.R.layout.main)
-
-    @progress_dialog = UiProgressDialog.new(self)
 
     setup_view_references()
 
