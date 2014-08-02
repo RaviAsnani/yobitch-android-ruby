@@ -306,6 +306,12 @@ class User
     add_future_params(:add_friends, [friend_id])
   end
 
+
+  # Just a happy wrapper to setup additional params for adding a bitch message by the user
+  def add_future_bitch_message_to_list(bitch_message_text)
+    add_future_params(:add_bitch_message, bitch_message_text)
+  end
+
 end
 
 

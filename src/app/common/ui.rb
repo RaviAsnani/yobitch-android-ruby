@@ -11,6 +11,9 @@ java_import 'android.support.v4.app.NotificationCompat'
 java_import 'android.os.Bundle'
 java_import 'android.media.RingtoneManager'
 
+java_import 'android.app.AlertDialog'
+java_import 'android.widget.EditText'
+
 
 module Ui
 
@@ -46,6 +49,7 @@ module Ui
       Toast.make_text(activity, text, Toast::LENGTH_SHORT).show
     end
   end
+
 
 
 
@@ -99,6 +103,37 @@ module Ui
       notification_manager = context.get_system_service(Context::NOTIFICATION_SERVICE)
       notification_manager.notify(1, builder)
     end
+  end
+
+
+
+
+  # Class to encapsulate the AlertDialog with an input dialog
+  class UiDialogWithInput
+
+    # config => {:title => "", :message => "", :positive_button => "", :negative_button => "", :icon_resource => int} 
+    # ok_proc => func, cancel_proc => func
+    def self.show(context, config, ok_proc, cancel_proc=nil)
+      input = EditText.new(context)
+      alert = AlertDialog::Builder.new(context)
+      alert.set_view(input)
+
+      alert.set_title(config[:title])
+      alert.set_message(config[:message])
+      alert.set_icon(config[:icon_resource])
+
+      ok_proc = ok_proc || Proc.new {}
+      cancel_proc = cancel_proc || Proc.new {}
+
+      alert.set_positive_button(config[:positive_button], Proc.new {
+        ok_proc.call(input.get_text)
+      })
+      alert.set_negative_button(config[:negative_button], cancel_proc)
+
+      alert.show
+    end
+
+
   end
 
 

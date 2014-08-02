@@ -30,7 +30,7 @@ class MainActivity
   include Ads
 
   attr_accessor :drawer_layout, :abuse_selection_list, :bitch_list, :friend_grid, :user, :progress_dialog
-  attr_accessor :invite_by_whatsapp, :gcm, :analytics
+  attr_accessor :invite_by_whatsapp, :gcm, :analytics, :message_add_button
 
   # Entry point into the app
   def onCreate(bundle)
@@ -117,9 +117,7 @@ class MainActivity
         all_that_happens_when_user_is_available(:verbose, &on_init_complete_block)
       else
         Logger.d("Just going to render_ui")
-        run_on_ui_thread {
-          render_ui(@user, :silent)  # Just re-render the UI
-        }
+        render_ui  # Just re-render the UI
       end
     end
 
@@ -133,6 +131,8 @@ class MainActivity
 
 
   # All initializations when the user object is available
+  # mode => :verbose, :silent
+  # Don't call this method when UI refresh is needed. Instead refer to render_ui method
   def all_that_happens_when_user_is_available(mode, &on_init_complete_block)
     Logger.d(@user.get("email"))
     Logger.d(@user.get("name"))
@@ -140,10 +140,11 @@ class MainActivity
     BugSenseHandler.set_user_identifier(@user.get("email")) # Tell BugSense who is this user
     @analytics.set_user(@user.get("email"))
 
-    run_on_ui_thread {
-      render_ui(@user, mode)
+    message = mode == :verbose ? "Welcome, #{@user.get("name")}" : nil
+    render_ui(message)
       
-      # Should always execute at the end of ui initialization
+    run_on_ui_thread {
+      # Should always execute at the end of ui initialization 
       on_init_complete_block.call
     }
     
@@ -152,9 +153,8 @@ class MainActivity
     # Know when to refresh the UI
     @user.listen_for_ui_refresh {
       Logger.d("Refreshing UI")
-      run_on_ui_thread {
-        render_friend_grid(@user.get_friends)
-      }
+      #render_friend_grid(@user.get_friends)
+      render_ui
     }    
 
     # Show Appnext interstitial ad upon entry
@@ -171,28 +171,34 @@ class MainActivity
   def setup_view_references
     @drawer_layout = find_view_by_id($package.R::id::drawer_layout)
     @friend_grid = find_view_by_id($package.R::id::friend_grid)
-    @invite_by_whatsapp = find_view_by_id($package.R::id::invite_button)    
+    @invite_by_whatsapp = find_view_by_id($package.R::id::invite_button)
+    @message_add_button = @drawer_layout.find_view_by_id(Ruboto::R::id::id_message_add_button)
   end
 
 
 
   # Render major components of the UI
-  def render_ui(user_object, mode)
-    @progress_dialog.hide()
-    UiToast.show(self, "Welcome, #{@user.get("name")}") if mode == :verbose
+  # Always refer to this method to refresh the UI in entirety
+  # Toast message will only be shown when the mode==:verbose
+  # Expensive - runs on the UI thread
+  def render_ui(toast_message=nil)
+    run_on_ui_thread {
+      # Prevent the drawer from responding to user swipes
+      @drawer_layout.set_drawer_lock_mode(DrawerLayout::LOCK_MODE_LOCKED_CLOSED, Gravity::END)
 
-    # Prevent the drawer from responding to user swipes
-    @drawer_layout.set_drawer_lock_mode(DrawerLayout::LOCK_MODE_LOCKED_CLOSED, Gravity::END)
+      # Render firends on main screen
+      run_on_ui_thread_with_delay(0) {
+        render_friend_grid(@user.get_friends)
 
-    # Render firends on main screen
-    run_on_ui_thread_with_delay(1) {
-      render_friend_grid(@user.get_friends)
+        @progress_dialog.hide()
+        UiToast.show(self, toast_message) if toast_message != nil      
+      }
+
+      # Handle taps on invite buttons & add message buttons
+      setup_button_handlers
+
+      @analytics.fire_screen(:home_screen)
     }
-
-    # Handle taps on invite buttons
-    setup_button_handlers
-
-    @analytics.fire_screen(:home_screen)
   end
 
   
@@ -273,7 +279,34 @@ class MainActivity
       @analytics.fire_event({:category => "home_screen", :action => "tap", :label => "share : whatsapp"})
       share_via_whatsapp(@user.get_invite_message)
     }
+
+    @message_add_button.on_click_listener = proc { |view| 
+      on_message_add_button_clicked
+    }
   end
+
+
+
+  # When the add bitch message button is clicked
+  def on_message_add_button_clicked
+    Logger.d("message_add_button tapped!!")
+    UiDialogWithInput.show(self, 
+                            {
+                              :title => "Create a new B*tch message", 
+                              :message => "Enter the new message",
+                              :positive_button => "Save", 
+                              :negative_button => "Cancel" 
+                            },
+                            Proc.new { |new_bitch_message| 
+                              Logger.d("User added new bitch message : #{new_bitch_message}")
+                              run_on_ui_thread {@progress_dialog.show()}
+                              @user.add_future_bitch_message_to_list(new_bitch_message)
+                              @user.save { render_ui ("Message added to the list") }
+                            }
+                          )
+  end
+
+
 
 
   # UI interation when a notification is received
