@@ -4,6 +4,7 @@ Open Todo's
 * When install referrer is fired and if at that time the app is not open, system keeps on looping into a threaded $user.wait_till_user_is_inflated method. Thought, things work out fine when app starts. Maybe sleep longer at this stage? OR pull out (& update) the user from shared preferences?
 * Remind the user to rate the app on 3rd & 10th usage via a local push notification
 * Implement TapForTap cross promotion SDK
+* Visually sort the friend grid and the bitch message list based on their usage count
 
 
 
