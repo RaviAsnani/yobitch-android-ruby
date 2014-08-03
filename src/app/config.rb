@@ -1,4 +1,4 @@
-ENV = :development   # This variable governs all config
+ENV = :production   # This variable governs all config
 
 class Config
 
