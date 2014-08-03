@@ -15,17 +15,17 @@ module Ads
   def get_admob_ad_view(context, layout, ad_unit_id)
     # Create an ad.
     ad_view = AdView.new(context)
-    ad_view.set_ad_size(AdSize::BANNER)
+    ad_view.set_ad_size(AdSize::SMART_BANNER)
     ad_view.set_ad_unit_id(ad_unit_id)
 
 
     # Add the AdView to the view hierarchy. The view will have no size
     # until the ad is loaded.
-    params = RelativeLayout::LayoutParams.new(ViewGroup::LayoutParams::MATCH_PARENT, 
-                                              ViewGroup::LayoutParams::WRAP_CONTENT)
-    params.add_rule(RelativeLayout::ALIGN_PARENT_BOTTOM, ad_view.get_id())
-    ad_view.set_layout_params(params)
-    layout.add_view(ad_view)
+    # params = RelativeLayout::LayoutParams.new(ViewGroup::LayoutParams::MATCH_PARENT, 
+    #                                           ViewGroup::LayoutParams::WRAP_CONTENT)
+    # params.add_rule(RelativeLayout::ALIGN_PARENT_BOTTOM, ad_view.get_id())
+    # ad_view.set_layout_params(params)
+    layout.find_view_by_id(Ruboto::R::id::admob_layout).add_view(ad_view)
 
     # Create an ad request. Check logcat output for the hashed device ID to
     # get test ads on a physical device.

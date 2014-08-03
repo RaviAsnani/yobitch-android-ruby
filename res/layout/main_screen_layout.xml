@@ -7,6 +7,19 @@
     
     <!-- Layout for the main screen -->
 
+    <!-- Admob ads -->
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:orientation="horizontal" 
+        android:padding="0dp"
+        android:gravity="center"
+        android:background="#ff323232"
+        android:id="@+id/admob_layout" >
+    </LinearLayout>   
+    <!-- Admob ads -->
+
+
     <!-- Whatsapp invite -->
     <LinearLayout
         android:layout_height="wrap_content"
@@ -15,6 +28,7 @@
         android:padding="15dp"
         android:gravity="center"
         android:background="#ff5E0070"
+        android:layout_below="@+id/admob_layout"
         android:id="@+id/invite_button" >
         <ImageView
             android:layout_width="30dp"
@@ -31,7 +45,7 @@
             android:textSize="16dp"
             android:text="Invite a Friend via WhatsApp"/>            
     </LinearLayout> 
-    <!-- Whatsapp invite -->        
+    <!-- Whatsapp invite -->     
 
 
     <!-- Friend grid container -->
