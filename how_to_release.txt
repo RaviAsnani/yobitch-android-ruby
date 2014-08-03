@@ -2,8 +2,11 @@ Steps to build produciton release
 =================================
 0. Ensure that you are on master branch
 1. Ensure that $proj_folder/../../release/Yobitch.keystore exists
-2. Update the versionCode and versionNumber in AndroidManifest.xml to today's MMHHDDMMYYYY
-3. git add . && git commit -am "Updated versionCode and versionNumber for release" && git push origin master
-4. Run ./scripts/release.sh
-5. Enter the keystore passwords twice as asked
-6. Release on Google Play
+2. Ensure that the ENV=:production in config.rb
+3. Update the versionCode to today's YYYYMMDD and versionNumber to +1 in AndroidManifest.xml 
+4. git add . && git commit -am "Updated versionCode and versionNumber for release" && git push origin master
+5. Run ./scripts/release.sh
+6. Enter the keystore passwords twice as asked
+7. Release on Google Play
+8. Switch back to ENV=:development in config.rb
+9. git add . && git commit -am "Switched back to dev mode" && git push origin master
