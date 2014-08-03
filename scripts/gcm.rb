@@ -32,24 +32,32 @@ messages = [
   #     "id" => rand(1000)
   #   }
   # }
+  # {
+  #   "data" => {
+  #     "sender" => {
+  #       "id" => "1",
+  #       "name" => "Ravi Asnani",
+  #       "email" => "asnafam@gmail.com"
+  #     },
+  #     "receiver" => {
+  #       "id" => "3",
+  #       "name" => "makuchaku",
+  #       "email" => "maku@makuchaku.in"
+  #     },
+  #     "message" => "Ravi added you as a friend",
+  #     "title" => "Let the B*tching begin!",
+  #     "klass" => "friend_add",
+  #     "id" => rand(1000)
+  #   }
+  # }
   {
     "data" => {
-      "sender" => {
-        "id" => "1",
-        "name" => "Ravi Asnani",
-        "email" => "asnafam@gmail.com"
-      },
-      "receiver" => {
-        "id" => "3",
-        "name" => "makuchaku",
-        "email" => "maku@makuchaku.in"
-      },
-      "message" => "Ravi added you as a friend",
-      "title" => "Let the B*tching begin!",
-      "klass" => "friend_add",
+      "message" => "Like the Yo! B*tch app?",
+      "title" => "Rate it with 5 stars...",
+      "klass" => "rate_app",
       "id" => rand(1000)
     }
-  }
+  }  
 
 ]
 

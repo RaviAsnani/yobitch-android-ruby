@@ -66,15 +66,23 @@ module Ui
 
 
 
-    # notification_data["klass"] => "bitch" || "friend_add"
+    # notification_data["klass"] => "bitch" || "friend_add" || "rate_app"
     def self.build(context, notification_data)
+      Logger.d("In UiNotification.build, notification_data => #{notification_data}")
       sound_uri = RingtoneManager::get_default_uri(RingtoneManager::TYPE_NOTIFICATION)
 
       # Data, Intent & Pending intent to open app
       open_intent = Intent.new
-      open_intent.setClassName($package_name, 'com.rum.yobitch.MainActivity')
-      open_intent.set_action("notification_open:#{notification_data["sender"]["id"]}")
-      pending_open_intent = PendingIntent::getActivity(context, 0, open_intent, 0);
+
+      if notification_data["klass"] != "rate_app"
+        open_intent.setClassName($package_name, 'com.rum.yobitch.MainActivity')
+        open_intent.set_action("notification_open:#{notification_data["sender"]["id"]}")
+        pending_open_intent = PendingIntent::getActivity(context, 0, open_intent, 0)
+      else
+        intent = Intent.new(Intent::ACTION_VIEW)
+        intent.set_data(Uri.parse("market://details?id=#{CONFIG.get(:package_name)}"))
+        pending_open_intent = PendingIntent::getActivity(context, 0, intent, 0)
+      end
 
       builder = NotificationCompat::Builder.new(context)
                   .set_small_icon(Ruboto::R::drawable::shout)
