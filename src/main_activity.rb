@@ -291,8 +291,7 @@ class MainActivity
   # Handle tap events on invite by whatsapp and email
   def setup_button_handlers
     @invite_by_whatsapp.on_click_listener = proc { |view|
-      @analytics.fire_event({:category => "home_screen", :action => "tap", :label => "share : whatsapp"})
-      share_via_whatsapp(@user.get_invite_message)
+      on_invite_by_whatsapp_clicked
     }
 
     @message_add_button.on_click_listener = proc { |view| 
@@ -301,10 +300,18 @@ class MainActivity
   end
 
 
+  def on_invite_by_whatsapp_clicked
+    @analytics.fire_event({:category => "home_screen", :action => "tap", :label => "share : whatsapp"})
+    share_via_whatsapp(@user.get_invite_message)
+  end
+
+
 
   # When the add bitch message button is clicked
   def on_message_add_button_clicked
     Logger.d("message_add_button tapped!!")
+    @analytics.fire_event({:category => "home_screen", :action => "tap", :label => "Add bitch message"})
+
     UiDialogWithInput.show(self, 
                             {
                               :title => "Create a new B*tch message", 
@@ -426,9 +433,12 @@ class MainActivity
     Logger.d("Menu option tapped : #{menu_item.get_item_id}")
 
     case menu_item.get_item_id()
+    when $package.R::id::options_menu_invite_whatsapp
+      on_invite_by_whatsapp_clicked      
     when $package.R::id::options_menu_add_message
       on_message_add_button_clicked
     when $package.R::id::options_menu_rate
+      @analytics.fire_event({:category => "home_screen", :action => "tap", :label => "Rate app"})
       intent = Intent.new(Intent::ACTION_VIEW)
       intent.set_data(Uri.parse("market://details?id=#{CONFIG.get(:package_name)}"))
       start_activity(intent)
